@@ -1,62 +1,213 @@
-/* Container takes up the full screen height */
-.home-container {
+/* Container to simulate a mobile screen */
+.firewatch-container {
+  background-color: #f5f5f5;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Arial', sans-serif;
+  max-width: 450px; /* Standard mobile width */
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Header styling with the red background and white text */
+.firewatch-header {
+  background-color: #b31b1b; /* Brand Red */
+  color: black; /* Text is dark in the reference image */
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+.header-logo {
+  height: 40px;
+  width: auto;
+}
+
+.header-title {
+  font-size: 24px;
+  text-transform: uppercase;
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+/* Content spacing */
+.main-content {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.section-title {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #333;
+  text-align: center;
+}
+
+/* Map Section */
+.map-wrapper {
+  width: 100%;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  border: 1px solid #ccc;
+}
+
+.map-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* The Large Circular Emergency Button */
+.emergency-button {
+  background-color: #b31b1b;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  border: none;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-  background-color: #1a1a1a; /* Dark background to match Auth.css */
-  color: #ffffff;
-  padding: 20px;
-  text-align: center;
-}
-
-/* Header styling */
-.home-header {
-  margin-bottom: 40px;
-}
-
-.home-title {
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: #ff4d4d; /* FireWatch Red */
-  margin-bottom: 10px;
-}
-
-/* Feature cards or main section */
-.home-content {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 15px;
-  padding: 30px;
-  max-width: 400px;
-  border: 1px solid rgba(255, 77, 77, 0.3);
-}
-
-.home-description {
-  font-size: 1.1rem;
-  line-height: 1.6;
-  color: #cccccc;
-  margin-bottom: 25px;
-}
-
-/* Action Button */
-.report-btn {
-  background-color: #ff4d4d;
-  color: white;
-  border: none;
-  padding: 15px 30px;
-  font-size: 1.1rem;
-  border-radius: 8px;
   cursor: pointer;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+  transition: transform 0.1s;
+}
+
+.emergency-button:active {
+  transform: scale(0.95);
+}
+
+.button-logo {
+  width: 60px;
+  margin-bottom: 5px;
+}
+
+.button-text {
+  color: black;
+  font-weight: bold;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+/* Bottom Navigation Bar */
+.bottom-nav {
+  background-color: #b31b1b;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+.nav-item {
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: white;
+  transition: opacity 0.2s;
+}
+
+.nav-item:hover {
+  opacity: 0.7;
+}
+
+/* Profile Screen Layout */
+.profile-screen {
+  background-color: #b31b1b; /* Matches the dark red in your image */
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 40px;
+  color: white;
+}
+
+.profile-avatar-large img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background-color: #000;
+  margin-bottom: 30px;
+}
+
+.details-header h2 {
+  background-color: white;
+  color: black;
+  padding: 10px 30px;
+  border-radius: 10px;
+  font-size: 28px;
+  margin-bottom: 30px;
+}
+
+.details-list {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.detail-box {
+  background-color: white;
+  color: black;
+  padding: 15px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+}
+
+.detail-box .label {
+  font-weight: bold;
+  text-transform: uppercase;
+  min-width: 100px;
+}
+
+.detail-box .value {
   font-weight: 600;
-  transition: transform 0.2s, background-color 0.2s;
 }
 
-.report-btn:hover {
-  background-color: #e60000;
-  transform: scale(1.05);
+.edit-profile-btn {
+  margin-top: 30px;
+  background-color: black;
+  color: white;
+  border: 1px solid white;
+  padding: 12px 60px;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
 }
 
-.report-btn:active {
-  transform: scale(0.98);
+/* Add this to your existing CSS */
+.avatar-placeholder {
+  font-size: 100px;
+  background: #000;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.profile-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
