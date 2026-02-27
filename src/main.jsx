@@ -2,18 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import App from './App';
-import Auth from './Auth/Auth.jsx'; // Corrected path based on your explorer
+import Auth from './auth/Auth.jsx';
+import HomeScreen from './pages/HomeScreen.jsx';
 import './index.css';
 
+// This function finds the splash screen in your index.html and hides it
 const hideSplashScreen = () => {
   const splash = document.getElementById('splash-screen');
   if (splash) {
-    splash.classList.add('fade-out');
+    splash.style.opacity = '0';
     setTimeout(() => {
       splash.style.display = 'none';
-    }, 500);
+    }, 500); // Wait for fade out
   }
-}; // This closing brace was missing, causing your build error!
+};
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -23,9 +25,11 @@ root.render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/login" element={<Auth />} />
+        <Route path="/home" element={<HomeScreen />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
 );
 
+// Call the function immediately after rendering the app
 hideSplashScreen();

@@ -1,8 +1,18 @@
 import React, { useState } from 'react';
-import './Auth.css';
+// 1. Import the hook
+import { useNavigate } from 'react-router-dom';
+import "./Auth.css";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
+  // 2. Initialize the navigate function
+  const navigate = useNavigate();
+
+  const handleAuth = (e) => {
+    e.preventDefault();
+    // 3. For testing: direct everyone to /home immediately
+    navigate('/home');
+  };
 
   return (
     <div className="auth-container">
@@ -16,7 +26,8 @@ const Auth = () => {
           <button className={`tab ${!isLogin ? 'active' : ''}`} onClick={() => setIsLogin(false)}>Sign Up</button>
         </div>
         
-        <form className="auth-form" onSubmit={(e) => e.preventDefault()}>
+        {/* 4. Update the onSubmit to use handleAuth */}
+        <form className="auth-form" onSubmit={handleAuth}>
           {!isLogin && (
             <>
               <div className="input-row">
