@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import App from './App';
-import Auth from './pages/Auth.jsx'; // Corrected path based on your explorer
+import Auth from './Auth/Auth.jsx'; // Corrected path based on your explorer
 import './index.css';
 
 const hideSplashScreen = () => {
