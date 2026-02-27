@@ -1,0 +1,104 @@
+.auth-container {
+  background-color: #a31d21;
+  height: 100vh;
+  width: 100vw; /* Ensure it takes full width */
+  display: flex;
+  flex-direction: column;
+  align-items: center;    /* This centers the card horizontally */
+  justify-content: center; /* This centers the card vertically */
+  padding: 20px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.auth-card {
+  background: white;
+  width: 100%;           /* Allows it to be responsive */
+  max-width: 350px;      /* Prevents it from being too wide on tablets */
+  border-radius: 25px;
+  padding: 20px 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  display: flex;         /* Ensures content inside the card stays centered */
+  flex-direction: column;
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.auth-logo {
+  /* Increase width to make it legible */
+  width: 200px; 
+  height: 200px;
+  
+  /* Add a bit of bottom margin to separate it from the text */
+  margin-bottom: 2px;
+  
+  /* Ensures the browser renders the scaling smoothly */
+  image-rendering: auto; 
+}
+
+.auth-card {
+  background: white;
+  width: 100%;
+  border-radius: 25px;
+  padding: 30px 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.tab-container {
+  display: flex;
+  background: #f0f0f0;
+  border-radius: 10px;
+  margin-bottom: 25px;
+  padding: 5px;
+}
+
+.tab {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  background: none;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.tab.active {
+  background: #a31d21;
+  color: white;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.input-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.submit-btn {
+  background: black;
+  color: white;
+  padding: 15px;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+/* Include the row/footer styles you already had below */
+.input-row { display: flex; gap: 10px; width: 100%; }
+.input-row .input-group { flex: 1; }
+.auth-footer-text { text-align: center; margin-top: 15px; text-decoration: underline; cursor: pointer; }

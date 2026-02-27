@@ -1,24 +1,34 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import App from './App';
+import Auth from './Auth.jsx';
+import './index.css';
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
-
-const splash = document.getElementById('splash-screen');
-
-if (splash) {
-  // Reduced from 10000 to 3000 for a better user experience
-  setTimeout(() => {
+// --- ADD THIS FUNCTION ---
+const hideSplashScreen = () => {
+  const splash = document.getElementById('splash-screen');
+  if (splash) {
     splash.classList.add('fade-out');
-    
+    // Remove it from the DOM entirely after the fade animation (0.5s)
     setTimeout(() => {
-      splash.remove();
+      splash.style.display = 'none';
     }, 500);
-    
-  }, 3000); 
-}
+  }
+};
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+
+root.render(
+  <React.StrictMode>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<App />} />
+        <Route path="/login" element={<Auth />} />
+      </Routes>
+    </BrowserRouter>
+  </React.StrictMode>
+);
+
+// Call the function after rendering
+hideSplashScreen();

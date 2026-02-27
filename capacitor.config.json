@@ -1,5 +1,15 @@
 {
   "appId": "com.firewatch.app",
   "appName": "firewatch",
-  "webDir": "dist"
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https"
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 1000,
+      "launchAutoHide": true,
+      "backgroundColor": "#a31d21"
+    }
+  }
 }
