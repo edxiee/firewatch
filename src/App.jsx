@@ -20,7 +20,7 @@ function App() {
         </p>
         <p className="credits-text">By Group 5 - IT32S2</p>
         
-        {/* Check this line! */}
+        {/* Added the onClick back so the button actually works */}
         <button className="get-started-btn" onClick={() => navigate('/login')}>
           Get Started <span className="arrow">→</span>
         </button>
