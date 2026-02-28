@@ -1,47 +1,18 @@
-.firewatch-container {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  overflow: hidden;
-}
+.firewatch-container { height: 100vh; display: flex; flex-direction: column; background: #f5f5f5; }
 
-.firewatch-header {
-  background-color: #b31b1b;
-  padding: 20px;
-  text-align: center;
-  color: white;
-}
+/* Header & Home */
+.firewatch-header { background: #b31b1b; color: white; padding: 20px; text-align: center; }
+.main-content { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+.emergency-button { background: #b31b1b; width: 150px; height: 150px; border-radius: 50%; border: none; cursor: pointer; }
 
-.main-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-}
+/* Profile View */
+.profile-screen { flex: 1; background: #b31b1b; color: white; display: flex; flex-direction: column; align-items: center; padding-top: 40px; }
+.profile-avatar { font-size: 80px; background: white; color: #333; width: 120px; height: 120px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
+.details-header h2 { background: white; color: black; padding: 10px 20px; border-radius: 8px; }
+.details-list { width: 90%; }
+.detail-box { background: white; color: black; padding: 15px; border-radius: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; }
+.edit-profile-btn { margin-top: 20px; background: black; color: white; padding: 10px 40px; border-radius: 5px; border: none; }
 
-.emergency-button {
-  background-color: #b31b1b;
-  border-radius: 50%;
-  width: 150px;
-  height: 150px;
-  border: none;
-  cursor: pointer;
-}
-
-.bottom-nav {
-  background-color: #b31b1b;
-  display: flex;
-  justify-content: space-around;
-  padding: 15px;
-}
-
-.profile-screen {
-  flex: 1;
-  background-color: #b31b1b;
-  color: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 50px;
-}
+/* Nav */
+.bottom-nav { background: #b31b1b; display: flex; justify-content: space-around; padding: 15px; }
+.bottom-nav button { background: none; border: none; font-size: 24px; color: white; cursor: pointer; }
