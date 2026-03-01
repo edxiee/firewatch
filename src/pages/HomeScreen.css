@@ -1,18 +1,179 @@
-.firewatch-container { height: 100vh; display: flex; flex-direction: column; background: #f5f5f5; }
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+}
 
-/* Header & Home */
-.firewatch-header { background: #b31b1b; color: white; padding: 20px; text-align: center; }
-.main-content { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 20px; }
-.emergency-button { background: #b31b1b; width: 150px; height: 150px; border-radius: 50%; border: none; cursor: pointer; }
+.map-frame {
+  margin-top: 14px;
+  width: 100%;
+  max-width: 360px;
+  height: 230px;
+  border: 1px solid #000;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #d9d9d9;
+  box-sizing: border-box;
+}
 
-/* Profile View */
-.profile-screen { flex: 1; background: #b31b1b; color: white; display: flex; flex-direction: column; align-items: center; padding-top: 40px; }
-.profile-avatar { font-size: 80px; background: white; color: #333; width: 120px; height: 120px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
-.details-header h2 { background: white; color: black; padding: 10px 20px; border-radius: 8px; }
-.details-list { width: 90%; }
-.detail-box { background: white; color: black; padding: 15px; border-radius: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; }
-.edit-profile-btn { margin-top: 20px; background: black; color: white; padding: 10px 40px; border-radius: 5px; border: none; }
+.map-iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
 
-/* Nav */
-.bottom-nav { background: #b31b1b; display: flex; justify-content: space-around; padding: 15px; }
-.bottom-nav button { background: none; border: none; font-size: 24px; color: white; cursor: pointer; }
+.homescreen {
+  background: #fff;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  overflow-x: hidden;   /* important */
+}
+
+/* TOP BAR (with safe space for notch/status bar) */
+.top-bar {
+  padding-top: 28px;              /* fixes notch/status bar overlap */
+  height: 88px;
+  background: #a31224;
+  border-bottom-left-radius: 25px;
+  border-bottom-right-radius: 25px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.top-logo {
+  height: 50px;
+  width: 50px;
+  position: absolute;
+  left: 12px;
+  top: 34px;
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+}
+
+.top-title {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #000;
+}
+
+/* CONTENT */
+.content {
+  flex: 1;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.location-title {
+  margin-top: 16px;
+  font-size: 20px;
+  color: #000;
+}
+
+.map-frame {
+  margin-top: 14px;
+  width: 92%;
+  max-width: 360px;
+  height: 230px;
+  border: 1px solid #000;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #d9d9d9;
+}
+
+/* iframe map */
+.map-iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.emergency-title {
+  margin-top: 34px;
+  font-size: 20px;
+  color: #000;
+}
+
+.emergency-circle {
+  margin-top: 18px;
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  background: #a31224;
+  border: 2px solid #f2b400; /* subtle gold outline like your screenshot */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.emergency-logo {
+  width: 135px;
+  height: 135px;
+  object-fit: contain;
+}
+
+/* BOTTOM BAR */
+.bottom-bar {
+  height: 70px;
+  background: #a31224;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+
+  display: flex;
+  align-items: center;      /* vertical center */
+  justify-content: space-evenly; /* equal spacing */
+}
+
+.nav-btn {
+  width: 50px;
+  height: 50px;
+
+  display: flex;
+  align-items: center;     /* vertical center inside button */
+  justify-content: center; /* horizontal center */
+
+  border: none;
+  background: transparent;
+  padding: 0;
+}
+
+.nav-icon {
+  width: 40px;
+  height: 40px;
+  fill: black;   /* icon color */
+}
+
+.nav-btn.active .nav-icon {
+  fill: #f2b400;
+}
+
+.input-group {
+  margin-bottom: 15px;
+}
+
+.input-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+}
