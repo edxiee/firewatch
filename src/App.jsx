@@ -1,31 +1,29 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import './App.css';
+import React from "react";
+import { HashRouter, Routes, Route } from "react-router-dom";
+import LandingPage from "./LandingPage.jsx";
+import Auth from "./auth/Auth.jsx";
+import HomeScreen from "./pages/HomeScreen.jsx";
+import PersonalDetails from "./pages/PersonalDetails.jsx";
+import ErrorBoundary from "./ErrorBoundary.jsx";
+
 
 function App() {
-  const navigate = useNavigate();
-
   return (
-    <div className="screen-container">
-      <header className="header-section">
-        <h1 className="main-title">Start with FireWatch</h1>
-      </header>
-      <main className="image-section">
-        <img src="/Logo.png" alt="FireWatch Logo" className="hero-logo" />
-      </main>
-      <footer className="footer-section">
-        <p className="description-text">
-          Login page design is ready: here's a UI concept for an event booking 
-          app that helps users to keep.
-        </p>
-        <p className="credits-text">By Group 5 - IT32S2</p>
-        
-        {/* Added the onClick back so the button actually works */}
-        <button className="get-started-btn" onClick={() => navigate('/login')}>
-          Get Started <span className="arrow">→</span>
-        </button>
-      </footer>
-    </div>
+    <HashRouter>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<Auth />} />
+        <Route
+          path="/home"
+          element={
+            <ErrorBoundary>
+            <HomeScreen />
+            </ErrorBoundary>
+        }
+      />
+        <Route path="/profile" element={<PersonalDetails />} />
+      </Routes>
+    </HashRouter>
   );
 }
 

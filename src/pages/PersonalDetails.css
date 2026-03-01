@@ -1,0 +1,41 @@
+/* PersonalDetails.css */
+.firewatch-container {
+  display: flex; flex-direction: column; height: 100vh; width: 100vw;
+  background-color: #f9f9f9; font-family: -apple-system, system-ui, sans-serif; overflow: hidden;
+}
+
+.firewatch-header {
+  background-color: #b31217; color: white; height: 64px;
+  display: flex; align-items: center; padding: 0 20px;
+  border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; flex-shrink: 0;
+}
+
+.back-button { background: none; border: none; color: white; font-size: 1.5rem; margin-right: 15px; cursor: pointer; }
+.header-title { font-size: 1.1rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+
+.details-content { flex: 1; padding: 25px; overflow-y: auto; }
+
+.profile-pic-section { display: flex; flex-direction: column; align-items: center; margin-bottom: 30px; }
+.profile-circle { 
+  width: 100px; height: 100px; background-color: #e0e0e0; border-radius: 50%; 
+  display: flex; align-items: center; justify-content: center; font-size: 40px; 
+  border: 3px solid #b31217; margin-bottom: 10px; 
+}
+
+.input-group { margin-bottom: 20px; }
+.input-group label { 
+  display: block; font-size: 0.8rem; font-weight: 700; color: #b31217; 
+  text-transform: uppercase; margin-bottom: 8px; margin-left: 4px; 
+}
+.input-group input { 
+  width: 100%; padding: 14px 16px; border: 2px solid #ddd; border-radius: 12px; 
+  font-size: 1rem; outline: none; transition: border-color 0.2s; background-color: white; 
+}
+.input-group input:focus { border-color: #b31217; }
+
+.save-button { 
+  width: 100%; background-color: #b31217; color: white; padding: 16px; border: none; 
+  border-radius: 12px; font-size: 1rem; font-weight: bold; margin-top: 10px; margin-bottom: 40px; 
+  box-shadow: 0 4px 12px rgba(179, 18, 23, 0.2); 
+}
+.save-button:active { transform: scale(0.98); opacity: 0.9; }

@@ -1,33 +1,90 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import App from './App';
-import Auth from './auth/Auth.jsx'; // Fixed path to 'auth' folder
-import HomeScreen from './pages/HomeScreen.jsx'; // Path to pages folder
-import './index.css';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "./Auth.css";
 
-const hideSplashScreen = () => {
-  const splash = document.getElementById('splash-screen');
-  if (splash) {
-    splash.style.opacity = '0';
-    setTimeout(() => {
-      splash.style.display = 'none';
-    }, 500);
-  }
+const Auth = () => {
+  const [isLogin, setIsLogin] = useState(true);
+  const navigate = useNavigate();
+
+  const handleAuth = (e) => {
+    e.preventDefault();
+    navigate("/home");
+  };
+
+  return (
+    <div className="auth-container">
+      <div className="auth-header">
+        <img src="/Logo.png" alt="FireWatch" className="auth-logo" />
+      </div>
+
+      <div className="auth-card">
+        <div className="tab-container">
+          <button
+            type="button"
+            className={`tab ${isLogin ? "active" : ""}`}
+            onClick={() => setIsLogin(true)}
+          >
+            Login
+          </button>
+          <button
+            type="button"
+            className={`tab ${!isLogin ? "active" : ""}`}
+            onClick={() => setIsLogin(false)}
+          >
+            Sign Up
+          </button>
+        </div>
+
+        <form className="auth-form" onSubmit={handleAuth}>
+          {!isLogin && (
+            <>
+              <div className="input-row">
+                <div className="input-group">
+                  <label>First Name</label>
+                  <input type="text" placeholder="First Name" />
+                </div>
+                <div className="input-group">
+                  <label>Last Name</label>
+                  <input type="text" placeholder="Last Name" />
+                </div>
+              </div>
+
+              <div className="input-group">
+                <label>Contact No.</label>
+                <input type="text" placeholder="Contact Number" />
+              </div>
+
+              <div className="input-group">
+                <label>Address</label>
+                <input type="text" placeholder="Home Address" />
+              </div>
+            </>
+          )}
+
+          <div className="input-group">
+            <label>Email</label>
+            <input type="email" placeholder="Email Address" />
+          </div>
+
+          <div className="input-group">
+            <label>Password</label>
+            <input type="password" placeholder="Password" />
+          </div>
+
+          <button type="submit" className="submit-btn">
+            {isLogin ? "Login" : "Sign Up"}
+          </button>
+
+          <p
+            className="auth-footer-text"
+            onClick={() => setIsLogin(!isLogin)}
+          >
+            {isLogin ? "Forgot Password?" : "Already Have an Account?"}
+          </p>
+        </form>
+      </div>
+    </div>
+  );
 };
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-
-root.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/login" element={<Auth />} />
-        <Route path="/home" element={<HomeScreen />} />
-      </Routes>
-    </BrowserRouter>
-  </React.StrictMode>
-);
-
-hideSplashScreen();
+export default Auth;
