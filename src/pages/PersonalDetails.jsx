@@ -18,7 +18,7 @@ export default function PersonalDetails() {
 
   return (
     <div className="homescreen">
-      {/* TOP BAR (same as home) */}
+      {/* TOP BAR */}
       <div className="top-bar">
         <img className="top-logo" src="/Logo.png" alt="FireWatch Logo" />
         <div className="top-title">Profile</div>
@@ -33,6 +33,7 @@ export default function PersonalDetails() {
             <label>Full Name</label>
             <input
               name="fullName"
+              className="profile-input"
               value={formData.fullName}
               onChange={handleChange}
             />
@@ -42,6 +43,7 @@ export default function PersonalDetails() {
             <label>Phone</label>
             <input
               name="phone"
+              className="profile-input"
               value={formData.phone}
               onChange={handleChange}
             />
@@ -51,6 +53,7 @@ export default function PersonalDetails() {
             <label>Email</label>
             <input
               name="email"
+              className="profile-input"
               value={formData.email}
               onChange={handleChange}
             />
@@ -60,6 +63,7 @@ export default function PersonalDetails() {
             <label>Address</label>
             <input
               name="address"
+              className="profile-input"
               value={formData.address}
               onChange={handleChange}
             />
@@ -67,7 +71,7 @@ export default function PersonalDetails() {
 
           <button
             className="emergency-circle"
-            style={{ width: "100%", height: "50px", borderRadius: "12px" }}
+            style={{ width: "100%", height: "50px", borderRadius: "12px", marginTop: "20px" }}
             onClick={() => alert("Details Updated!")}
           >
             SAVE CHANGES
@@ -75,12 +79,18 @@ export default function PersonalDetails() {
         </div>
       </div>
 
-      {/* BOTTOM BAR (same as home) */}
-      {/* BOTTOM BAR (same as home) */}
+      {/* BOTTOM BAR (Updated with Emergency Button) */}
       <div className="bottom-bar">
         <button className="nav-btn" type="button" onClick={() => navigate("/home")} aria-label="Home">
           <svg viewBox="0 0 24 24" className="nav-icon">
             <path d="M3 10.5L12 3l9 7.5V21h-6v-6H9v6H3z" />
+          </svg>
+        </button>
+
+        {/* ADDED: Emergency Center Button */}
+        <button className="nav-btn" type="button" onClick={() => navigate("/emergency")} aria-label="Emergency">
+          <svg viewBox="0 0 24 24" className="nav-icon">
+            <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z" />
           </svg>
         </button>
 
@@ -96,7 +106,7 @@ export default function PersonalDetails() {
           </svg>
         </button>
 
-        <button className="nav-btn" type="button" onClick={() => navigate("/profile")} aria-label="Profile">
+        <button className="nav-btn active" type="button" onClick={() => navigate("/profile")} aria-label="Profile">
           <svg viewBox="0 0 24 24" className="nav-icon">
             <circle cx="12" cy="8" r="4" />
             <path d="M4 20c0-4 4-6 8-6s8 2 8 6" />
