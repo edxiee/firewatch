@@ -109,9 +109,26 @@ html, body, #root {
   border-top-left-radius: 25px;
   border-top-right-radius: 25px;
 
+  /* This makes it stick to the screen */
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000; /* Keeps it above the content */
+
   display: flex;
   align-items: center;
   justify-content: space-evenly;
+}
+
+/* Ensure the content doesn't get hidden behind the fixed bar */
+.content {
+  flex: 1;
+  padding: 18px;
+  padding-bottom: 90px; /* Add space so the last service box is visible */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .nav-btn {
