@@ -7,16 +7,12 @@ export default function HomeScreen() {
 
   return (
     <div className="homescreen">
-      {/* Visual Flare: Background Decorative Elements */}
       <div className="bg-glow"></div>
-      
-      {/* Top Bar */}
       <div className="top-bar">
         <img className="top-logo" src="/Logo.png" alt="FireWatch Logo" />
         <div className="top-title">FireWatch</div>
       </div>
 
-      {/* Main Content Area */}
       <div className="content">
         <div className="services-container">
           <div className="welcome-section">
@@ -26,7 +22,6 @@ export default function HomeScreen() {
           </div>
           
           <div className="services-grid">
-            {/* Box 1 */}
             <div className="service-box" onClick={() => navigate("/emergency")}>
               <div className="icon-circle">
                 <svg viewBox="0 0 24 24" className="service-icon"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zM7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 3.03-3.08 7.37-5 9.77C10.08 16.37 7 12.03 7 9z"/><path d="M12 11.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"/></svg>
@@ -38,8 +33,7 @@ export default function HomeScreen() {
               <div className="arrow-link">→</div>
             </div>
 
-            {/* Box 2 */}
-            <div className="service-box">
+            <div className="service-box" onClick={() => navigate("/notification")}>
               <div className="icon-circle">
                 <svg viewBox="0 0 24 24" className="service-icon"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-1 15h-2v-2h2v2zm0-4h-2V7h2v5zm4 4h-2v-2h2v2zm0-4h-2V7h2v5z"/></svg>
               </div>
@@ -50,7 +44,6 @@ export default function HomeScreen() {
               <div className="arrow-link">→</div>
             </div>
 
-            {/* Box 3 */}
             <div className="service-box" onClick={() => navigate("/profile")}>
               <div className="icon-circle">
                 <svg viewBox="0 0 24 24" className="service-icon"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 14v-2.42l1.83-1.83 1.42 1.41L6 14zm3.83-3.83l6.59-6.59 1.41 1.41-6.59 6.59-1.41-1.41z"/></svg>
@@ -65,12 +58,11 @@ export default function HomeScreen() {
         </div>
       </div>
 
-      {/* Bottom Nav Bar */}
       <div className="bottom-bar">
         <button className="nav-btn active" onClick={() => navigate("/home")}><svg viewBox="0 0 24 24" className="nav-icon"><path d="M3 10.5L12 3l9 7.5V21h-6v-6H9v6H3z" /></svg></button>
         <button className="nav-btn" onClick={() => navigate("/emergency")}><svg viewBox="0 0 24 24" className="nav-icon"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z" /></svg></button>
-        <button className="nav-btn"><svg viewBox="0 0 24 24" className="nav-icon"><path d="M4 4h16v12H5.17L4 17.17V4z" /></svg></button>
-        <button className="nav-btn"><svg viewBox="0 0 24 24" className="nav-icon"><path d="M12 22a2 2 0 002-2H10a2 2 0 002 2zm6-6V11a6 6 0 10-12 0v5L4 18v1h16v-1l-2-2z" /></svg></button>
+        <button className="nav-btn" onClick={() => navigate("/message")}><svg viewBox="0 0 24 24" className="nav-icon"><path d="M4 4h16v12H5.17L4 17.17V4z" /></svg></button>
+        <button className="nav-btn" onClick={() => navigate("/notification")}><svg viewBox="0 0 24 24" className="nav-icon"><path d="M12 22a2 2 0 002-2H10a2 2 0 002 2zm6-6V11a6 6 0 10-12 0v5L4 18v1h16v-1l-2-2z" /></svg></button>
         <button className="nav-btn" onClick={() => navigate("/profile")}><svg viewBox="0 0 24 24" className="nav-icon"><circle cx="12" cy="8" r="4" /><path d="M4 20c0-4 4-6 8-6s8 2 8 6" /></svg></button>
       </div>
     </div>

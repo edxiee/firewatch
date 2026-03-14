@@ -1,0 +1,133 @@
+/* GLOBAL RESET */
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #fff;
+  overflow-x: hidden;
+}
+
+.homescreen {
+  background: #fff;
+  width: 100%;
+  min-height: 100vh; 
+  display: flex;
+  flex-direction: column;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+}
+
+/* TOP BAR - FIXED DESIGN */
+.top-bar {
+  /* ... keep your existing padding, height, and background ... */
+  padding-top: 28px;
+  height: 88px;
+  background: #a31224;
+  border-bottom-left-radius: 25px;
+  border-bottom-right-radius: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* NEW: Makes it stick to the top */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000; /* Ensures it stays above the content */
+  box-sizing: border-box; 
+}
+
+.top-logo {
+  position: absolute;
+  left: 12px;
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+}
+
+.top-title {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #ffffff; /* WHITE TEXT TO MATCH DESIGN */
+}
+
+/* CONTENT AREA */
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+  /* NEW: Prevents content from hiding under the fixed top bar */
+  margin-top: 88px; 
+  padding: 18px;
+  padding-bottom: 100px; /* Keep this for the bottom bar space */
+}
+
+/* NOTIFICATION CARDS */
+.notif-card {
+  background: #ffffff;
+  padding: 16px;
+  border-radius: 12px;
+  border-left: 6px solid #a31224; 
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  width: 90%;
+  max-width: 400px;
+}
+
+.notif-card.success {
+  border-left-color: #28a745; /* GREEN FOR CLEARED */
+}
+
+.notif-card strong {
+  display: block;
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.notif-card p {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+}
+
+/* BOTTOM BAR */
+.bottom-bar {
+  height: 70px;
+  background: #a31224;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.nav-btn {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+}
+
+.nav-icon {
+  width: 32px;
+  height: 32px;
+  fill: #000000; /* INACTIVE COLOR */
+}
+
+.nav-btn.active .nav-icon {
+  fill: #f2b400; /* ACTIVE GOLD COLOR */
+}

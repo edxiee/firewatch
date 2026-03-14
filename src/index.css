@@ -66,3 +66,25 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  background: #a31224;
+  
+  /* CRITICAL FIXES */
+  z-index: 9999;        /* Moves the bar to the absolute front */
+  pointer-events: auto; /* Ensures buttons can receive clicks */
+  
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+/* Ensure content doesn't get stuck behind the fixed bar */
+.content {
+  padding-bottom: 80px; /* Space so buttons don't overlap text */
+}

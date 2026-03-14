@@ -1,0 +1,140 @@
+/* TOP BAR */
+.top-bar {
+  /* ... keep your existing padding, height, and background ... */
+  padding-top: 28px;
+  height: 88px;
+  background: #a31224;
+  border-bottom-left-radius: 25px;
+  border-bottom-right-radius: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* NEW: Makes it stick to the top */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000; /* Ensures it stays above the content */
+  box-sizing: border-box; 
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+  /* NEW: Prevents content from hiding under the fixed top bar */
+  margin-top: 88px; 
+  padding: 18px;
+  padding-bottom: 100px; /* Keep this for the bottom bar space */
+}
+
+.top-logo {
+  position: absolute;
+  left: 12px;
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+}
+
+.top-title {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #000;
+}
+
+/* EMERGENCY CHAT STYLES */
+.chat-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding-bottom: 100px; /* Space for the input row */
+}
+
+.chat-bubble {
+  padding: 12px 16px;
+  border-radius: 18px;
+  max-width: 75%;
+  font-size: 14px;
+  line-height: 1.4;
+  position: relative;
+}
+
+.chat-bubble.received {
+  background: #f0f0f0;
+  color: #333;
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+}
+
+.chat-bubble.sent {
+  background: #a31224;
+  color: white;
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+}
+
+/* INPUT AREA - Positioned above Fixed Bottom Bar */
+.chat-input-row {
+  position: fixed;
+  bottom: 70px; /* Sits exactly on top of the 70px bottom-bar */
+  left: 0;
+  right: 0;
+  background: white;
+  padding: 10px 15px;
+  display: flex;
+  gap: 10px;
+  border-top: 1px solid #eee;
+  z-index: 1001;
+}
+
+.chat-input-row input {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 25px;
+  outline: none;
+}
+
+.chat-input-row button {
+  background: #a31224;
+  color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+/* All icons start as black (or whatever your default is) */
+.nav-icon {
+  width: 32px;
+  height: 32px;
+  fill: #000000; /* Default color */
+  transition: fill 0.3s ease;
+}
+
+/* Only the icon inside the ACTIVE button turns yellow */
+.nav-btn.active .nav-icon {
+  fill: #f2b400 !important; /* Forces the yellow highlight */
+}
+
+/* Remove any white boxes/borders unless you want them */
+.nav-btn {
+  border: none;
+  background: transparent;
+  outline: none;
+}
+
+/* In your screenshot, the bell has a box. If you want to remove it: */
+.nav-btn.active {
+  border: none; 
+}

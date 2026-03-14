@@ -6,17 +6,16 @@ html, body, #root {
   overflow-x: hidden;
 }
 
-/* 1. Container Fix */
 .homescreen {
   background: #fff;
   width: 100%;
-  min-height: 100vh; /* Better than 110vh - allows scrolling without gray gaps */
+  height: 110vh;
   display: flex;
   flex-direction: column;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 }
 
-/* 2. Top Bar (Heights and Colors) */
+/* TOP BAR */
 .top-bar {
   /* ... keep your existing padding, height, and background ... */
   padding-top: 28px;
@@ -37,30 +36,19 @@ html, body, #root {
   box-sizing: border-box; 
 }
 
-.top-title {
-  font-size: 20px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  color: #ffffff; /* CHANGED: Now matches Notification/Emergency white text */
-}
-
-/* 3. Icons Fix */
-.nav-icon {
-  width: 32px; /* Standardized icon size */
-  height: 32px;
-  fill: #000000; /* Default inactive color */
-}
-
-.nav-btn.active .nav-icon {
-  fill: #f2b400; /* Gold highlight */
-}
-
 .top-logo {
   position: absolute;
   left: 12px;
   width: 50px;
   height: 50px;
   object-fit: contain;
+}
+
+.top-title {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #000;
 }
 
 /* CONTENT */
@@ -127,18 +115,13 @@ html, body, #root {
 
 /* BOTTOM BAR */
 .bottom-bar {
-  height: 70px;
-  background: #a31224;
-  border-top-left-radius: 25px;
-  border-top-right-radius: 25px;
-
-  /* This makes it stick to the screen */
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 1000; /* Keeps it above the content */
-
+  height: 70px;
+  background: #a31224;
+  z-index: 9999; /* This is very important! */
   display: flex;
   align-items: center;
   justify-content: space-evenly;
@@ -165,6 +148,16 @@ html, body, #root {
   border: none;
   background: transparent;
   padding: 0;
+}
+
+.nav-icon {
+  width: 40px;
+  height: 40px;
+  fill: black;
+}
+
+.nav-btn.active .nav-icon {
+  fill: #f2b400;
 }
 
 /* FORM (used by PersonalDetails too) */
