@@ -156,3 +156,57 @@ html, body, #root {
   border-radius: 8px;
   font-size: 14px;
 }
+
+/* --- Notification & Message Specific Styles --- */
+
+/* Notification Cards */
+.notif-list {
+  width: 95%;
+  margin-top: 10px;
+}
+
+.notif-card {
+  background: #f9f9f9;
+  padding: 15px;
+  margin-bottom: 12px;
+  border-radius: 12px;
+  border-left: 6px solid #a31224;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.notif-card.success { border-left-color: #28a745; }
+
+/* Chat Bubble Container */
+.chat-container {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.chat-bubble {
+  padding: 12px;
+  border-radius: 15px;
+  max-width: 80%;
+  font-size: 14px;
+}
+
+.chat-bubble.received { 
+  background: #eee; 
+  align-self: flex-start; 
+}
+.chat-bubble.sent {
+  background: #a31224; 
+  color: white; 
+  align-self: flex-end; 
+}
+
+/* Chat Input Area */
+.chat-input-row {
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  gap: 10px;
+  border-top: 1px solid #ccc;
+  background: white;
+}
