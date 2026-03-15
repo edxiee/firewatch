@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "./HomeScreen.css"; // Ensure styles are linked
+import "./EmergencyScreen.css"; // Ensure styles are linked
 
 export default function EmergencyScreen() {
   const navigate = useNavigate();
@@ -32,8 +32,13 @@ export default function EmergencyScreen() {
         <div className="emergency-title">Tap For Fire Emergency</div>
 
         <button className="emergency-circle" onClick={handleEmergency} type="button">
-          <img className="emergency-logo" src="/Logo.png" alt="FireWatch" />
+          <div className="inner-glow">
+            <span className="signal-waves">(((</span>
+            <span className="help-text">HELP!</span>
+            <span className="signal-waves">)))</span>
+          </div>
         </button>
+        
       </div>
 
       {/* BOTTOM BAR (Fixed logic for all buttons) */}

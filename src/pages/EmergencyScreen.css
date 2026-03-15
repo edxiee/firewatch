@@ -9,15 +9,14 @@ html, body, #root {
 .homescreen {
   background: #fff;
   width: 100%;
-  height: 110vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 }
 
-/* TOP BAR */
+/* TOP BAR - STICKY */
 .top-bar {
-  /* ... keep your existing padding, height, and background ... */
   padding-top: 28px;
   height: 88px;
   background: #a31224;
@@ -26,13 +25,11 @@ html, body, #root {
   display: flex;
   align-items: center;
   justify-content: center;
-
-  /* NEW: Makes it stick to the top */
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1000; /* Ensures it stays above the content */
+  z-index: 1000;
   box-sizing: border-box; 
 }
 
@@ -48,20 +45,18 @@ html, body, #root {
   font-size: 20px;
   font-weight: 700;
   letter-spacing: 1px;
-  color: #000;
+  color: #ffffff; 
 }
 
-/* CONTENT */
+/* CONTENT AREA */
 .content {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  
-  /* NEW: Prevents content from hiding under the fixed top bar */
   margin-top: 88px; 
   padding: 18px;
-  padding-bottom: 100px; /* Keep this for the bottom bar space */
+  padding-bottom: 100px;
 }
 
 .location-title {
@@ -79,14 +74,12 @@ html, body, #root {
   border-radius: 12px;
   overflow: hidden;
   background: #d9d9d9;
-  box-sizing: border-box;
 }
 
 .map-iframe {
   width: 100%;
   height: 100%;
   border: 0;
-  display: block;
 }
 
 .emergency-title {
@@ -95,25 +88,56 @@ html, body, #root {
   color: #000;
 }
 
+/* --- THE REALISTIC METALLIC BUTTON (Static) --- */
 .emergency-circle {
-  margin-top: 18px;
-  width: 170px;
-  height: 170px;
+  margin-top: 45px;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
-  background: #a31224;
-  border: 2px solid #f2b400;
+  cursor: pointer;
+  border: none;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+
+  /* 3D Gradient for the red button center */
+  background: radial-gradient(circle at 35% 35%, #ff4d4d 0%, #a31224 75%); 
+  
+  /* METAL RING LAYERING using shadows */
+  box-shadow: 
+    0 0 0 12px #e0e0e0,            /* Thick Silver Inner Ring */
+    0 0 0 16px #8e8e8e,            /* Darker Steel Outer Edge */
+    0 15px 35px rgba(0,0,0,0.4),   /* Depth Shadow */
+    inset 0 0 20px rgba(0,0,0,0.5),/* Inset Shadow for sunken look */
+    inset 0 10px 15px rgba(255,255,255,0.2); 
 }
 
-.emergency-logo {
-  width: 135px;
-  height: 135px;
-  object-fit: contain;
+.inner-glow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  pointer-events: none;
 }
 
-/* BOTTOM BAR */
+.help-text {
+  font-size: 42px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px rgba(255,255,255,0.4), 2px 3px 6px rgba(0,0,0,0.7);
+}
+
+.signal-waves {
+  font-size: 26px;
+  font-weight: bold;
+  opacity: 0.9;
+  transform: rotate(90deg);
+  margin: -10px 0;
+}
+
+/* BOTTOM BAR - STICKY */
 .bottom-bar {
   position: fixed;
   bottom: 0;
@@ -121,33 +145,17 @@ html, body, #root {
   right: 0;
   height: 70px;
   background: #a31224;
-  z-index: 9999; /* This is very important! */
+  z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
 }
 
-/* Ensure the content doesn't get hidden behind the fixed bar */
-.content {
-  flex: 1;
-  padding: 18px;
-  padding-bottom: 90px; /* Add space so the last service box is visible */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 .nav-btn {
   width: 50px;
   height: 50px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border: none;
   background: transparent;
-  padding: 0;
+  border: none;
 }
 
 .nav-icon {
@@ -157,95 +165,5 @@ html, body, #root {
 }
 
 .nav-btn.active .nav-icon {
-  fill: #f2b400;
-}
-
-/* FORM (used by PersonalDetails too) */
-.input-group {
-  margin-bottom: 15px;
-}
-
-.input-group label {
-  display: block;
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 6px;
-}
-
-.input-group input {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 14px;
-}
-
-.services-container {
-  padding: 20px;
-  text-align: center;
-
-}
-
-.services-header {
-  color: #a01a1e; /* Your brand Red */
-  font-size: 24px;
-  margin-bottom: 5px;
-}
-
-.services-subtitle {
-  color: #666;
-  font-size: 14px;
-  margin-bottom: 25px;
-}
-
-/* Grid Layout */
-.services-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  align-items: center;
-}
-
-/* Individual Service Box */
-.service-box {
-  background: white;
-  border-radius: 15px;
-  padding: 20px;
-  width: 90%;
-  max-width: 340px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.icon-circle {
-  background: #fdf2f2; /* Very light red tint */
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 15px;
-  border: 2px solid #a01a1e;
-}
-
-.service-icon {
-  width: 35px;
-  height: 35px;
-  fill: #a01a1e; /* Brand Red */
-}
-
-.service-box h3 {
-  color: #333;
-  font-size: 16px;
-  margin-bottom: 8px;
-  font-weight: bold;
-}
-
-.service-box p {
-  color: #777;
-  font-size: 13px;
-  line-height: 1.4;
+  fill: #f2b400; 
 }
