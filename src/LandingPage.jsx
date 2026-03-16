@@ -5,6 +5,14 @@ import "./App.css";
 function LandingPage() {
   const navigate = useNavigate();
 
+  const handleGetStarted = () => {
+    // 1. Save the flag so this screen is hidden on next login
+    localStorage.setItem("hasSeenFireWatchIntro", "true");
+    
+    // 2. Move to the actual app
+    navigate("/home");
+  };
+
   return (
     <div className="screen-container">
       <header className="header-section">
@@ -20,7 +28,7 @@ function LandingPage() {
           Login page design is ready: here's a UI concept for an event booking
           app that helps users to keep.
         </p>
-        <button className="get-started-btn" onClick={() => navigate("/login")}>
+        <button className="get-started-btn" onClick={handleGetStarted}>
           Get Started <span className="arrow">→</span>
         </button>
       </footer>

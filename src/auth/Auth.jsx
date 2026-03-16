@@ -8,7 +8,17 @@ export default function Auth() {
 
   const handleAuth = (e) => {
     e.preventDefault();
-    navigate("/home");
+    
+    // Check if the user has completed the intro before
+    const hasSeenLanding = localStorage.getItem("hasSeenFireWatchIntro");
+
+    if (!hasSeenLanding) {
+      // If the "flag" is missing, send them to the Intro
+      navigate("/landing"); 
+    } else {
+      // If the "flag" exists, go straight to the Home screen
+      navigate("/home");
+    }
   };
 
   return (
@@ -48,12 +58,10 @@ export default function Auth() {
                   <input type="text" placeholder="Last Name" />
                 </div>
               </div>
-
               <div className="input-group">
                 <label>Contact No.</label>
                 <input type="text" placeholder="Contact Number" />
               </div>
-
               <div className="input-group">
                 <label>Address</label>
                 <input type="text" placeholder="Home Address" />
@@ -63,12 +71,12 @@ export default function Auth() {
 
           <div className="input-group">
             <label>Email</label>
-            <input type="email" placeholder="Email Address" />
+            <input type="email" placeholder="Email Address"  />
           </div>
 
           <div className="input-group">
             <label>Password</label>
-            <input type="password" placeholder="Password" />
+            <input type="password" placeholder="Password"  />
           </div>
 
           <button type="submit" className="submit-btn">
