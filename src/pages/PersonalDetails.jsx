@@ -1,26 +1,88 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { auth, db } from "../firebase"; // Ensure path is correct
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import "./PersonalDetails.css"; 
 
 export default function PersonalDetails() {
   const navigate = useNavigate();
-
+  const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState({
-    fullName: "Arfred Salonga",
-    phone: "09123456789",
-    email: "arfredsalonga@gmail.com",
-    address: "3b Kalayaan St. Ampid 1 QC",
+    fullName: "",
+    phone: "",
+    email: "",
+    address: "",
   });
+
+  useEffect(() => {
+    // 1. Check if a user is logged in
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        try {
+          // 2. Reference the specific user document in Firestore
+          const docRef = doc(db, "users", user.uid);
+          const docSnap = await getDoc(docRef);
+
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            setFormData({
+              fullName: `${data.firstName || ""} ${data.lastName || ""}`.trim(),
+              phone: data.contact || "",
+              email: data.email || user.email,
+              address: data.address || "",
+            });
+          } else {
+            console.log("No such user document!");
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        } finally {
+          setLoading(false);
+        }
+      } else {
+        // No user is signed in, redirect to login
+        navigate("/");
+      }
+    });
+
+    return () => unsubscribe();
+  }, [navigate]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleLogout = () => {
-    // Add your logout logic here (e.g., clearing tokens)
-    alert("Logging out...");
-    navigate("/"); 
+  const handleUpdate = async () => {
+    try {
+      const user = auth.currentUser;
+      if (user) {
+        const docRef = doc(db, "users", user.uid);
+        // Note: This only updates the Firestore fields, not the Auth Email
+        await updateDoc(docRef, {
+          contact: formData.phone,
+          address: formData.address,
+          // If you want to split fullName back to first/last, logic would go here
+        });
+        alert("Details Updated!");
+      }
+    } catch (error) {
+      alert("Error updating profile: " + error.message);
+    }
   };
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      navigate("/"); 
+    } catch (error) {
+      alert("Error logging out: " + error.message);
+    }
+  };
+
+  if (loading) {
+    return <div className="homescreen" style={{justifyContent: 'center', color: 'white'}}>Loading Profile...</div>;
+  }
 
   return (
     <div className="homescreen">
@@ -42,6 +104,7 @@ export default function PersonalDetails() {
               className="profile-input"
               value={formData.fullName}
               onChange={handleChange}
+              disabled // Keep disabled if you don't want them changing names easily
             />
           </div>
 
@@ -61,7 +124,7 @@ export default function PersonalDetails() {
               name="email"
               className="profile-input"
               value={formData.email}
-              onChange={handleChange}
+              disabled // Email should usually be changed via Auth methods
             />
           </div>
 
@@ -77,12 +140,11 @@ export default function PersonalDetails() {
 
           <button
             className="profile-save-btn"
-            onClick={() => alert("Details Updated!")}
+            onClick={handleUpdate}
           >
             SAVE CHANGES
           </button>
 
-          {/* NEW LOGOUT BUTTON */}
           <button
             className="profile-logout-btn"
             onClick={handleLogout}
@@ -92,8 +154,9 @@ export default function PersonalDetails() {
         </div>
       </div>
 
-      {/* BOTTOM BAR */}
+      {/* BOTTOM BAR (Same as before) */}
       <div className="bottom-bar">
+        {/* ... Nav Buttons ... */}
         <button className="nav-btn" onClick={() => navigate("/home")}>
           <svg viewBox="0 0 24 24" className="nav-icon"><path d="M3 10.5L12 3l9 7.5V21h-6v-6H9v6H3z" /></svg>
         </button>

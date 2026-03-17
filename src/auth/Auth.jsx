@@ -1,23 +1,72 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { auth, db } from "../firebase"; // Ensure this path matches your file structure
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 import "./Auth.css";
 
+// --- SVG ICONS ---
+const EyeIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+);
+
+const EyeOffIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+);
+
 export default function Auth() {
-  const [isLogin, setIsLogin] = useState(true);
   const navigate = useNavigate();
+  
+  // UI States
+  const [isLogin, setIsLogin] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleAuth = (e) => {
+  // Form States
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [contact, setContact] = useState("");
+  const [address, setAddress] = useState("");
+
+  const handleAuth = async (e) => {
     e.preventDefault();
-    
-    // Check if the user has completed the intro before
-    const hasSeenLanding = localStorage.getItem("hasSeenFireWatchIntro");
+    setLoading(true);
 
-    if (!hasSeenLanding) {
-      // If the "flag" is missing, send them to the Intro
-      navigate("/landing"); 
-    } else {
-      // If the "flag" exists, go straight to the Home screen
-      navigate("/home");
+    try {
+      if (isLogin) {
+        // --- FIREBASE LOGIN ---
+        await signInWithEmailAndPassword(auth, email, password);
+      } else {
+        // --- FIREBASE SIGN UP ---
+        if (password !== confirmPassword) {
+          throw new Error("Passwords do not match!");
+        }
+
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+        // Save extra details to Firestore
+        await setDoc(doc(db, "users", user.uid), {
+          firstName,
+          lastName,
+          contact,
+          address,
+          email,
+          role: "user",
+          createdAt: new Date()
+        });
+      }
+
+      const hasSeenLanding = localStorage.getItem("hasSeenFireWatchIntro");
+      navigate(!hasSeenLanding ? "/landing" : "/home");
+    } catch (error) {
+      alert(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -29,64 +78,106 @@ export default function Auth() {
 
       <div className="auth-card">
         <div className="tab-container">
-          <button
-            type="button"
-            className={`tab ${isLogin ? "active" : ""}`}
-            onClick={() => setIsLogin(true)}
+          <button 
+            type="button" 
+            className={`tab ${isLogin ? "active" : ""}`} 
+            onClick={() => { setIsLogin(true); setShowPassword(false); }}
           >
             Login
           </button>
-          <button
-            type="button"
-            className={`tab ${!isLogin ? "active" : ""}`}
-            onClick={() => setIsLogin(false)}
+          <button 
+            type="button" 
+            className={`tab ${!isLogin ? "active" : ""}`} 
+            onClick={() => { setIsLogin(false); setShowPassword(false); }}
           >
             Sign Up
           </button>
         </div>
 
         <form className="auth-form" onSubmit={handleAuth}>
-          {!isLogin && (
-            <>
-              <div className="input-row">
-                <div className="input-group">
-                  <label>First Name</label>
-                  <input type="text" placeholder="First Name" />
+          <div className="scrollable-fields">
+            {!isLogin && (
+              <>
+                <div className="input-row">
+                  <div className="input-group">
+                    <label>First Name</label>
+                    <input 
+                      type="text" placeholder="First Name" required 
+                      value={firstName} onChange={(e) => setFirstName(e.target.value)}
+                    />
+                  </div>
+                  <div className="input-group">
+                    <label>Last Name</label>
+                    <input 
+                      type="text" placeholder="Last Name" required 
+                      value={lastName} onChange={(e) => setLastName(e.target.value)}
+                    />
+                  </div>
                 </div>
                 <div className="input-group">
-                  <label>Last Name</label>
-                  <input type="text" placeholder="Last Name" />
+                  <label>Contact No.</label>
+                  <input 
+                    type="tel" placeholder="09123456789" required pattern="[0-9]{11}" maxLength={11} 
+                    value={contact} onChange={(e) => setContact(e.target.value)}
+                  />
+                </div>
+                <div className="input-group">
+                  <label>Address</label>
+                  <input 
+                    type="text" placeholder="Home Address" required 
+                    value={address} onChange={(e) => setAddress(e.target.value)}
+                  />
+                </div>
+              </>
+            )}
+
+            <div className="input-group">
+              <label>Email</label>
+              <input 
+                type="email" placeholder="Email Address" required 
+                value={email} onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+
+            <div className="input-group">
+              <label>Password</label>
+              <div className="password-wrapper">
+                <input 
+                  type={showPassword ? "text" : "password"} 
+                  placeholder="Password" required minLength={6}
+                  value={password} onChange={(e) => setPassword(e.target.value)}
+                />
+                <button type="button" className="toggle-password" onClick={() => setShowPassword(!showPassword)}>
+                  {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+                </button>
+              </div>
+            </div>
+
+            {!isLogin && (
+              <div className="input-group">
+                <label>Confirm Password</label>
+                <div className="password-wrapper">
+                  <input 
+                    type={showConfirmPassword ? "text" : "password"} 
+                    placeholder="Confirm Password" required minLength={6}
+                    value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}
+                  />
+                  <button type="button" className="toggle-password" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+                    {showConfirmPassword ? <EyeOffIcon /> : <EyeIcon />}
+                  </button>
                 </div>
               </div>
-              <div className="input-group">
-                <label>Contact No.</label>
-                <input type="text" placeholder="Contact Number" />
-              </div>
-              <div className="input-group">
-                <label>Address</label>
-                <input type="text" placeholder="Home Address" />
-              </div>
-            </>
-          )}
-
-          <div className="input-group">
-            <label>Email</label>
-            <input type="email" placeholder="Email Address"  />
+            )}
           </div>
 
-          <div className="input-group">
-            <label>Password</label>
-            <input type="password" placeholder="Password"  />
-          </div>
-
-          <button type="submit" className="submit-btn">
-            {isLogin ? "Login" : "Sign Up"}
+          <button type="submit" className="submit-btn" disabled={loading}>
+            {loading ? "Processing..." : (isLogin ? "Login" : "Sign Up")}
           </button>
-
-          <p className="auth-footer-text" onClick={() => setIsLogin(!isLogin)}>
-            {isLogin ? "Forgot Password?" : "Already Have an Account?"}
-          </p>
         </form>
+
+        <p className="auth-footer-text" onClick={() => setIsLogin(!isLogin)}>
+          {isLogin ? "Need an account? Sign Up" : "Already have an account? Login"}
+        </p>
       </div>
     </div>
   );
