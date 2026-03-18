@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth, db } from "../firebase"; // Ensure this path matches your file structure
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { auth, db } from "../firebase"; 
+import { 
+  createUserWithEmailAndPassword, 
+  signInWithEmailAndPassword, 
+  sendPasswordResetEmail 
+} from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import "./Auth.css";
 
@@ -32,16 +36,28 @@ export default function Auth() {
   const [contact, setContact] = useState("");
   const [address, setAddress] = useState("");
 
+  // Handler for Password Reset
+  const handleForgotPassword = async () => {
+    if (!email) {
+      alert("Please enter your email address first so we can send you a reset link.");
+      return;
+    }
+    try {
+      await sendPasswordResetEmail(auth, email);
+      alert("Password reset email sent! Check your inbox.");
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
   const handleAuth = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
       if (isLogin) {
-        // --- FIREBASE LOGIN ---
         await signInWithEmailAndPassword(auth, email, password);
       } else {
-        // --- FIREBASE SIGN UP ---
         if (password !== confirmPassword) {
           throw new Error("Passwords do not match!");
         }
@@ -49,7 +65,6 @@ export default function Auth() {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
 
-        // Save extra details to Firestore
         await setDoc(doc(db, "users", user.uid), {
           firstName,
           lastName,
@@ -148,9 +163,17 @@ export default function Auth() {
                   value={password} onChange={(e) => setPassword(e.target.value)}
                 />
                 <button type="button" className="toggle-password" onClick={() => setShowPassword(!showPassword)}>
-                  {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+                  {showPassword ? <EyeIcon /> : <EyeOffIcon />}
                 </button>
               </div>
+              
+              {isLogin && (
+                <div className="forgot-password-container">
+                  <span className="forgot-password-link" onClick={handleForgotPassword}>
+                    Forgot Password?
+                  </span>
+                </div>
+              )}
             </div>
 
             {!isLogin && (
@@ -163,7 +186,7 @@ export default function Auth() {
                     value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}
                   />
                   <button type="button" className="toggle-password" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
-                    {showConfirmPassword ? <EyeOffIcon /> : <EyeIcon />}
+                    {showConfirmPassword ? <EyeIcon /> : <EyeOffIcon />}
                   </button>
                 </div>
               </div>
