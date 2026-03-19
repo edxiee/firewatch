@@ -5,7 +5,19 @@ import "./EmergencyScreen.css"; // Ensure styles are linked
 export default function EmergencyScreen() {
   const navigate = useNavigate();
 
-  const handleEmergency = () => alert("Emergency Alert Sent!");
+  const [isSending, setIsSending] = React.useState(false);
+
+  const handleEmergency = () => {
+    if (isSending) return;
+
+    if (window.confirm("Are you sure you want to tap the help button?")) {
+      setIsSending(true);
+      alert("Emergency Alert Sent!");
+      
+      // Re-enable after 5 seconds
+      setTimeout(() => setIsSending(false), 5000);
+    }
+  };
 
   return (
     <div className="homescreen">
