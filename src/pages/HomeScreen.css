@@ -148,6 +148,33 @@ html, body, #root {
   font-size: 20px;
 }
 
+/* --- ABOUT US SECTION STYLES --- */
+.about-section {
+  background-color: #ffffff; /* Subtle background difference */
+  width: 100%;
+  padding: 40px 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.about-header-group {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.about-text {
+  color: #555;
+  font-size: 14px;
+  line-height: 1.6;
+  text-align: center;
+  width: 90%;
+  max-width: 400px;
+  margin: 0 auto 20px;
+}
+
 /* Fixed Bottom Bar */
 .bottom-bar {
   height: 75px;

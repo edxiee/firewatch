@@ -58,7 +58,7 @@ export default function HomeScreen() {
               <div className="arrow-link">→</div>
             </div>
 
-            {/* NEW SERVICE 3: MESSAGES */}
+            {/* SERVICE 3: MESSAGES */}
             <div className="service-box" onClick={() => navigate("/message")}>
               <div className="icon-circle">
                 <svg viewBox="0 0 24 24" className="service-icon">
@@ -85,8 +85,21 @@ export default function HomeScreen() {
               </div>
               <div className="arrow-link">→</div>
             </div>
-
           </div>
+        </div>
+
+        {/* --- NEW SECTION: ABOUT US --- */}
+        <div className="about-section">
+          <div className="about-header-group">
+            <h2 className="services-header">About us</h2>
+            <div className="header-line"></div>
+          </div>
+          
+          <p className="about-text">
+            FireWatch is committed to improving public safety through proactive fire prevention tools, 
+            timely alerts, and direct engagement. Our mission is to provide all citizens with the tools
+            and knowledge necessary to build a safer and more fire-resilient community for everyone.
+          </p>
         </div>
       </div>
 
