@@ -6,7 +6,7 @@ import {
   signInWithEmailAndPassword, 
   sendPasswordResetEmail 
 } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc } from "firebase/firestore"; 
 import "./Auth.css";
 
 // --- SVG ICONS ---
@@ -36,7 +36,6 @@ export default function Auth() {
   const [contact, setContact] = useState("");
   const [address, setAddress] = useState("");
 
-  // Handler for Password Reset
   const handleForgotPassword = async () => {
     if (!email) {
       alert("Please enter your email address first so we can send you a reset link.");
@@ -56,7 +55,18 @@ export default function Auth() {
 
     try {
       if (isLogin) {
-        await signInWithEmailAndPassword(auth, email, password);
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+        // FETCH ROLE BEFORE NAVIGATING
+        const userDoc = await getDoc(doc(db, "users", user.uid));
+        if (userDoc.exists() && userDoc.data().role === "admin") {
+          navigate("/admin");
+          return; 
+        }
+
+        const hasSeenLanding = localStorage.getItem("hasSeenFireWatchIntro");
+        navigate(!hasSeenLanding ? "/landing" : "/home");
       } else {
         if (password !== confirmPassword) {
           throw new Error("Passwords do not match!");
@@ -74,10 +84,9 @@ export default function Auth() {
           role: "user",
           createdAt: new Date()
         });
+        
+        navigate("/landing");
       }
-
-      const hasSeenLanding = localStorage.getItem("hasSeenFireWatchIntro");
-      navigate(!hasSeenLanding ? "/landing" : "/home");
     } catch (error) {
       alert(error.message);
     } finally {
