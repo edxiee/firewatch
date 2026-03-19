@@ -78,31 +78,39 @@
   border-bottom-right-radius: 4px;
 }
 
-/* INPUT AREA - Positioned above Fixed Bottom Bar */
+/* INPUT AREA - Forced to stay white in Dark Mode */
 .chat-input-row {
   position: fixed;
-  bottom: 70px; /* Sits exactly on top of the 70px bottom-bar */
+  bottom: 75px; /* Adjusted to match your bottom-bar height */
   left: 0;
   right: 0;
-  background: white;
+  background-color: #ffffff !important; /* Forced white background */
   padding: 10px 15px;
   display: flex;
   gap: 10px;
-  border-top: 1px solid #eee;
+  border-top: 1px solid #eeeeee;
   z-index: 1001;
+  /* This prevents the "color-scheme" from forcing dark mode styles */
+  color-scheme: light !important; 
 }
 
 .chat-input-row input {
   flex: 1;
   padding: 12px;
-  border: 1px solid #ddd;
+  border: 1px solid #dddddd;
   border-radius: 25px;
   outline: none;
+  
+  /* Critical for Dark Mode Override */
+  background-color: #ffffff !important; 
+  color: #000000 !important; /* Forced black text */
+  font-size: 16px; /* Prevents iOS auto-zoom on focus */
 }
 
+/* Ensure the button doesn't change either */
 .chat-input-row button {
-  background: #a31224;
-  color: white;
+  background-color: #a31224 !important;
+  color: #ffffff !important;
   border: none;
   width: 40px;
   height: 40px;
