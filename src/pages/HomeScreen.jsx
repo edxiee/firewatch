@@ -7,7 +7,6 @@ export default function HomeScreen() {
 
   return (
     <div className="homescreen">
-      {/* BACKGROUND GLOW */}
       <div className="bg-glow"></div>
 
       {/* TOP BAR */}
@@ -49,7 +48,7 @@ export default function HomeScreen() {
             <div className="service-box" onClick={() => navigate("/notification")}>
               <div className="icon-circle">
                 <svg viewBox="0 0 24 24" className="service-icon">
-                  <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-1 15h-2v-2h2v2zm0-4h-2V7h2v5zm4 4h-2v-2h2v2zm0-4h-2V7h2v5z"/>
+                  <path d="M12 22a2 2 0 002-2H10a2 2 0 002 2zm6-6V11a6 6 0 10-12 0v5L4 18v1h16v-1l-2-2z" />
                 </svg>
               </div>
               <div className="service-text">
@@ -59,11 +58,25 @@ export default function HomeScreen() {
               <div className="arrow-link">→</div>
             </div>
 
-            {/* SERVICE 3: USER PROFILE */}
+            {/* NEW SERVICE 3: MESSAGES */}
+            <div className="service-box" onClick={() => navigate("/message")}>
+              <div className="icon-circle">
+                <svg viewBox="0 0 24 24" className="service-icon">
+                  <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
+                </svg>
+              </div>
+              <div className="service-text">
+                <h3>Messages</h3>
+                <p>Direct communication for reporting and updates.</p>
+              </div>
+              <div className="arrow-link">→</div>
+            </div>
+
+            {/* SERVICE 4: USER PROFILE */}
             <div className="service-box" onClick={() => navigate("/profile")}>
               <div className="icon-circle">
                 <svg viewBox="0 0 24 24" className="service-icon">
-                  <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 14v-2.42l1.83-1.83 1.42 1.41L6 14zm3.83-3.83l6.59-6.59 1.41 1.41-6.59 6.59-1.41-1.41z"/>
+                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                 </svg>
               </div>
               <div className="service-text">
@@ -86,7 +99,7 @@ export default function HomeScreen() {
           <svg viewBox="0 0 24 24" className="nav-icon"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z" /></svg>
         </button>
         <button className="nav-btn" onClick={() => navigate("/message")}>
-          <svg viewBox="0 0 24 24" className="nav-icon"><path d="M4 4h16v12H5.17L4 17.17V4z" /></svg>
+          <svg viewBox="0 0 24 24" className="nav-icon"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z" /></svg>
         </button>
         <button className="nav-btn" onClick={() => navigate("/notification")}>
           <svg viewBox="0 0 24 24" className="nav-icon"><path d="M12 22a2 2 0 002-2H10a2 2 0 002 2zm6-6V11a6 6 0 10-12 0v5L4 18v1h16v-1l-2-2z" /></svg>

@@ -51,9 +51,10 @@ html, body, #root {
 .content {
   flex: 1;
   margin-top: 95px; /* Account for top-bar */
-  padding-bottom: 90px; /* Account for bottom-bar */
+  padding-bottom: 100px; /* Account for bottom-bar */
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
 }
 
 .welcome-section {
@@ -86,6 +87,7 @@ html, body, #root {
   flex-direction: column;
   gap: 18px;
   align-items: center;
+  padding-bottom: 20px;
 }
 
 .service-box {
