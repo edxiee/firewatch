@@ -149,3 +149,47 @@
   opacity: 0;
   pointer-events: none;
 }
+
+/* GLOBAL SETTINGS */
+:root {
+  color-scheme: light !important; /* Tells mobile browsers to stay in light mode */
+}
+
+/* Force backgrounds to stay white and text to stay black */
+html, body, .homescreen {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+/* NAVBAR STYLING */
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 75px;
+  background: #a31224 !important; /* Force FireWatch Red */
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 2000;
+}
+
+.nav-icon {
+  width: 28px;
+  height: 28px;
+  fill: #000000 !important; /* Icons start as black */
+  transition: fill 0.3s ease;
+}
+
+/* Active Highlight - Turned yellow only when on that page */
+.nav-btn.active .nav-icon {
+  fill: #f2b400 !important; 
+}
+
+.nav-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+}

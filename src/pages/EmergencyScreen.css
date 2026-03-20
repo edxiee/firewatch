@@ -1,13 +1,20 @@
+/* --- GLOBAL RESET & DARK MODE PROTECTION --- */
+:root {
+  color-scheme: light !important;
+}
+
 html, body, #root {
   margin: 0;
   padding: 0;
   height: 100%;
   width: 100%;
   overflow-x: hidden;
+  background-color: #ffffff !important; /* Force white background */
+  color: #000000 !important; /* Force black text */
 }
 
 .homescreen {
-  background: #fff;
+  background: #ffffff !important;
   width: 100%;
   min-height: 100vh;
   display: flex;
@@ -15,11 +22,11 @@ html, body, #root {
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 }
 
-/* TOP BAR - STICKY */
+/* --- TOP BAR (Fixed) --- */
 .top-bar {
   padding-top: 28px;
   height: 88px;
-  background: #a31224;
+  background: #a31224 !important;
   border-bottom-left-radius: 25px;
   border-bottom-right-radius: 25px;
   display: flex;
@@ -45,10 +52,10 @@ html, body, #root {
   font-size: 20px;
   font-weight: 700;
   letter-spacing: 1px;
-  color: #ffffff; 
+  color: #ffffff !important; 
 }
 
-/* CONTENT AREA */
+/* --- CONTENT AREA --- */
 .content {
   flex: 1;
   display: flex;
@@ -56,13 +63,15 @@ html, body, #root {
   align-items: center;
   margin-top: 88px; 
   padding: 18px;
-  padding-bottom: 100px;
+  padding-bottom: 100px; /* Space for the bottom bar */
+  background-color: #ffffff !important;
 }
 
-.location-title {
+.location-title, .emergency-title {
   margin-top: 16px;
   font-size: 20px;
-  color: #000;
+  color: #000000 !important; /* Force black text */
+  font-weight: 600;
 }
 
 .map-frame {
@@ -70,7 +79,7 @@ html, body, #root {
   width: 92%;
   max-width: 360px;
   height: 230px;
-  border: 1px solid #000;
+  border: 2px solid #333;
   border-radius: 12px;
   overflow: hidden;
   background: #d9d9d9;
@@ -82,13 +91,7 @@ html, body, #root {
   border: 0;
 }
 
-.emergency-title {
-  margin-top: 34px;
-  font-size: 20px;
-  color: #000;
-}
-
-/* --- THE REALISTIC METALLIC BUTTON (Static) --- */
+/* --- THE REALISTIC METALLIC BUTTON --- */
 .emergency-circle {
   margin-top: 45px;
   width: 200px;
@@ -100,70 +103,57 @@ html, body, #root {
   display: flex;
   align-items: center;
   justify-content: center;
-
-  /* 3D Gradient for the red button center */
-  background: radial-gradient(circle at 35% 35%, #ff4d4d 0%, #a31224 75%); 
+  background: radial-gradient(circle at 35% 35%, #ff4d4d 0%, #a31224 75%) !important; 
   
-  /* METAL RING LAYERING using shadows */
   box-shadow: 
-    0 0 0 12px #e0e0e0,            /* Thick Silver Inner Ring */
-    0 0 0 16px #8e8e8e,            /* Darker Steel Outer Edge */
-    0 15px 35px rgba(0,0,0,0.4),   /* Depth Shadow */
-    inset 0 0 20px rgba(0,0,0,0.5),/* Inset Shadow for sunken look */
-    inset 0 10px 15px rgba(255,255,255,0.2); 
+    0 0 0 12px #e0e0e0, 
+    0 0 0 16px #8e8e8e, 
+    0 15px 35px rgba(0,0,0,0.4),
+    inset 0 0 20px rgba(0,0,0,0.5);
+  
+  transition: transform 0.1s active;
 }
 
-.inner-glow {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  pointer-events: none;
+.emergency-circle:active {
+  transform: scale(0.95); /* Simple press effect */
 }
 
 .help-text {
   font-size: 42px;
   font-weight: 900;
-  letter-spacing: 2px;
-  text-shadow: 0 0 10px rgba(255,255,255,0.4), 2px 3px 6px rgba(0,0,0,0.7);
+  color: #ffffff !important;
+  text-shadow: 2px 3px 6px rgba(0,0,0,0.7);
 }
 
-.signal-waves {
-  font-size: 26px;
-  font-weight: bold;
-  opacity: 0.9;
-  transform: rotate(90deg);
-  margin: -10px 0;
-}
-
-/* BOTTOM BAR - STICKY */
+/* --- BOTTOM BAR (Consistent with UserNavBar) --- */
 .bottom-bar {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 70px;
-  background: #a31224;
+  height: 75px;
+  background: #a31224 !important; /* Force the red background */
   z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
+  border-top: none;
 }
 
 .nav-btn {
-  width: 50px;
-  height: 50px;
   background: transparent;
   border: none;
+  padding: 10px;
 }
 
 .nav-icon {
-  width: 40px;
-  height: 40px;
-  fill: black;
+  width: 30px;
+  height: 30px;
+  fill: #000000 !important; /* Icons start as black */
+  transition: fill 0.3s ease;
 }
 
+/* Active Highlight - Matches your image exactly */
 .nav-btn.active .nav-icon {
-  fill: #f2b400; 
+  fill: #f2b400 !important; 
 }

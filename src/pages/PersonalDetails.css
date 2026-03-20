@@ -1,25 +1,20 @@
-html, body, #root {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  width: 100%;
-  overflow-x: hidden;
+/* --- GLOBAL THEME LOCK --- */
+:root {
+  color-scheme: light !important;
 }
 
-.homescreen {
-  background: #fff;
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+html, body, #root, .homescreen {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  margin: 0;
+  padding: 0;
 }
 
 /* TOP BAR */
 .top-bar {
   padding-top: 28px;
   height: 88px;
-  background: #a31224;
+  background: #a31224 !important;
   border-bottom-left-radius: 25px;
   border-bottom-right-radius: 25px;
   display: flex;
@@ -30,22 +25,12 @@ html, body, #root {
   left: 0;
   right: 0;
   z-index: 1000;
-  box-sizing: border-box; 
-}
-
-.top-logo {
-  position: absolute;
-  left: 12px;
-  width: 50px;
-  height: 50px;
-  object-fit: contain;
 }
 
 .top-title {
+  color: #ffffff !important;
   font-size: 20px;
   font-weight: 700;
-  letter-spacing: 1px;
-  color: #ffffff; 
 }
 
 /* CONTENT AREA */
@@ -57,26 +42,22 @@ html, body, #root {
   margin-top: 88px; 
   padding: 18px;
   padding-bottom: 100px;
+  background-color: #ffffff !important;
 }
 
 .location-title {
   margin-top: 16px;
   font-size: 20px;
   font-weight: bold;
-  color: #000;
+  color: #000000 !important;
 }
 
 /* INPUT GROUPS */
-.input-group {
-  margin-bottom: 18px;
-  width: 100%;
-}
-
 .input-group label {
   display: block;
   font-size: 12px;
   font-weight: 800;
-  color: #a31224; /* Brand Red */
+  color: #a31224 !important;
   margin-bottom: 6px;
 }
 
@@ -86,111 +67,50 @@ html, body, #root {
   border: 2px solid #e0e0e0;
   border-radius: 12px;
   font-size: 15px;
-  color: #333;
+  background-color: #ffffff !important; /* Force white input bg */
+  color: #333333 !important; /* Force dark text */
   box-sizing: border-box;
 }
 
-/* --- THE SAVE BUTTON FIX --- */
+.profile-input:disabled {
+  background-color: #f9f9f9 !important;
+  color: #888888 !important;
+}
+
+/* BUTTONS */
 .profile-save-btn {
   width: 100%;
   height: 55px;
   margin-top: 10px;
   border-radius: 15px;
   border: none;
-  cursor: pointer;
-  color: white;
-  font-size: 16px;
+  color: white !important;
   font-weight: 800;
-  letter-spacing: 1px;
-  /* Metallic Red Rectangle Gradient */
-  background: linear-gradient(to bottom, #e63946 0%, #a31224 100%);
-  box-shadow: 
-    0 8px 15px rgba(0,0,0,0.2),
-    inset 0 1px 1px rgba(255,255,255,0.4);
+  background: linear-gradient(to bottom, #e63946 0%, #a31224 100%) !important;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
-/* --- THE REALISTIC METALLIC HELP BUTTON (Used on Emergency screen) --- */
-.emergency-circle {
-  margin-top: 45px;
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  cursor: pointer;
-  border: none;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: radial-gradient(circle at 35% 35%, #ff4d4d 0%, #a31224 75%); 
-  /* Silver Metal Surround logic */
-  box-shadow: 
-    0 0 0 12px #e0e0e0,            /* Inner Silver Ring */
-    0 0 0 16px #8e8e8e,            /* Outer Steel Rim */
-    0 15px 35px rgba(0,0,0,0.4),   /* Drop Shadow */
-    inset 0 0 20px rgba(0,0,0,0.5);/* Internal Button Depth */
+.profile-logout-btn {
+  width: 100%;
+  height: 55px;
+  margin-top: 15px;
+  border-radius: 15px;
+  border: 2px solid #d1d1d1;
+  background: linear-gradient(to bottom, #ffffff 0%, #e0e0e0 100%) !important;
+  color: #a31224 !important;
+  font-weight: 800;
 }
 
-/* BOTTOM BAR */
+/* NAVBAR CONSISTENCY */
 .bottom-bar {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 70px;
-  background: #a31224;
-  z-index: 9999;
+  height: 75px;
+  background: #a31224 !important;
   display: flex;
+  justify-content: space-around;
   align-items: center;
-  justify-content: space-evenly;
-}
-
-.nav-btn {
-  width: 50px;
-  height: 50px;
-  background: transparent;
-  border: none;
-}
-
-.nav-icon {
-  width: 35px;
-  height: 35px;
-  fill: black;
-}
-
-.nav-btn.active .nav-icon {
-  fill: #f2b400; /* Yellow highlight */
-}
-
-/* ... keep all existing CSS from previous steps ... */
-
-/* --- LOGOUT BUTTON STYLE --- */
-.profile-logout-btn {
-  width: 100%;
-  height: 55px;
-  margin-top: 15px; /* Spacing between Save and Logout */
-  border-radius: 15px;
-  border: 2px solid #d1d1d1;
-  cursor: pointer;
-  
-  /* Metallic Silver/Gray Gradient */
-  background: linear-gradient(to bottom, #ffffff 0%, #e0e0e0 100%);
-  
-  /* Text Styling */
-  color: #a31224; /* Red text to signify action/danger */
-  font-size: 16px;
-  font-weight: 800;
-  letter-spacing: 1px;
-  
-  /* Realistic depth shadow */
-  box-shadow: 
-    0 4px 10px rgba(0,0,0,0.1),
-    inset 0 1px 0 rgba(255,255,255,0.9);
-    
-  transition: all 0.1s ease;
-}
-
-.profile-logout-btn:active {
-  transform: scale(0.98);
-  background: #dcdcdc;
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+  z-index: 2000;
 }

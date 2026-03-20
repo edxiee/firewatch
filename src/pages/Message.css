@@ -1,6 +1,15 @@
-/* TOP BAR */
+/* --- GLOBAL THEME LOCK (Anti-Dark Mode) --- */
+:root {
+  color-scheme: light !important;
+}
+
+html, body, .homescreen {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+/* --- TOP BAR (Fixed) --- */
 .top-bar {
-  /* ... keep your existing padding, height, and background ... */
   padding-top: 28px;
   height: 88px;
   background: #a31224;
@@ -9,26 +18,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
-  /* NEW: Makes it stick to the top */
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1000; /* Ensures it stays above the content */
+  z-index: 1000;
   box-sizing: border-box; 
-}
-
-.content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  
-  /* NEW: Prevents content from hiding under the fixed top bar */
-  margin-top: 88px; 
-  padding: 18px;
-  padding-bottom: 100px; /* Keep this for the bottom bar space */
 }
 
 .top-logo {
@@ -43,18 +38,24 @@
   font-size: 20px;
   font-weight: 700;
   letter-spacing: 1px;
-  color: #000;
+  color: #ffffff !important; /* Force white text on red background */
 }
 
-/* EMERGENCY CHAT STYLES */
-.chat-container {
-  width: 100%;
+/* --- MAIN CONTENT AREA --- */
+.content {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  padding-bottom: 100px; /* Space for the input row */
+  align-items: center;
+  margin-top: 88px; 
+  padding: 18px;
+  padding-bottom: 150px; /* Leave space for the fixed input row */
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #ffffff !important;
 }
 
+/* --- CHAT BUBBLES --- */
 .chat-bubble {
   padding: 12px 16px;
   border-radius: 18px;
@@ -62,36 +63,37 @@
   font-size: 14px;
   line-height: 1.4;
   position: relative;
+  margin-bottom: 10px;
 }
 
 .chat-bubble.received {
-  background: #f0f0f0;
-  color: #333;
-  align-self: flex-start;
+  background: #f0f0f0 !important;
+  color: #333 !important;
+  align-self: flex-start !important;
+  margin-right: auto;
   border-bottom-left-radius: 4px;
 }
 
 .chat-bubble.sent {
-  background: #a31224;
-  color: white;
-  align-self: flex-end;
+  background: #a31224 !important;
+  color: white !important;
+  align-self: flex-end !important;
+  margin-left: auto;
   border-bottom-right-radius: 4px;
 }
 
-/* INPUT AREA - Forced to stay white in Dark Mode */
+/* --- FIXED INPUT AREA --- */
 .chat-input-row {
   position: fixed;
-  bottom: 75px; /* Adjusted to match your bottom-bar height */
+  bottom: 75px; /* Sits exactly above the bottom nav */
   left: 0;
   right: 0;
-  background-color: #ffffff !important; /* Forced white background */
+  background-color: #ffffff !important;
   padding: 10px 15px;
   display: flex;
   gap: 10px;
   border-top: 1px solid #eeeeee;
   z-index: 1001;
-  /* This prevents the "color-scheme" from forcing dark mode styles */
-  color-scheme: light !important; 
 }
 
 .chat-input-row input {
@@ -99,15 +101,12 @@
   padding: 12px;
   border: 1px solid #dddddd;
   border-radius: 25px;
-  outline: none;
-  
-  /* Critical for Dark Mode Override */
   background-color: #ffffff !important; 
-  color: #000000 !important; /* Forced black text */
-  font-size: 16px; /* Prevents iOS auto-zoom on focus */
+  color: #000000 !important; 
+  font-size: 16px;
+  outline: none;
 }
 
-/* Ensure the button doesn't change either */
 .chat-input-row button {
   background-color: #a31224 !important;
   color: #ffffff !important;
@@ -119,30 +118,29 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
 }
 
-/* All icons start as black (or whatever your default is) */
-.nav-icon {
-  width: 32px;
-  height: 32px;
-  fill: #000000; /* Default color */
-  transition: fill 0.3s ease;
+/* --- ADMIN & NAV STYLES --- */
+.service-box {
+  width: 100%;
+  background: white !important;
+  margin-bottom: 10px;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  color: #000 !important;
 }
 
-/* Only the icon inside the ACTIVE button turns yellow */
-.nav-btn.active .nav-icon {
-  fill: #f2b400 !important; /* Forces the yellow highlight */
-}
-
-/* Remove any white boxes/borders unless you want them */
-.nav-btn {
-  border: none;
-  background: transparent;
-  outline: none;
-}
-
-/* In your screenshot, the bell has a box. If you want to remove it: */
-.nav-btn.active {
-  border: none; 
+/* Use shared styles for the Navbar that comes from UserNavBar */
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 75px;
+  background: #a31224 !important;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 1002;
 }

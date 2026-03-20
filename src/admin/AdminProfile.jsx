@@ -21,10 +21,7 @@ export default function AdminProfile() {
               <p>{auth.currentUser?.email}</p>
             </div>
           </div>
-          <button className="read-more-btn" onClick={() => navigate("/home")} style={{margin: "10px"}}>
-            Switch to User View
-          </button>
-          <button className="read-more-btn" onClick={handleLogout} style={{borderColor: "#666", color: "#666"}}>
+          <button className="read-more-btn" onClick={handleLogout} style={{borderColor: "#666", color: "#ffffff"}}>
             Logout
           </button>
         </div>

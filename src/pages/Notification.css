@@ -1,25 +1,15 @@
-/* GLOBAL RESET */
-html, body, #root {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  width: 100%;
-  background-color: #fff;
-  overflow-x: hidden;
+/* --- GLOBAL THEME LOCK (Anti-Dark Mode) --- */
+:root {
+  color-scheme: light !important;
 }
 
-.homescreen {
-  background: #fff;
-  width: 100%;
-  min-height: 100vh; 
-  display: flex;
-  flex-direction: column;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+html, body, .homescreen {
+  background-color: #ffffff !important;
+  color: #000000 !important;
 }
 
-/* TOP BAR - FIXED DESIGN */
+/* --- TOP BAR --- */
 .top-bar {
-  /* ... keep your existing padding, height, and background ... */
   padding-top: 28px;
   height: 88px;
   background: #a31224;
@@ -28,106 +18,69 @@ html, body, #root {
   display: flex;
   align-items: center;
   justify-content: center;
-
-  /* NEW: Makes it stick to the top */
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1000; /* Ensures it stays above the content */
-  box-sizing: border-box; 
-}
-
-.top-logo {
-  position: absolute;
-  left: 12px;
-  width: 50px;
-  height: 50px;
-  object-fit: contain;
+  z-index: 1000;
 }
 
 .top-title {
   font-size: 20px;
   font-weight: 700;
-  letter-spacing: 1px;
-  color: #ffffff; /* WHITE TEXT TO MATCH DESIGN */
+  color: #ffffff !important; /* White on Red background */
 }
 
-/* CONTENT AREA */
+/* --- CONTENT --- */
 .content {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  
-  /* NEW: Prevents content from hiding under the fixed top bar */
-  margin-top: 88px; 
+  margin-top: 100px; /* Offset for fixed header */
   padding: 18px;
-  padding-bottom: 100px; /* Keep this for the bottom bar space */
+  padding-bottom: 90px; /* Space for navbar */
+  background-color: #ffffff !important;
 }
 
-/* NOTIFICATION CARDS */
+/* --- NOTIFICATION CARDS --- */
 .notif-card {
-  background: #ffffff;
-  padding: 16px;
-  border-radius: 12px;
-  border-left: 6px solid #a31224; 
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-  width: 90%;
-  max-width: 400px;
+  width: 95%;
+  background: #fff !important;
+  border-left: 5px solid #a31224; /* Fire Red accent */
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  color: #000 !important;
 }
 
 .notif-card.success {
-  border-left-color: #28a745; /* GREEN FOR CLEARED */
+  border-left: 5px solid #28a745; /* Success Green accent */
 }
 
 .notif-card strong {
   display: block;
   font-size: 16px;
-  color: #333;
-  margin-bottom: 4px;
+  margin-bottom: 5px;
 }
 
 .notif-card p {
-  font-size: 14px;
-  color: #666;
   margin: 0;
+  font-size: 14px;
+  color: #555 !important;
 }
 
-/* BOTTOM BAR */
+/* --- BOTTOM BAR STYLES (For consistency) --- */
 .bottom-bar {
-  height: 70px;
-  background: #a31224;
-  border-top-left-radius: 25px;
-  border-top-right-radius: 25px;
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 1000;
+  height: 75px;
+  background: #a31224 !important;
   display: flex;
+  justify-content: space-around;
   align-items: center;
-  justify-content: space-evenly;
-}
-
-.nav-btn {
-  width: 50px;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  background: transparent;
-  padding: 0;
-  cursor: pointer;
-}
-
-.nav-icon {
-  width: 32px;
-  height: 32px;
-  fill: #000000; /* INACTIVE COLOR */
-}
-
-.nav-btn.active .nav-icon {
-  fill: #f2b400; /* ACTIVE GOLD COLOR */
+  z-index: 2000;
 }

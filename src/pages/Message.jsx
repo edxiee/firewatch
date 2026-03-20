@@ -1,55 +1,73 @@
-import React from 'react';
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { db, auth } from "../firebase"; 
+import { collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, doc, setDoc } from "firebase/firestore";
+import UserNavBar from "./UserNavBar"; // Import your new component
 import './Message.css';
 
 const Message = () => {
-  const navigate = useNavigate();
+  const [messages, setMessages] = useState([]);
+  const [inputText, setInputText] = useState("");
+  const user = auth.currentUser;
+
+  // 1. Listen for messages
+  useEffect(() => {
+    if (!user) return;
+    const q = query(collection(db, "chats", user.uid, "messages"), orderBy("timestamp", "asc"));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      setMessages(snapshot.docs.map(doc => doc.data()));
+    });
+    return () => unsubscribe();
+  }, [user]);
+
+  // 2. Send message function
+  const handleSendMessage = async () => {
+    if (!inputText.trim() || !user) return;
+
+    await setDoc(doc(db, "chats", user.uid), {
+      userEmail: user.email,
+      lastMessage: inputText,
+      updatedAt: serverTimestamp()
+    }, { merge: true });
+
+    await addDoc(collection(db, "chats", user.uid, "messages"), {
+      text: inputText,
+      senderId: user.uid,
+      timestamp: serverTimestamp(),
+    });
+
+    setInputText("");
+  };
 
   return (
     <div className="homescreen">
-      {/* Top Bar */}
       <div className="top-bar">
         <img className="top-logo" src="/Logo.png" alt="FireWatch Logo" />
         <div className="top-title">Chat</div>
       </div>
 
       <main className="content">
-        <div className="chat-bubble received">Unit QC-3 Dispatched...</div>
+        {messages.map((msg, index) => (
+          <div key={index} className={`chat-bubble ${msg.senderId === user.uid ? "sent" : "received"}`}>
+            {msg.text}
+          </div>
+        ))}
+        {messages.length === 0 && <div className="chat-bubble received">Unit QC-3 Dispatched...</div>}
       </main>
 
-      {/* Input area positioned above the bottom bar */}
+      {/* Fixed footer for input */}
       <footer className="chat-input-row">
-        <input type="text" placeholder="Type Message..." />
-        <button type="button">➤</button>
+        <input 
+          type="text" 
+          placeholder="Type Message..." 
+          value={inputText}
+          onChange={(e) => setInputText(e.target.value)}
+          onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+        />
+        <button type="button" onClick={handleSendMessage}>➤</button>
       </footer>
 
-      {/* BOTTOM BAR (Updated with SVG Icons and correct routing) */}
-      <div className="bottom-bar">
-        <button className="nav-btn" onClick={() => navigate("/home")}>
-          <svg viewBox="0 0 24 24" className="nav-icon"><path d="M3 10.5L12 3l9 7.5V21h-6v-6H9v6H3z" /></svg>
-        </button>
-        <button className="nav-btn" onClick={() => navigate("/emergency")}>
-          <svg viewBox="0 0 24 24" className="nav-icon"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z" /></svg>
-        </button>
-
-        {/* MOVE 'active' HERE */}
-        <button className="nav-btn active" onClick={() => navigate("/message")}>
-          <svg viewBox="0 0 24 24" className="nav-icon"><path d="M4 4h16v12H5.17L4 17.17V4z" /></svg>
-        </button>
-
-        {/* REMOVE 'active' FROM HERE */}
-        <button className="nav-btn" onClick={() => navigate("/notification")}>
-          <svg viewBox="0 0 24 24" className="nav-icon">
-            <path d="M12 22a2 2 0 002-2H10a2 2 0 002 2zm6-6V11a6 6 0 10-12 0v5L4 18v1h16v-1l-2-2z" />
-          </svg>
-        </button>
-
-        <button className="nav-btn" onClick={() => navigate("/profile")}>
-          <svg viewBox="0 0 24 24" className="nav-icon">
-            <circle cx="12" cy="8" r="4" /><path d="M4 20c0-4 4-6 8-6s8 2 8 6" />
-          </svg>
-        </button>
-      </div>
+      {/* Shared Uniform Navbar */}
+      <UserNavBar />
     </div>
   );
 };

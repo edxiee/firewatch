@@ -1,26 +1,24 @@
-/* Reset and Base Styles */
-html, body, #root {
+/* --- GLOBAL THEME LOCK --- */
+:root {
+  color-scheme: light !important;
+}
+
+html, body, #root, .homescreen {
   margin: 0;
   padding: 0;
   height: 100%;
   width: 100%;
   overflow-x: hidden;
-}
-
-.homescreen {
-  background: #ffffff;
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  background-color: #ffffff !important;
+  color: #000000 !important;
   font-family: system-ui, -apple-system, sans-serif;
 }
 
-/* Fixed Top Bar */
+/* TOP BAR */
 .top-bar {
   padding-top: 28px;
   height: 88px;
-  background: #a31224;
+  background: #a31224 !important;
   border-bottom-left-radius: 25px;
   border-bottom-right-radius: 25px;
   display: flex;
@@ -44,17 +42,17 @@ html, body, #root {
 .top-title {
   font-size: 22px;
   font-weight: 700;
-  color: #ffffff;
+  color: #ffffff !important;
 }
 
-/* Main Content Area */
+/* MAIN CONTENT */
 .content {
   flex: 1;
-  margin-top: 95px; /* Account for top-bar */
-  padding-bottom: 100px; /* Account for bottom-bar */
+  margin-top: 95px; 
+  padding-bottom: 100px; 
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
+  background-color: #ffffff !important;
 }
 
 .welcome-section {
@@ -63,25 +61,26 @@ html, body, #root {
 }
 
 .services-header {
-  color: #a31224;
+  color: #a31224 !important;
   font-size: 24px;
   margin-bottom: 5px;
+  font-weight: 800;
 }
 
 .header-line {
   width: 50px;
   height: 4px;
-  background: #f2b400; /* Gold highlight line */
+  background: #f2b400; 
   margin: 0 auto 10px;
   border-radius: 2px;
 }
 
 .services-subtitle {
-  color: #666;
+  color: #666666 !important;
   font-size: 14px;
 }
 
-/* Grid and Cards */
+/* CARDS */
 .services-grid {
   display: flex;
   flex-direction: column;
@@ -91,25 +90,26 @@ html, body, #root {
 }
 
 .service-box {
-  background: #ffffff;
+  background: #ffffff !important;
   border-radius: 18px;
   padding: 20px;
   width: 88%;
   max-width: 350px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
   display: flex;
   align-items: center;
   gap: 15px;
   cursor: pointer;
   transition: transform 0.2s ease;
+  border: 1px solid #f0f0f0;
 }
 
 .service-box:active {
-  transform: scale(0.97);
+  transform: scale(0.96);
 }
 
 .icon-circle {
-  background: #fdf2f2;
+  background: #fdf2f2 !important;
   min-width: 55px;
   height: 55px;
   border-radius: 50%;
@@ -122,63 +122,46 @@ html, body, #root {
 .service-icon {
   width: 30px;
   height: 30px;
-  fill: #a31224;
-}
-
-.service-text {
-  flex: 1;
+  fill: #a31224 !important;
 }
 
 .service-box h3 {
   margin: 0 0 4px 0;
   font-size: 16px;
-  color: #222;
+  color: #222222 !important;
 }
 
 .service-box p {
   margin: 0;
   font-size: 13px;
-  color: #777;
+  color: #777777 !important;
   line-height: 1.3;
 }
 
 .arrow-link {
-  color: #a31224;
+  color: #a31224 !important;
   font-weight: bold;
   font-size: 20px;
 }
 
-/* --- ABOUT US SECTION STYLES --- */
+/* ABOUT SECTION */
 .about-section {
-  background-color: #ffffff; /* Subtle background difference */
-  width: 100%;
   padding: 40px 20px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 10px;
-}
-
-.about-header-group {
   text-align: center;
-  margin-bottom: 15px;
 }
 
 .about-text {
-  color: #555;
+  color: #555555 !important;
   font-size: 14px;
   line-height: 1.6;
-  text-align: center;
-  width: 90%;
   max-width: 400px;
-  margin: 0 auto 20px;
+  margin: 0 auto;
 }
 
-/* Fixed Bottom Bar */
+/* SHARED BOTTOM BAR STYLES */
 .bottom-bar {
   height: 75px;
-  background: #a31224;
+  background: #a31224 !important;
   border-top-left-radius: 25px;
   border-top-right-radius: 25px;
   position: fixed;
@@ -189,22 +172,4 @@ html, body, #root {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-}
-
-.nav-btn {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-}
-
-.nav-icon {
-  width: 28px;
-  height: 28px;
-  fill: #ffffff;
-  opacity: 0.6;
-}
-
-.nav-btn.active .nav-icon {
-  fill: #f2b400; /* Gold for active tab */
-  opacity: 1;
 }
