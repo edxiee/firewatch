@@ -1,0 +1,15 @@
+.nav-icon {
+  width: 28px;
+  height: 28px;
+  /* Change black to white for better contrast against red */
+  fill: #ffffff !important; 
+  opacity: 0.7;
+  transition: all 0.2s ease;
+}
+
+.nav-btn.active .nav-icon {
+  /* Keep gold for the active state */
+  fill: #f2b400 !important; 
+  opacity: 1;
+  transform: scale(1.1);
+}

@@ -1,8 +1,11 @@
 import React from "react";
-import UserNavBar from "./UserNavBar"; // Import the shared bar
+import { useNavigate } from "react-router-dom"; // Import useNavigate
+import UserNavBar from "./UserNavBar"; 
 import "./HomeScreen.css";
 
 export default function HomeScreen() {
+  const navigate = useNavigate(); // Initialize the hook
+
   return (
     <div className="homescreen">
       <div className="bg-glow"></div>
@@ -27,7 +30,7 @@ export default function HomeScreen() {
           
           <div className="services-grid">
             {/* SERVICE 1: FIRE PREVENTION */}
-            <div className="service-box" onClick={() => window.location.href='/emergency'}>
+            <div className="service-box" onClick={() => navigate('/emergency')}>
               <div className="icon-circle">
                 <svg viewBox="0 0 24 24" className="service-icon">
                   <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zM7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 3.03-3.08 7.37-5 9.77C10.08 16.37 7 12.03 7 9z"/>
@@ -42,7 +45,7 @@ export default function HomeScreen() {
             </div>
 
             {/* SERVICE 2: NOTIFICATION */}
-            <div className="service-box" onClick={() => window.location.href='/notification'}>
+            <div className="service-box" onClick={() => navigate('/notification')}>
               <div className="icon-circle">
                 <svg viewBox="0 0 24 24" className="service-icon">
                   <path d="M12 22a2 2 0 002-2H10a2 2 0 002 2zm6-6V11a6 6 0 10-12 0v5L4 18v1h16v-1l-2-2z" />
@@ -56,7 +59,7 @@ export default function HomeScreen() {
             </div>
 
             {/* SERVICE 3: MESSAGES */}
-            <div className="service-box" onClick={() => window.location.href='/message'}>
+            <div className="service-box" onClick={() => navigate('/message')}>
               <div className="icon-circle">
                 <svg viewBox="0 0 24 24" className="service-icon">
                   <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
@@ -70,7 +73,7 @@ export default function HomeScreen() {
             </div>
 
             {/* SERVICE 4: USER PROFILE */}
-            <div className="service-box" onClick={() => window.location.href='/profile'}>
+            <div className="service-box" onClick={() => navigate('/profile')}>
               <div className="icon-circle">
                 <svg viewBox="0 0 24 24" className="service-icon">
                   <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
