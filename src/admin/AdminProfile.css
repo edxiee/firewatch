@@ -1,0 +1,105 @@
+.profile-card {
+  background: white;
+  margin: 20px;
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.avatar-circle {
+  width: 80px;
+  height: 80px;
+  background: #a31224;
+  color: white;
+  font-size: 32px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin: 0 auto 15px;
+}
+
+.role-badge {
+  background: #fff3cd;
+  color: #856404;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  display: inline-block;
+  margin-top: 10px;
+}
+
+.stats-row {
+  display: flex;
+  justify-content: space-around;
+  margin: 0 20px 25px;
+}
+
+.stat-item {
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  width: 30%;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.stat-value {
+  display: block;
+  font-size: 20px;
+  font-weight: bold;
+  color: #a31224;
+}
+
+.stat-label {
+  font-size: 11px;
+  color: #888;
+  text-transform: uppercase;
+}
+
+.settings-section {
+  margin: 0 20px;
+}
+
+.section-title {
+  font-size: 16px;
+  margin-bottom: 15px;
+  color: #444;
+}
+
+.settings-btn {
+  width: 100%;
+  background: white;
+  border: none;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+}
+
+.btn-content span {
+  display: block;
+  font-weight: 600;
+  color: #333;
+}
+
+.btn-content small {
+  color: #888;
+}
+
+.logout-btn-alt {
+  width: 100%;
+  background: #f8d7da;
+  color: #721c24;
+  border: none;
+  padding: 15px;
+  border-radius: 10px;
+  font-weight: bold;
+  margin-top: 10px;
+  cursor: pointer;
+}

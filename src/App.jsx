@@ -13,6 +13,8 @@ import AdminScreen from "./admin/AdminScreen.jsx";
 import AdminProfile from "./admin/AdminProfile.jsx"; 
 import AdminMessages from "./admin/AdminMessages.jsx"; 
 import AdminNotifications from "./admin/AdminNotifications.jsx"; 
+import CreateAdmin from "./admin/CreateAdmin.jsx"; // New
+import UserList from "./admin/UserList.jsx"; // New
 import ProtectedRoute from "./components/ProtectedRoute.jsx"; 
 
 function App() {
@@ -27,6 +29,8 @@ function App() {
         <Route path="/admin/profile" element={<ProtectedRoute><AdminProfile /></ProtectedRoute>} />
         <Route path="/admin/messages" element={<ProtectedRoute><AdminMessages /></ProtectedRoute>} /> 
         <Route path="/admin/notifications" element={<ProtectedRoute><AdminNotifications /></ProtectedRoute>} />
+        <Route path="/admin/create-account" element={<ProtectedRoute><CreateAdmin /></ProtectedRoute>} />
+        <Route path="/admin/users" element={<ProtectedRoute><UserList /></ProtectedRoute>} />
         
         {/* USER ROUTES */}
         <Route path="/home" element={<HomeScreen />}/>

@@ -1,0 +1,62 @@
+.search-container {
+  padding: 15px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  outline: none;
+}
+
+.user-list {
+  padding: 0 15px 80px; /* Extra bottom padding for Navbar */
+}
+
+.user-card {
+  background: white;
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.user-name {
+  font-weight: bold;
+  margin: 0;
+  color: #333;
+}
+
+.user-email {
+  font-size: 13px;
+  color: #666;
+  margin: 2px 0;
+}
+
+.role-tag {
+  font-size: 10px;
+  text-transform: uppercase;
+  font-weight: bold;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.role-tag.admin { background: #d1ecf1; color: #0c5460; }
+.role-tag.user { background: #e2e3e5; color: #383d41; }
+
+.delete-btn {
+  background: #fff5f5;
+  border: 1px solid #feb2b2;
+  border-radius: 8px;
+  padding: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.delete-btn:hover {
+  background: #feb2b2;
+}
