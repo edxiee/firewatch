@@ -1,0 +1,104 @@
+/* Container for the scrollable list of alerts */
+.alerts-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 15px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Base style for the alert card */
+.alert-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-left: 8px solid #adb5bd; /* Default gray for resolved */
+  transition: transform 0.2s ease;
+}
+
+/* Active emergency styling - Red and Pulsing */
+.alert-card.active {
+  border-left: 8px solid #a31224;
+  animation: pulse-border 2s infinite;
+}
+
+@keyframes pulse-border {
+  0% { box-shadow: 0 0 0 0 rgba(163, 18, 36, 0.4); }
+  70% { box-shadow: 0 0 0 12px rgba(163, 18, 36, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(163, 18, 36, 0); }
+}
+
+/* Text styles inside the cards */
+.alert-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 8px;
+}
+
+.alert-type {
+  color: #a31224;
+  font-weight: 800;
+  font-size: 1.1rem;
+}
+
+.alert-time {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.alert-body p {
+  margin: 6px 0;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+/* Google Maps Link */
+.map-link {
+  display: inline-block;
+  margin-top: 10px;
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.map-link:hover {
+  text-decoration: underline;
+}
+
+/* Resolve Button */
+.resolve-btn {
+  margin-top: 15px;
+  width: 100%;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.resolve-btn:hover {
+  background-color: #218838;
+}
+
+/* Placeholder for empty state */
+.no-alerts {
+  text-align: center;
+  color: #888;
+  margin-top: 30px;
+  font-style: italic;
+}
+
+/* Resolved state styling */
+.alert-card.resolved {
+  opacity: 0.7;
+  filter: grayscale(0.5);
+}

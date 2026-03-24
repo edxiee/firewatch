@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import "./AdminNavBar.css";
 
 export default function AdminNavbar() {
   const navigate = useNavigate();

@@ -1,33 +1,68 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import UserNavBar from "./UserNavBar"; // Import the shared navigation bar
+import { db, auth } from "../firebase"; // Import your firebase config
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import UserNavBar from "./UserNavBar"; 
 import "./EmergencyScreen.css"; 
 
 export default function EmergencyScreen() {
   const navigate = useNavigate();
   const [isSending, setIsSending] = React.useState(false);
 
-  const handleEmergency = () => {
+  const handleEmergency = async () => {
     if (isSending) return;
 
-    if (window.confirm("Are you sure you want to tap the help button?")) {
+    if (window.confirm("WARNING: Are you sure you want to report a FIRE? This will alert emergency services immediately.")) {
       setIsSending(true);
-      alert("Emergency Alert Sent!");
-      
-      // Re-enable after 5 seconds
-      setTimeout(() => setIsSending(false), 5000);
+
+      try {
+        const user = auth.currentUser;
+        
+        // 1. Get User's Location (Optional but highly recommended)
+        let coords = { lat: null, lng: null };
+        
+        const getPosition = () => {
+          return new Promise((resolve) => {
+            navigator.geolocation.getCurrentPosition(
+              (pos) => resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
+              () => resolve({ lat: "Permission Denied", lng: "Permission Denied" }),
+              { timeout: 5000 }
+            );
+          });
+        };
+
+        const locationData = await getPosition();
+
+        // 2. Add document to 'emergencies' collection
+        await addDoc(collection(db, "emergencies"), {
+          userId: user ? user.uid : "Anonymous",
+          userEmail: user ? user.email : "No Email",
+          type: "FIRE ALERT",
+          status: "active", // Admin can change this to 'resolved' later
+          timestamp: serverTimestamp(),
+          latitude: locationData.lat,
+          longitude: locationData.lng,
+        });
+
+        alert("EMERGENCY ALERT SENT! Help is being notified. Please stay safe.");
+        
+      } catch (error) {
+        console.error("Error sending emergency:", error);
+        alert("Failed to send alert. Please call emergency services directly.");
+      } finally {
+        // Re-enable button after 10 seconds to prevent spamming
+        setTimeout(() => setIsSending(false), 10000);
+      }
     }
   };
 
   return (
     <div className="homescreen">
-      {/* Top Bar */}
       <div className="top-bar">
         <img className="top-logo" src="/Logo.png" alt="FireWatch Logo" />
         <div className="top-title">Emergency Center</div>
       </div>
 
-      {/* Main Content */}
       <div className="content">
         <div className="location-title">Your Current Location</div>
 
@@ -43,16 +78,21 @@ export default function EmergencyScreen() {
 
         <div className="emergency-title">Tap For Fire Emergency</div>
 
-        <button className="emergency-circle" onClick={handleEmergency} type="button">
+        {/* Added a 'loading' style check to the button */}
+        <button 
+          className={`emergency-circle ${isSending ? "disabled-btn" : ""}`} 
+          onClick={handleEmergency} 
+          type="button"
+          disabled={isSending}
+        >
           <div className="inner-glow">
             <span className="signal-waves">(((</span>
-            <span className="help-text">HELP!</span>
+            <span className="help-text">{isSending ? "SENDING..." : "HELP!"}</span>
             <span className="signal-waves">)))</span>
           </div>
         </button>
       </div>
 
-      {/* REPLACED: Manual bottom-bar replaced with UserNavBar */}
       <UserNavBar />
     </div>
   );

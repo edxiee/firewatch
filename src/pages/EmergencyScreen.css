@@ -157,3 +157,10 @@ html, body, #root {
 .nav-btn.active .nav-icon {
   fill: #f2b400 !important; 
 }
+
+.disabled-btn {
+  opacity: 0.6;
+  cursor: not-allowed;
+  filter: grayscale(1);
+  transform: scale(0.95);
+}
