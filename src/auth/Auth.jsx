@@ -58,7 +58,6 @@ export default function Auth() {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
 
-        // FETCH ROLE BEFORE NAVIGATING
         const userDoc = await getDoc(doc(db, "users", user.uid));
         if (userDoc.exists() && userDoc.data().role === "admin") {
           navigate("/admin");
@@ -68,8 +67,11 @@ export default function Auth() {
         const hasSeenLanding = localStorage.getItem("hasSeenFireWatchIntro");
         navigate(!hasSeenLanding ? "/landing" : "/home");
       } else {
+        // Registration Logic
         if (password !== confirmPassword) {
-          throw new Error("Passwords do not match!");
+          alert("Registration Error: Passwords do not match!");
+          setLoading(false);
+          return;
         }
 
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -88,7 +90,31 @@ export default function Auth() {
         navigate("/landing");
       }
     } catch (error) {
-      alert(error.message);
+      // --- CLEANER ALERT BOX LOGIC ---
+      console.error("Firebase Error Code:", error.code);
+      
+      switch (error.code) {
+        case "auth/invalid-credential":
+          alert("Login Failed: The email or password you entered is incorrect. Please check your credentials and try again.");
+          break;
+        case "auth/invalid-email":
+          alert("Invalid Email: Please enter a properly formatted email address.");
+          break;
+        case "auth/user-disabled":
+          alert("Account Disabled: This account has been disabled by an administrator.");
+          break;
+        case "auth/too-many-requests":
+          alert("Security Alert: Too many failed login attempts. Please try again later or reset your password.");
+          break;
+        case "auth/email-already-in-use":
+          alert("Sign Up Error: This email is already registered. Try logging in instead.");
+          break;
+        case "auth/weak-password":
+          alert("Sign Up Error: Password is too weak. Please use at least 6 characters.");
+          break;
+        default:
+          alert("Error: " + error.message);
+      }
     } finally {
       setLoading(false);
     }
