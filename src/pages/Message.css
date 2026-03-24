@@ -1,4 +1,4 @@
-/* --- GLOBAL THEME LOCK (Anti-Dark Mode) --- */
+/* --- GLOBAL THEME LOCK --- */
 :root {
   color-scheme: light !important;
 }
@@ -6,9 +6,11 @@
 html, body, .homescreen {
   background-color: #ffffff !important;
   color: #000000 !important;
+  height: 100%;
+  margin: 0;
 }
 
-/* --- TOP BAR (Fixed) --- */
+/* --- TOP BAR --- */
 .top-bar {
   padding-top: 28px;
   height: 88px;
@@ -23,7 +25,6 @@ html, body, .homescreen {
   left: 0;
   right: 0;
   z-index: 1000;
-  box-sizing: border-box; 
 }
 
 .top-logo {
@@ -37,55 +38,105 @@ html, body, .homescreen {
 .top-title {
   font-size: 20px;
   font-weight: 700;
-  letter-spacing: 1px;
-  color: #ffffff !important; /* Force white text on red background */
+  color: #ffffff !important;
 }
 
 /* --- MAIN CONTENT AREA --- */
 .content {
-  flex: 1;
+  margin-top: 88px; 
+  padding: 10px;
+  padding-bottom: 140px; 
+  background-color: #ffffff !important;
+}
+
+.messages-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin-top: 88px; 
-  padding: 18px;
-  padding-bottom: 150px; /* Leave space for the fixed input row */
   width: 100%;
-  box-sizing: border-box;
-  background-color: #ffffff !important;
+  gap: 12px;
+}
+
+/* --- CHAT WRAPPERS --- */
+.chat-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.chat-wrapper.sent {
+  align-self: flex-end;
+  align-items: flex-end;
+}
+
+.chat-wrapper.received {
+  align-self: flex-start;
+  align-items: flex-start;
 }
 
 /* --- CHAT BUBBLES --- */
 .chat-bubble {
-  padding: 12px 16px;
+  padding: 10px 14px 24px 14px; 
   border-radius: 18px;
   max-width: 75%;
-  font-size: 14px;
+  font-size: 14.5px;
   line-height: 1.4;
   position: relative;
-  margin-bottom: 10px;
+  word-wrap: break-word;
+  min-width: 100px; 
 }
 
 .chat-bubble.received {
   background: #f0f0f0 !important;
   color: #333 !important;
-  align-self: flex-start !important;
-  margin-right: auto;
   border-bottom-left-radius: 4px;
 }
 
 .chat-bubble.sent {
   background: #a31224 !important;
   color: white !important;
-  align-self: flex-end !important;
-  margin-left: auto;
   border-bottom-right-radius: 4px;
+}
+
+/* --- DATE, TIME & STATUS INFO --- */
+.message-info {
+  position: absolute;
+  bottom: 5px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px; 
+  pointer-events: none;
+}
+
+.message-time {
+  font-size: 9px;
+  opacity: 0.8;
+}
+
+.message-status-text {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.sent .message-time, 
+.sent .message-status-text { 
+  color: rgba(255, 255, 255, 0.9); 
+}
+
+.received .message-time { 
+  color: #888888; 
+}
+
+.message-status-text.read {
+  color: #4df3ff !important; 
+  font-weight: 800;
 }
 
 /* --- FIXED INPUT AREA --- */
 .chat-input-row {
   position: fixed;
-  bottom: 75px; /* Sits exactly above the bottom nav */
+  bottom: 75px; 
   left: 0;
   right: 0;
   background-color: #ffffff !important;
@@ -101,8 +152,6 @@ html, body, .homescreen {
   padding: 12px;
   border: 1px solid #dddddd;
   border-radius: 25px;
-  background-color: #ffffff !important; 
-  color: #000000 !important; 
   font-size: 16px;
   outline: none;
 }
@@ -111,36 +160,14 @@ html, body, .homescreen {
   background-color: #a31224 !important;
   color: #ffffff !important;
   border: none;
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
   cursor: pointer;
+  /* Icon Centering logic */
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-/* --- ADMIN & NAV STYLES --- */
-.service-box {
-  width: 100%;
-  background: white !important;
-  margin-bottom: 10px;
-  padding: 15px;
-  border-radius: 12px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  color: #000 !important;
-}
-
-/* Use shared styles for the Navbar that comes from UserNavBar */
-.bottom-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 75px;
-  background: #a31224 !important;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  z-index: 1002;
+  padding: 0;
+  font-size: 18px;
 }

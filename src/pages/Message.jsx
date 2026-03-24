@@ -1,41 +1,67 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { db, auth } from "../firebase"; 
-import { collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, doc, setDoc } from "firebase/firestore";
-import UserNavBar from "./UserNavBar"; // Import your new component
+import { collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, doc, setDoc, getDoc } from "firebase/firestore";
+import UserNavBar from "./UserNavBar"; 
 import './Message.css';
 
 const Message = () => {
   const [messages, setMessages] = useState([]);
   const [inputText, setInputText] = useState("");
   const user = auth.currentUser;
+  const messagesEndRef = useRef(null);
 
-  // 1. Listen for messages
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
   useEffect(() => {
     if (!user) return;
     const q = query(collection(db, "chats", user.uid, "messages"), orderBy("timestamp", "asc"));
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      setMessages(snapshot.docs.map(doc => doc.data()));
+      setMessages(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
     });
     return () => unsubscribe();
   }, [user]);
 
-  // 2. Send message function
   const handleSendMessage = async () => {
     if (!inputText.trim() || !user) return;
 
-    await setDoc(doc(db, "chats", user.uid), {
-      userEmail: user.email,
-      lastMessage: inputText,
-      updatedAt: serverTimestamp()
-    }, { merge: true });
+    try {
+      const userDoc = await getDoc(doc(db, "users", user.uid));
+      const userData = userDoc.exists() ? userDoc.data() : {};
 
-    await addDoc(collection(db, "chats", user.uid, "messages"), {
-      text: inputText,
-      senderId: user.uid,
-      timestamp: serverTimestamp(),
-    });
+      // Update the main chat doc for Admin view
+      await setDoc(doc(db, "chats", user.uid), {
+        userEmail: user.email,
+        firstName: userData.firstName || "New",
+        lastName: userData.lastName || "User",
+        lastMessage: inputText,
+        updatedAt: serverTimestamp()
+      }, { merge: true });
 
-    setInputText("");
+      // Add the message with a 'sent' status
+      await addDoc(collection(db, "chats", user.uid, "messages"), {
+        text: inputText,
+        senderId: user.uid,
+        timestamp: serverTimestamp(),
+        status: "sent" 
+      });
+
+      setInputText("");
+    } catch (error) {
+      console.error("Error sending message:", error);
+    }
+  };
+
+  // Helper to format timestamp
+  const formatMessageTime = (ts) => {
+    if (!ts) return "";
+    const date = ts.toDate();
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
 
   return (
@@ -46,15 +72,30 @@ const Message = () => {
       </div>
 
       <main className="content">
-        {messages.map((msg, index) => (
-          <div key={index} className={`chat-bubble ${msg.senderId === user.uid ? "sent" : "received"}`}>
-            {msg.text}
-          </div>
-        ))}
-        {messages.length === 0 && <div className="chat-bubble received">Unit QC-3 Dispatched...</div>}
+        <div className="messages-container">
+          {messages.map((msg, index) => (
+            <div key={index} className={`chat-wrapper ${msg.senderId === user.uid ? "sent" : "received"}`}>
+              <div className="chat-bubble">
+                {msg.text}
+                <div className="message-info">
+                  <span className="message-time">{formatMessageTime(msg.timestamp)}</span>
+                  
+                  {/* TEXT-BASED STATUS LOGIC */}
+                  {msg.senderId === user.uid && (
+                    <span className={`message-status-text ${msg.status}`}>
+                      {msg.status === "read" ? "Read" : 
+                      msg.status === "delivered" ? "Delivered" : "Sent"}
+                    </span>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))}
+          {messages.length === 0 && <div className="chat-bubble received">Unit QC-3 Dispatched...</div>}
+          <div ref={messagesEndRef} />
+        </div>
       </main>
 
-      {/* Fixed footer for input */}
       <footer className="chat-input-row">
         <input 
           type="text" 
@@ -65,8 +106,6 @@ const Message = () => {
         />
         <button type="button" onClick={handleSendMessage}>➤</button>
       </footer>
-
-      {/* Shared Uniform Navbar */}
       <UserNavBar />
     </div>
   );
