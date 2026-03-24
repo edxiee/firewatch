@@ -1,15 +1,13 @@
-.nav-icon {
-  width: 28px;
-  height: 28px;
-  /* Change black to white for better contrast against red */
-  fill: #ffffff !important; 
-  opacity: 0.7;
-  transition: all 0.2s ease;
+/* Target the actual paths inside the SVG to force the color */
+.nav-btn .nav-icon path, 
+.nav-btn .nav-icon circle {
+  fill: #ffffff !important;
+  opacity: 0.8;
 }
 
-.nav-btn.active .nav-icon {
-  /* Keep gold for the active state */
-  fill: #f2b400 !important; 
+/* Target paths when the button is active */
+.nav-btn.active .nav-icon path,
+.nav-btn.active .nav-icon circle {
+  fill: #f2b400 !important;
   opacity: 1;
-  transform: scale(1.1);
 }
