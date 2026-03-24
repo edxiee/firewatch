@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { db } from "../firebase"; 
-import { collection, onSnapshot, query, orderBy, addDoc, serverTimestamp, doc, updateDoc, getDocs, where } from "firebase/firestore";
+// Added getDoc to the imports below
+import { collection, onSnapshot, query, orderBy, addDoc, serverTimestamp, doc, updateDoc, getDoc } from "firebase/firestore";
 import AdminNavbar from "./AdminNavbar.jsx";
 import "./AdminMessages.css"; 
 
@@ -19,12 +20,33 @@ export default function AdminMessages() {
     scrollToBottom();
   }, [messages]);
 
-  // 1. Fetch Chat List
+  // 1. Fetch Chat List with Real Names from 'users' collection
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, "chats"), (snapshot) => {
-      const chatList = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setChats(chatList.sort((a, b) => b.updatedAt - a.updatedAt));
+    const unsubscribe = onSnapshot(collection(db, "chats"), async (snapshot) => {
+      const chatPromises = snapshot.docs.map(async (chatDoc) => {
+        const chatData = chatDoc.data();
+        const userId = chatDoc.id;
+
+        // Fetch the specific user profile to get their name
+        const userDocRef = doc(db, "users", userId);
+        const userSnap = await getDoc(userDocRef);
+        const userData = userSnap.exists() ? userSnap.data() : {};
+
+        return {
+          id: userId,
+          ...chatData,
+          // Fallback to email if firstName is missing
+          firstName: userData.firstName || "User",
+          lastName: userData.lastName || "",
+          userEmail: chatData.userEmail || userData.email
+        };
+      });
+
+      const chatList = await Promise.all(chatPromises);
+      // Sort by most recent message
+      setChats(chatList.sort((a, b) => (b.updatedAt?.toMillis() || 0) - (a.updatedAt?.toMillis() || 0)));
     });
+
     return () => unsubscribe();
   }, []);
 
@@ -37,7 +59,6 @@ export default function AdminMessages() {
       const msgs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       setMessages(msgs);
 
-      // Trigger "Read" status for user messages when admin opens chat
       msgs.forEach(async (m) => {
         if (m.senderId !== "admin" && m.status !== "read") {
           await updateDoc(doc(db, "chats", activeChatUser.id, "messages", m.id), {
@@ -59,7 +80,6 @@ export default function AdminMessages() {
       status: "sent" 
     });
 
-    // Update the last message preview in the list
     await updateDoc(doc(db, "chats", activeChatUser.id), {
       lastMessage: `Admin: ${reply}`,
       updatedAt: serverTimestamp()
@@ -78,7 +98,7 @@ export default function AdminMessages() {
       <div className="top-bar">
         <div className="top-title">
           {activeChatUser 
-            ? (activeChatUser.firstName ? `${activeChatUser.firstName} ${activeChatUser.lastName}` : activeChatUser.userEmail)
+            ? `${activeChatUser.firstName} ${activeChatUser.lastName}`.trim() || activeChatUser.userEmail
             : "Admin Messages"}
         </div>
       </div>
@@ -91,7 +111,7 @@ export default function AdminMessages() {
               <div key={chat.id} className="service-box chat-list-item" onClick={() => setActiveChatUser(chat)}>
                 <div className="service-text">
                   <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <h3>{chat.firstName ? `${chat.firstName} ${chat.lastName}` : chat.userEmail}</h3>
+                    <h3>{`${chat.firstName} ${chat.lastName}`.trim() || chat.userEmail}</h3>
                     <span style={{ fontSize: '10px', color: '#888' }}>
                       {chat.updatedAt ? formatTime(chat.updatedAt) : ""}
                     </span>
@@ -113,7 +133,7 @@ export default function AdminMessages() {
                 <div key={i} className={`chat-wrapper ${m.senderId === 'admin' ? 'sent' : 'received'}`}>
                   {m.senderId !== 'admin' && (
                     <span className="sender-label">
-                      {activeChatUser.firstName || "User"}
+                      {activeChatUser.firstName} {activeChatUser.lastName}
                     </span>
                   )}
                   <div className="chat-bubble">
