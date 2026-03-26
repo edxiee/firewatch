@@ -12,7 +12,7 @@ export default function HomeScreen() {
 
       {/* TOP BAR */}
       <div className="top-bar">
-        <img className="top-logo" src="/Logo.png" alt="FireWatch Logo" />
+        <img className="top-logo" src="./Logo.png" alt="FireWatch Logo" />
         <div className="top-title">FireWatch</div>
       </div>
 

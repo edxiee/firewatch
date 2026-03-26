@@ -26,6 +26,13 @@ html, body {
   color: white;
 }
 
+.top-logo {
+  position: absolute;
+  left: 15px;
+  width: 70px;
+  height: 70px;
+}
+
 /* --- SCROLLABLE AREA --- */
 .chat-content-area {
   flex: 1 !important;

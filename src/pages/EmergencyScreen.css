@@ -43,8 +43,8 @@ html, body, #root {
 .top-logo {
   position: absolute;
   left: 12px;
-  width: 50px;
-  height: 50px;
+  width: 70px;
+  height: 70px;
   object-fit: contain;
 }
 

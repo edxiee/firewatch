@@ -27,6 +27,13 @@ html, body, #root, .homescreen {
   z-index: 1000;
 }
 
+.top-logo {
+  position: absolute;
+  left: 15px;
+  width: 70px;
+  height: 70px;
+}
+
 .top-title {
   color: #ffffff !important;
   font-size: 20px;
