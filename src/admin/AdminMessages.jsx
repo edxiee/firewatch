@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { db } from "../firebase"; 
-import { collection, onSnapshot, query, orderBy, addDoc, serverTimestamp, doc, updateDoc, getDoc } from "firebase/firestore";
+import { 
+  collection, onSnapshot, query, orderBy, addDoc, 
+  serverTimestamp, doc, updateDoc, getDoc, getDocs 
+} from "firebase/firestore";
 import AdminNavbar from "./AdminNavbar.jsx";
 import "./AdminMessages.css"; 
 
@@ -19,12 +22,18 @@ export default function AdminMessages() {
     scrollToBottom();
   }, [messages]);
 
-  // 1. Fetch Chat List with Real Names
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "chats"), async (snapshot) => {
       const chatPromises = snapshot.docs.map(async (chatDoc) => {
         const chatData = chatDoc.data();
         const userId = chatDoc.id;
+
+        const msgsRef = collection(db, "chats", userId, "messages");
+        const msgsSnap = await getDocs(msgsRef);
+        const unreadCount = msgsSnap.docs.filter(d => {
+          const m = d.data();
+          return m.senderId !== "admin" && m.status !== "read";
+        }).length;
 
         const userDocRef = doc(db, "users", userId);
         const userSnap = await getDoc(userDocRef);
@@ -33,6 +42,7 @@ export default function AdminMessages() {
         return {
           id: userId,
           ...chatData,
+          unreadCount,
           firstName: userData.firstName || "User",
           lastName: userData.lastName || "",
           userEmail: chatData.userEmail || userData.email
@@ -46,7 +56,6 @@ export default function AdminMessages() {
     return () => unsubscribe();
   }, []);
 
-  // 2. Fetch Messages & Mark as Read
   useEffect(() => {
     if (!activeChatUser) return;
 
@@ -104,15 +113,24 @@ export default function AdminMessages() {
           <div className="services-grid" style={{ width: '100%' }}>
             <h2 className="services-header" style={{ color: "#a31224", textAlign: "center" }}>Active Chats</h2>
             {chats.map(chat => (
-              <div key={chat.id} className="service-box chat-list-item" onClick={() => setActiveChatUser(chat)}>
+              <div 
+                key={chat.id} 
+                className={`service-box chat-list-item ${chat.unreadCount > 0 ? "is-unread" : ""}`} 
+                onClick={() => setActiveChatUser(chat)}
+              >
                 <div className="service-text">
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <h3>{`${chat.firstName} ${chat.lastName}`.trim() || chat.userEmail}</h3>
-                    <span style={{ fontSize: '10px', color: '#888' }}>
-                      {chat.updatedAt ? formatTime(chat.updatedAt) : ""}
-                    </span>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <h3 className={chat.unreadCount > 0 ? "bold-text" : ""}>
+                      {`${chat.firstName} ${chat.lastName}`.trim() || chat.userEmail}
+                    </h3>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      {chat.unreadCount > 0 && <span className="unread-badge">{chat.unreadCount}</span>}
+                      <span className="time-label">{chat.updatedAt ? formatTime(chat.updatedAt) : ""}</span>
+                    </div>
                   </div>
-                  <p className="message-preview">{chat.lastMessage || "No messages yet"}</p>
+                  <p className={`message-preview ${chat.unreadCount > 0 ? "bold-preview" : ""}`}>
+                    {chat.lastMessage || "No messages yet"}
+                  </p>
                 </div>
                 <div className="arrow-link">→</div>
               </div>
@@ -120,25 +138,18 @@ export default function AdminMessages() {
           </div>
         ) : (
           <div className="messages-container">
-            <button className="back-btn" onClick={() => setActiveChatUser(null)}>
-              ← Back to Conversations
-            </button>
-            
+            <button className="back-btn" onClick={() => setActiveChatUser(null)}>← Back</button>
             {messages.map((m, i) => (
-              <div key={i} className={`chat-wrapper ${m.senderId === 'admin' ? 'sent' : 'received'}`}>
-                {m.senderId !== 'admin' && (
-                  <span className="sender-label">
-                    {activeChatUser.firstName} {activeChatUser.lastName}
-                  </span>
-                )}
+              <div key={m.id || i} className={`chat-wrapper ${m.senderId === 'admin' ? 'sent' : 'received'}`}>
                 <div className="chat-bubble">
-                  {m.text}
+                  {/* Wrap text in a span to keep it separate from metadata */}
+                  <span className="bubble-text">{m.text}</span>
                   <div className="message-info">
                     <span className="message-time">{formatTime(m.timestamp)}</span>
                     {m.senderId === 'admin' && (
-                       <span className={`message-status-text ${m.status}`}>
-                         {m.status === "read" ? "Read" : "Sent"}
-                       </span>
+                      <span className={`message-status-text ${m.status}`}>
+                        {m.status === "read" ? "Read" : "Sent"}
+                      </span>
                     )}
                   </div>
                 </div>
