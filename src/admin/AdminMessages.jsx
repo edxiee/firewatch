@@ -162,7 +162,7 @@ export default function AdminMessages() {
             <button type="button" onClick={handleReply}>➤</button>
           </div>
         )}
-        <AdminNavbar />
+        <AdminNavbar /> 
       </footer>
     </div>
   );

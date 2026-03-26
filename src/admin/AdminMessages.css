@@ -4,16 +4,17 @@
 }
 
 html, body {
-  height: 100%;
+  display: block !important; /* Disables place-items: center */
+  overflow: hidden; /* Prevents the whole page from scrolling */
+  height: 100vh;
   margin: 0;
-  overflow: hidden; /* Prevents double scrollbars */
 }
 
-/* --- FLEXBOX WRAPPER --- */
 .chat-layout-wrapper {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100vh !important;
+  width: 100% !important;
   background-color: #ffffff;
 }
 
@@ -25,7 +26,6 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: 20px;
   z-index: 10;
 }
 
@@ -38,12 +38,11 @@ html, body {
 /* --- MAIN CONTENT --- */
 .chat-content-area {
   flex-grow: 1;
-  overflow-y: auto;
+  overflow-y: auto; /* Only messages scroll */
   padding: 15px;
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
-  gap: 15px; /* Ensure there is spacing between chat messages */
 }
 
 /* --- BUBBLES & MESSAGES --- */
@@ -79,12 +78,16 @@ html, body {
 
 /* --- FOOTER & INPUT --- */
 .chat-footer-sticky {
-  position: sticky;
-  bottom: 0;
+  flex-shrink: 0;
   background: white;
   border-top: 1px solid #eeeeee;
-  padding: 12px 15px; /* Ensure proper padding */
-  z-index: 10;
+  
+  /* CRITICAL FIX: The Navbar is 70px tall. 
+     We add 70px padding at the bottom to push the 
+     input row ABOVE the red bar. */
+  padding: 12px 15px 75px 15px; 
+  
+  z-index: 100;
 }
 
 .chat-input-row {
@@ -100,6 +103,7 @@ html, body {
   border-radius: 25px;
   font-size: 16px;
   outline: none;
+  color: #333;
 }
 
 .chat-input-row button {
@@ -109,8 +113,5 @@ html, body {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   cursor: pointer;
 }

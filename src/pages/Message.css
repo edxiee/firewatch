@@ -1,138 +1,97 @@
-/* --- GLOBAL THEME LOCK --- */
-:root {
-  color-scheme: light !important;
-}
-
+/* --- FORCE SCREEN LOCK --- */
 html, body {
-  background-color: #ffffff !important;
-  margin: 0;
-  padding: 0;
-  height: 100%;
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 100% !important;
+  width: 100% !important;
+  overflow: hidden !important; /* Forces the scroll to stay inside the chat area */
 }
 
 .chat-layout-wrapper {
-  background-color: #ffffff !important;
-  min-height: 100vh;
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100vh !important;
+  width: 100vw !important;
+  background-color: #ffffff;
 }
 
-/* --- TOP BAR --- */
+/* --- HEADER --- */
 .top-bar {
-  padding-top: 25px;
+  flex-shrink: 0;
   height: 70px;
   background: #a31224;
-  border-bottom-left-radius: 25px;
-  border-bottom-right-radius: 25px;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 1001;
+  color: white;
 }
 
-.top-logo { position: absolute; left: 12px; width: 45px; height: 45px; }
-.top-title { font-size: 20px; font-weight: 700; color: #ffffff !important; }
-
-/* --- CONTENT AREA (SCROLLABLE) --- */
+/* --- SCROLLABLE AREA --- */
 .chat-content-area {
+  flex: 1 !important;
+  overflow-y: auto !important;
   padding: 15px;
-  padding-top: 110px; /* Space for Top Bar */
-  padding-bottom: 160px; /* Ensure space for input bar */
-  background-color: #ffffff !important;
+  background: #ffffff;
+}
+
+.messages-container {
   display: flex;
   flex-direction: column;
-  gap: 12px; /* Ensure spacing between chat bubbles */
-  z-index: 1;
-  overflow: hidden; /* Prevent overflow of content */
-}
-
-/* --- MESSAGES CONTAINER --- */
-.messages-container { 
-  display: flex; 
-  flex-direction: column; 
-  gap: 12px;
-  overflow-y: auto;  /* Allow scrolling when messages exceed container height */
-  flex-grow: 1;      /* Allow the messages container to take up available space */
-  max-height: calc(100vh - 160px);  /* Prevent content from overflowing behind the input bar */
-}
-
-/* --- CHAT BUBBLES --- */
-.chat-wrapper.sent { 
-  align-self: flex-end; 
-  display: flex; 
-  flex-direction: column; 
-  align-items: flex-end; 
-  width: 100%; 
-  z-index: 1; /* Ensures proper stacking order */
-}
-.chat-wrapper.received { 
-  align-self: flex-start; 
-  display: flex; 
-  flex-direction: column; 
-  align-items: flex-start; 
-  width: 100%; 
-  z-index: 1;
-}
-
-.chat-bubble {
-  padding: 10px 14px 24px 14px; 
-  border-radius: 18px;
-  max-width: 75%;
-  font-size: 14.5px;
-  position: relative;
-  word-wrap: break-word;
-}
-
-.chat-bubble.received { 
-  background: #f0f0f0; 
-  color: #333; 
-  border-bottom-left-radius: 4px; 
-}
-
-.chat-bubble.sent { 
-  background: #a31224; 
-  color: white; 
-  border-bottom-right-radius: 4px; 
-}
-
-.message-info { 
-  position: absolute; 
-  bottom: 5px; 
-  right: 12px; 
-  display: flex; 
-  gap: 6px; 
-  font-size: 9px; 
-}
-
-/* --- THE INPUT BAR (FIXED) --- */
-.chat-input-row {
-  position: fixed !important;
-  bottom: 75px !important; /* Positions it exactly above the UserNavBar */
-  left: 0; right: 0;
-  background-color: #ffffff !important;
-  padding: 10px 15px;
-  display: flex;
   gap: 10px;
-  border-top: 1px solid #eeeeee;
-  z-index: 1000;
+}
+
+/* --- THE FIXED FOOTER --- */
+.chat-footer-group {
+  flex-shrink: 0 !important;
+  width: 100% !important;
+  background: #ffffff !important;
+  border-top: 2px solid #eeeeee;
+  padding-bottom: env(safe-area-inset-bottom); /* Fix for iPhone notches */
+}
+
+.chat-input-row {
+  display: flex;
+  padding: 10px 15px;
+  gap: 10px;
+  background: white;
 }
 
 .chat-input-row input {
-  flex: 1; 
-  padding: 12px; 
-  border: 1px solid #dddddd; 
-  border-radius: 25px; 
-  font-size: 16px; 
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
   outline: none;
 }
 
 .chat-input-row button {
-  background-color: #a31224; 
-  color: #ffffff; 
-  border: none; 
-  width: 42px; 
-  height: 42px; 
-  border-radius: 50%; 
-  font-size: 18px; 
-  cursor: pointer;
+  background: #a31224;
+  color: white;
+  border: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
 }
+
+/* --- FORCE NAVBAR TO STAY AT BOTTOM --- */
+.navbar-fixed-container {
+  width: 100%;
+}
+
+/* If your UserNavBar component is using 'fixed', this forces it into the footer flow */
+.navbar-fixed-container nav, 
+.navbar-fixed-container div {
+  position: relative !important;
+  bottom: 0 !important;
+}
+
+/* --- BUBBLES --- */
+.chat-wrapper.sent { align-self: flex-end; }
+.chat-wrapper.received { align-self: flex-start; }
+.chat-bubble {
+  padding: 10px 15px;
+  border-radius: 15px;
+  max-width: 80%;
+}
+.sent .chat-bubble { background: #a31224; color: white; }
+.received .chat-bubble { background: #f0f0f0; color: black; }
