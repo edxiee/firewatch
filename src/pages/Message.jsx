@@ -34,7 +34,6 @@ const Message = () => {
       const userDoc = await getDoc(doc(db, "users", user.uid));
       const userData = userDoc.exists() ? userDoc.data() : {};
 
-      // Update the main chat doc for Admin view
       await setDoc(doc(db, "chats", user.uid), {
         userEmail: user.email,
         firstName: userData.firstName || "New",
@@ -43,7 +42,6 @@ const Message = () => {
         updatedAt: serverTimestamp()
       }, { merge: true });
 
-      // Add the message with a 'sent' status
       await addDoc(collection(db, "chats", user.uid, "messages"), {
         text: inputText,
         senderId: user.uid,
@@ -57,7 +55,6 @@ const Message = () => {
     }
   };
 
-  // Helper to format timestamp
   const formatMessageTime = (ts) => {
     if (!ts) return "";
     const date = ts.toDate();
@@ -65,13 +62,13 @@ const Message = () => {
   };
 
   return (
-    <div className="homescreen">
-      <div className="top-bar">
+    <div className="chat-layout-wrapper">
+      <header className="top-bar">
         <img className="top-logo" src="/Logo.png" alt="FireWatch Logo" />
         <div className="top-title">Chat</div>
-      </div>
+      </header>
 
-      <main className="content">
+      <main className="chat-content-area">
         <div className="messages-container">
           {messages.map((msg, index) => (
             <div key={index} className={`chat-wrapper ${msg.senderId === user.uid ? "sent" : "received"}`}>
@@ -79,33 +76,31 @@ const Message = () => {
                 {msg.text}
                 <div className="message-info">
                   <span className="message-time">{formatMessageTime(msg.timestamp)}</span>
-                  
-                  {/* TEXT-BASED STATUS LOGIC */}
                   {msg.senderId === user.uid && (
                     <span className={`message-status-text ${msg.status}`}>
-                      {msg.status === "read" ? "Read" : 
-                      msg.status === "delivered" ? "Delivered" : "Sent"}
+                      {msg.status === "read" ? "Read" : "Sent"}
                     </span>
                   )}
                 </div>
               </div>
             </div>
           ))}
-          {messages.length === 0 && <div className="chat-bubble received">Unit QC-3 Dispatched...</div>}
           <div ref={messagesEndRef} />
         </div>
       </main>
 
-      <footer className="chat-input-row">
+      {/* Input row sits on a fixed layer above UserNavBar */}
+      <div className="chat-input-row">
         <input 
           type="text" 
           placeholder="Type Message..." 
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
-          onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+          onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
         />
         <button type="button" onClick={handleSendMessage}>➤</button>
-      </footer>
+      </div>
+
       <UserNavBar />
     </div>
   );

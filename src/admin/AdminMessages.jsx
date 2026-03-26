@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import { db } from "../firebase"; 
-// Added getDoc to the imports below
 import { collection, onSnapshot, query, orderBy, addDoc, serverTimestamp, doc, updateDoc, getDoc } from "firebase/firestore";
 import AdminNavbar from "./AdminNavbar.jsx";
 import "./AdminMessages.css"; 
@@ -20,14 +19,13 @@ export default function AdminMessages() {
     scrollToBottom();
   }, [messages]);
 
-  // 1. Fetch Chat List with Real Names from 'users' collection
+  // 1. Fetch Chat List with Real Names
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "chats"), async (snapshot) => {
       const chatPromises = snapshot.docs.map(async (chatDoc) => {
         const chatData = chatDoc.data();
         const userId = chatDoc.id;
 
-        // Fetch the specific user profile to get their name
         const userDocRef = doc(db, "users", userId);
         const userSnap = await getDoc(userDocRef);
         const userData = userSnap.exists() ? userSnap.data() : {};
@@ -35,7 +33,6 @@ export default function AdminMessages() {
         return {
           id: userId,
           ...chatData,
-          // Fallback to email if firstName is missing
           firstName: userData.firstName || "User",
           lastName: userData.lastName || "",
           userEmail: chatData.userEmail || userData.email
@@ -43,7 +40,6 @@ export default function AdminMessages() {
       });
 
       const chatList = await Promise.all(chatPromises);
-      // Sort by most recent message
       setChats(chatList.sort((a, b) => (b.updatedAt?.toMillis() || 0) - (a.updatedAt?.toMillis() || 0)));
     });
 
@@ -94,16 +90,16 @@ export default function AdminMessages() {
   };
 
   return (
-    <div className="homescreen">
-      <div className="top-bar">
+    <div className="chat-layout-wrapper">
+      <header className="top-bar">
         <div className="top-title">
           {activeChatUser 
             ? `${activeChatUser.firstName} ${activeChatUser.lastName}`.trim() || activeChatUser.userEmail
             : "Admin Messages"}
         </div>
-      </div>
+      </header>
 
-      <div className="content">
+      <main className="chat-content-area">
         {!activeChatUser ? (
           <div className="services-grid" style={{ width: '100%' }}>
             <h2 className="services-header" style={{ color: "#a31224", textAlign: "center" }}>Active Chats</h2>
@@ -123,49 +119,51 @@ export default function AdminMessages() {
             ))}
           </div>
         ) : (
-          <div className="admin-chat-container">
+          <div className="messages-container">
             <button className="back-btn" onClick={() => setActiveChatUser(null)}>
               ← Back to Conversations
             </button>
             
-            <div className="messages-display">
-              {messages.map((m, i) => (
-                <div key={i} className={`chat-wrapper ${m.senderId === 'admin' ? 'sent' : 'received'}`}>
-                  {m.senderId !== 'admin' && (
-                    <span className="sender-label">
-                      {activeChatUser.firstName} {activeChatUser.lastName}
-                    </span>
-                  )}
-                  <div className="chat-bubble">
-                    {m.text}
-                    <div className="message-info">
-                      <span className="message-time">{formatTime(m.timestamp)}</span>
-                      {m.senderId === 'admin' && (
-                         <span className={`message-status-text ${m.status}`}>
-                           {m.status === "read" ? "Read" : "Sent"}
-                         </span>
-                      )}
-                    </div>
+            {messages.map((m, i) => (
+              <div key={i} className={`chat-wrapper ${m.senderId === 'admin' ? 'sent' : 'received'}`}>
+                {m.senderId !== 'admin' && (
+                  <span className="sender-label">
+                    {activeChatUser.firstName} {activeChatUser.lastName}
+                  </span>
+                )}
+                <div className="chat-bubble">
+                  {m.text}
+                  <div className="message-info">
+                    <span className="message-time">{formatTime(m.timestamp)}</span>
+                    {m.senderId === 'admin' && (
+                       <span className={`message-status-text ${m.status}`}>
+                         {m.status === "read" ? "Read" : "Sent"}
+                       </span>
+                    )}
                   </div>
                 </div>
-              ))}
-              <div ref={messagesEndRef} />
-            </div>
-
-            <div className="chat-input-row">
-              <input 
-                type="text" 
-                placeholder="Type your reply..." 
-                value={reply} 
-                onChange={(e) => setReply(e.target.value)} 
-                onKeyPress={(e) => e.key === 'Enter' && handleReply()}
-              />
-              <button onClick={handleReply}>➤</button>
-            </div>
+              </div>
+            ))}
+            <div ref={messagesEndRef} />
           </div>
         )}
-      </div>
-      <AdminNavbar />
+      </main>
+
+      <footer className="chat-footer-sticky">
+        {activeChatUser && (
+          <div className="chat-input-row">
+            <input 
+              type="text" 
+              placeholder="Type your reply..." 
+              value={reply} 
+              onChange={(e) => setReply(e.target.value)} 
+              onKeyDown={(e) => e.key === 'Enter' && handleReply()}
+            />
+            <button type="button" onClick={handleReply}>➤</button>
+          </div>
+        )}
+        <AdminNavbar />
+      </footer>
     </div>
   );
 }

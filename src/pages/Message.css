@@ -3,17 +3,22 @@
   color-scheme: light !important;
 }
 
-html, body, .homescreen {
+html, body {
   background-color: #ffffff !important;
-  color: #000000 !important;
-  height: 100%;
   margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.chat-layout-wrapper {
+  background-color: #ffffff !important;
+  min-height: 100vh;
 }
 
 /* --- TOP BAR --- */
 .top-bar {
-  padding-top: 28px;
-  height: 88px;
+  padding-top: 25px;
+  height: 70px;
   background: #a31224;
   border-bottom-left-radius: 25px;
   border-bottom-right-radius: 25px;
@@ -21,153 +26,114 @@ html, body, .homescreen {
   align-items: center;
   justify-content: center;
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
+  top: 0; left: 0; right: 0;
+  z-index: 1001;
 }
 
-.top-logo {
-  position: absolute;
-  left: 12px;
-  width: 50px;
-  height: 50px;
-  object-fit: contain;
-}
+.top-logo { position: absolute; left: 12px; width: 45px; height: 45px; }
+.top-title { font-size: 20px; font-weight: 700; color: #ffffff !important; }
 
-.top-title {
-  font-size: 20px;
-  font-weight: 700;
-  color: #ffffff !important;
-}
-
-/* --- MAIN CONTENT AREA --- */
-.content {
-  margin-top: 88px; 
-  padding: 10px;
-  padding-bottom: 140px; 
+/* --- CONTENT AREA (SCROLLABLE) --- */
+.chat-content-area {
+  padding: 15px;
+  padding-top: 110px; /* Space for Top Bar */
+  padding-bottom: 160px; /* CRITICAL: Prevents content hiding behind input bar */
   background-color: #ffffff !important;
-}
-
-.messages-container {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  gap: 12px; /* Ensure spacing between chat bubbles */
+  z-index: 1;
+}
+
+.messages-container { 
+  display: flex; 
+  flex-direction: column; 
   gap: 12px;
 }
 
-/* --- CHAT WRAPPERS --- */
-.chat-wrapper {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
-.chat-wrapper.sent {
-  align-self: flex-end;
-  align-items: flex-end;
-}
-
-.chat-wrapper.received {
-  align-self: flex-start;
-  align-items: flex-start;
-}
-
 /* --- CHAT BUBBLES --- */
+.chat-wrapper.sent { 
+  align-self: flex-end; 
+  display: flex; 
+  flex-direction: column; 
+  align-items: flex-end; 
+  width: 100%; 
+  z-index: 1; /* Ensures proper stacking order */
+}
+.chat-wrapper.received { 
+  align-self: flex-start; 
+  display: flex; 
+  flex-direction: column; 
+  align-items: flex-start; 
+  width: 100%; 
+  z-index: 1;
+}
+
 .chat-bubble {
   padding: 10px 14px 24px 14px; 
   border-radius: 18px;
   max-width: 75%;
   font-size: 14.5px;
-  line-height: 1.4;
   position: relative;
   word-wrap: break-word;
-  min-width: 100px; 
 }
 
-.chat-bubble.received {
-  background: #f0f0f0 !important;
-  color: #333 !important;
-  border-bottom-left-radius: 4px;
+.chat-bubble.received { 
+  background: #f0f0f0; 
+  color: #333; 
+  border-bottom-left-radius: 4px; 
 }
 
-.chat-bubble.sent {
-  background: #a31224 !important;
-  color: white !important;
-  border-bottom-right-radius: 4px;
+.chat-bubble.sent { 
+  background: #a31224; 
+  color: white; 
+  border-bottom-right-radius: 4px; 
 }
 
-/* --- DATE, TIME & STATUS INFO --- */
-.message-info {
-  position: absolute;
-  bottom: 5px;
-  right: 12px;
-  display: flex;
-  align-items: center;
+.message-info { 
+  position: absolute; 
+  bottom: 5px; 
+  right: 12px; 
+  display: flex; 
   gap: 6px; 
-  pointer-events: none;
+  font-size: 9px; 
 }
 
-.message-time {
-  font-size: 9px;
-  opacity: 0.8;
+.sender-label {
+  font-size: 10px;
+  color: #888;
+  margin-bottom: 5px; /* Ensure space between label and bubble */
 }
 
-.message-status-text {
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 0.3px;
-}
-
-.sent .message-time, 
-.sent .message-status-text { 
-  color: rgba(255, 255, 255, 0.9); 
-}
-
-.received .message-time { 
-  color: #888888; 
-}
-
-.message-status-text.read {
-  color: #4df3ff !important; 
-  font-weight: 800;
-}
-
-/* --- FIXED INPUT AREA --- */
+/* --- THE INPUT BAR (FIXED) --- */
 .chat-input-row {
-  position: fixed;
-  bottom: 75px; 
-  left: 0;
-  right: 0;
+  position: fixed !important;
+  bottom: 75px !important; /* Positions it exactly above the UserNavBar */
+  left: 0; right: 0;
   background-color: #ffffff !important;
   padding: 10px 15px;
   display: flex;
   gap: 10px;
   border-top: 1px solid #eeeeee;
-  z-index: 1001;
+  z-index: 1000;
 }
 
 .chat-input-row input {
-  flex: 1;
-  padding: 12px;
-  border: 1px solid #dddddd;
-  border-radius: 25px;
-  font-size: 16px;
+  flex: 1; 
+  padding: 12px; 
+  border: 1px solid #dddddd; 
+  border-radius: 25px; 
+  font-size: 16px; 
   outline: none;
 }
 
 .chat-input-row button {
-  background-color: #a31224 !important;
-  color: #ffffff !important;
-  border: none;
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
+  background-color: #a31224; 
+  color: #ffffff; 
+  border: none; 
+  width: 42px; 
+  height: 42px; 
+  border-radius: 50%; 
+  font-size: 18px; 
   cursor: pointer;
-  /* Icon Centering logic */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  font-size: 18px;
 }

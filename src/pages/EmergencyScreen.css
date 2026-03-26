@@ -91,6 +91,36 @@ html, body, #root {
   border: 0;
 }
 
+/* Status text container */
+.location-title {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* The "Searching" state specifically */
+.searching-gps {
+  color: #721c24; /* A deep red/orange */
+  animation: pulse-text 1.5s infinite ease-in-out;
+}
+
+/* The "Active" state */
+.gps-active {
+  color: #155724; /* A healthy green */
+  font-weight: bold;
+}
+
+/* Animation Keyframes */
+@keyframes pulse-text {
+  0% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.98); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
 /* --- THE REALISTIC METALLIC BUTTON --- */
 .emergency-circle {
   margin-top: 45px;
