@@ -37,18 +37,23 @@ html, body {
 .chat-content-area {
   padding: 15px;
   padding-top: 110px; /* Space for Top Bar */
-  padding-bottom: 160px; /* CRITICAL: Prevents content hiding behind input bar */
+  padding-bottom: 160px; /* Ensure space for input bar */
   background-color: #ffffff !important;
   display: flex;
   flex-direction: column;
   gap: 12px; /* Ensure spacing between chat bubbles */
   z-index: 1;
+  overflow: hidden; /* Prevent overflow of content */
 }
 
+/* --- MESSAGES CONTAINER --- */
 .messages-container { 
   display: flex; 
   flex-direction: column; 
   gap: 12px;
+  overflow-y: auto;  /* Allow scrolling when messages exceed container height */
+  flex-grow: 1;      /* Allow the messages container to take up available space */
+  max-height: calc(100vh - 160px);  /* Prevent content from overflowing behind the input bar */
 }
 
 /* --- CHAT BUBBLES --- */
@@ -97,12 +102,6 @@ html, body {
   display: flex; 
   gap: 6px; 
   font-size: 9px; 
-}
-
-.sender-label {
-  font-size: 10px;
-  color: #888;
-  margin-bottom: 5px; /* Ensure space between label and bubble */
 }
 
 /* --- THE INPUT BAR (FIXED) --- */
