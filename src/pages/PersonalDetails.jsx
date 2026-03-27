@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { auth, db } from "../firebase"; 
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-import UserNavBar from "./UserNavBar"; // Import the shared component
+import UserNavBar from "./UserNavBar"; 
 import "./PersonalDetails.css"; 
 
 export default function PersonalDetails() {
@@ -16,37 +16,55 @@ export default function PersonalDetails() {
     address: "",
   });
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        try {
-          const docRef = doc(db, "users", user.uid);
-          const docSnap = await getDoc(docRef);
+  // Replace your existing useEffect inside PersonalDetails.jsx with this:
 
-          if (docSnap.exists()) {
-            const data = docSnap.data();
-            setFormData({
-              fullName: `${data.firstName || ""} ${data.lastName || ""}`.trim(),
-              phone: data.contact || "",
-              email: data.email || user.email,
-              address: data.address || "",
-            });
-          }
-        } catch (error) {
-          console.error("Error fetching user data:", error);
-        } finally {
-          setLoading(false);
+useEffect(() => {
+  const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      try {
+        const docRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          
+          // DEBUG: Uncomment the line below to see exactly what is in your database in the F12 console
+          // console.log("Database Data:", data);
+
+          setFormData({
+            // Check for firstName/lastName OR a combined fullName field
+            fullName: data.fullName || `${data.firstName || ""} ${data.lastName || ""}`.trim() || "User",
+            
+            // Check for 'contact' OR 'phone' OR 'phoneNumber'
+            phone: data.contact || data.phone || data.phoneNumber || "",
+            
+            email: data.email || user.email,
+            address: data.address || "",
+          });
+        } else {
+          // If no document exists yet, at least show the email
+          setFormData(prev => ({ ...prev, email: user.email }));
+          console.warn("No Firestore document found for this UID!");
         }
-      } else {
-        navigate("/");
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      } finally {
+        setLoading(false);
       }
-    });
+    } else {
+      navigate("/");
+    }
+  });
 
-    return () => unsubscribe();
-  }, [navigate]);
+  return () => unsubscribe();
+}, [navigate]);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData((prev) => ({ 
+      ...prev, 
+      [name]: value 
+    }));
   };
 
   const handleUpdate = async () => {
@@ -55,10 +73,10 @@ export default function PersonalDetails() {
       if (user) {
         const docRef = doc(db, "users", user.uid);
         await updateDoc(docRef, {
-          contact: formData.phone,
+          contact: formData.phone, // Saving as 'contact' to match your Auth logic
           address: formData.address,
         });
-        alert("Details Updated!");
+        alert("Details Updated Successfully!");
       }
     } catch (error) {
       alert("Error updating profile: " + error.message);
@@ -76,8 +94,11 @@ export default function PersonalDetails() {
 
   if (loading) {
     return (
-      <div className="homescreen" style={{justifyContent: 'center', alignItems: 'center', background: '#ffffff'}}>
-        <div style={{color: '#a31224', fontWeight: 'bold'}}>Loading Profile...</div>
+      <div className="homescreen splash-screen" style={{display: 'flex', justifyContent: 'center', alignItems: 'center', background: '#ffffff', height: '100vh'}}>
+        <div style={{color: '#a31224', fontWeight: 'bold', textAlign: 'center'}}>
+          <img src="/Logo.png" alt="Loading..." style={{width: '80px', marginBottom: '10px'}} /><br/>
+          Loading Profile...
+        </div>
       </div>
     );
   }
@@ -92,14 +113,14 @@ export default function PersonalDetails() {
       <div className="content">
         <div className="location-title">Personal Details</div>
 
-        <div style={{ width: "100%", maxWidth: "360px", marginTop: "20px" }}>
+        <div className="profile-form-container" style={{ width: "100%", maxWidth: "360px", marginTop: "20px" }}>
           <div className="input-group">
             <label>FULL NAME</label>
             <input
+              type="text"
               name="fullName"
               className="profile-input"
               value={formData.fullName}
-              onChange={handleChange}
               disabled 
             />
           </div>
@@ -107,16 +128,19 @@ export default function PersonalDetails() {
           <div className="input-group">
             <label>PHONE</label>
             <input
+              type="text"
               name="phone"
               className="profile-input"
               value={formData.phone}
               onChange={handleChange}
+              placeholder="Add phone number"
             />
           </div>
 
           <div className="input-group">
             <label>EMAIL</label>
             <input
+              type="email"
               name="email"
               className="profile-input"
               value={formData.email}
@@ -127,10 +151,12 @@ export default function PersonalDetails() {
           <div className="input-group">
             <label>ADDRESS</label>
             <input
+              type="text"
               name="address"
               className="profile-input"
               value={formData.address}
               onChange={handleChange}
+              placeholder="Add home address"
             />
           </div>
 
@@ -144,7 +170,6 @@ export default function PersonalDetails() {
         </div>
       </div>
 
-      {/* Shared Uniform Navbar */}
       <UserNavBar />
     </div>
   );
