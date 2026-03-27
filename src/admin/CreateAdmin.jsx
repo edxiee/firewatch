@@ -4,6 +4,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import AdminNavbar from "./AdminNavbar";
+import "./CreateAdmin.css";
 
 export default function CreateAdmin() {
   const [email, setEmail] = useState("");
@@ -41,8 +42,10 @@ export default function CreateAdmin() {
 
   return (
     <div className="homescreen">
-      <div className="top-bar">
-        <button onClick={() => navigate(-1)} className="back-btn">←</button>
+      <div className="admin-top-bar">
+        <button onClick={() => navigate(-1)} className="back-btn">
+          <span className="back-icon">←</span>
+        </button>
         <div className="top-title">Register Admin</div>
       </div>
 

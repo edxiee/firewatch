@@ -7,8 +7,7 @@ import {
   orderBy, 
   doc, 
   updateDoc, 
-  getDoc, 
-  addDoc, 
+  getDoc,  
   serverTimestamp 
 } from "firebase/firestore";
 import AdminNavbar from "./AdminNavbar.jsx";
@@ -63,22 +62,6 @@ export default function AdminNotifications() {
     return () => unsubscribe();
   }, []);
 
-  const handleBroadcast = async () => {
-    const message = window.prompt("Enter the emergency message for all users:");
-    if (!message) return;
-
-    try {
-      await addDoc(collection(db, "broadcasts"), {
-        message: message,
-        sender: "Admin",
-        timestamp: serverTimestamp(),
-      });
-      alert("Broadcast sent successfully!");
-    } catch {
-      alert("Error sending broadcast. Check permissions.");
-    }
-  };
-
   const markAsResolved = async (id) => {
     try {
       const alertRef = doc(db, "emergencies", id);
@@ -99,16 +82,6 @@ export default function AdminNotifications() {
       </div>
 
       <div className="content">
-        <div className="welcome-section">
-          <h2 className="services-header">Push Notifications</h2>
-          <div className="header-line"></div>
-          <p className="services-subtitle">Send emergency alerts to all users.</p>
-          <button className="submit-btn" style={{marginTop: "10px"}} onClick={handleBroadcast}>
-            Send Fire Alert Broadcast
-          </button>
-        </div>
-
-        <hr style={{margin: "20px 0", opacity: 0.2}} />
 
         <div className="welcome-section">
           <h2 className="services-header">Active Emergencies</h2>
