@@ -49,13 +49,17 @@ function AppRoutes() {
 
   if (checkingAuth) {
     return (
-      <div className="splash-screen">
+      /* Changed from class to id to match your CSS #splash-screen */
+      <div id="splash-screen">
         <div className="splash-content">
           <img src="/Logo.png" alt="FireWatch Logo" className="splash-logo" />
-          <div className="loading-bar-container">
-            <div className="loading-bar-fill"></div>
+        </div>
+        
+        {/* Added the footer area for the spinner and text */}
+        <div className="splash-footer">
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '15px' }}>
+            <div className="spinner"></div>
           </div>
-          <p>Verifying Account...</p>
         </div>
       </div>
     );
