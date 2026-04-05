@@ -1,62 +1,149 @@
+/* --- TOP BAR & NAVIGATION --- */
+.admin-top-bar {
+  background-color: #a31224; /* Matches image header */
+  height: 70px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 0 20px;
+  color: white;
+}
+
+.back-btn {
+  position: absolute;
+  left: 20px;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  width: 44px; /* Slightly larger hit area for mobile */
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: background 0.2s;
+}
+
+/* Larger Back Icon */
+.back-btn svg {
+  width: 24px;       /* Increased from default */
+  height: 24px;
+  stroke-width: 3;   /* Thicker stroke for visibility */
+}
+
+.back-btn:active {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.top-title {
+  font-size: 18px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0;
+  text-align: center;
+  pointer-events: none;
+}
+
+/* --- SEARCH SECTION --- */
 .search-container {
   padding: 15px;
 }
 
 .search-input {
   width: 100%;
-  padding: 12px;
+  padding: 12px 15px;
   border-radius: 10px;
-  border: 1px solid #ddd;
+  border: 1px solid #eee;
+  background-color: #fff;
   outline: none;
+  font-size: 14px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
 }
 
+/* --- USER LIST & CARDS --- */
 .user-list {
-  padding: 0 15px 80px; /* Extra bottom padding for Navbar */
+  padding: 0 15px 100px; /* Space for Bottom Navbar */
 }
 
 .user-card {
   background: white;
-  border-radius: 12px;
-  padding: 15px;
-  margin-bottom: 10px;
+  border-radius: 15px; /* Softer corners */
+  padding: 18px;
+  margin-bottom: 12px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .user-name {
-  font-weight: bold;
+  font-weight: 700;
+  font-size: 16px;
   margin: 0;
-  color: #333;
+  color: #1a1a1a;
 }
 
 .user-email {
   font-size: 13px;
-  color: #666;
-  margin: 2px 0;
+  color: #777;
+  margin: 0;
 }
 
 .role-tag {
+  align-self: flex-start;
   font-size: 10px;
   text-transform: uppercase;
-  font-weight: bold;
-  padding: 2px 8px;
-  border-radius: 4px;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 6px;
+  margin-top: 4px;
 }
 
-.role-tag.admin { background: #d1ecf1; color: #0c5460; }
-.role-tag.user { background: #e2e3e5; color: #383d41; }
+.role-tag.admin { background: #e0f2f1; color: #00796b; }
+.role-tag.user { background: #f5f5f5; color: #616161; }
 
+/* --- SVG DELETE BUTTON --- */
 .delete-btn {
-  background: #fff5f5;
-  border: 1px solid #feb2b2;
-  border-radius: 8px;
-  padding: 8px;
+  background: #ffebee; /* Soft red background */
+  border: none;
+  border-radius: 12px;
+  width: 48px;         /* Increased container size for better balance */
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  transition: 0.2s;
+  transition: all 0.2s ease;
+}
+
+/* Larger Trash Icon */
+.delete-btn svg {
+  width: 24px;         /* Increased icon size */
+  height: 24px;
+  stroke: #f44336;     /* Vibrant red stroke */
+  stroke-width: 2.5;   /* Matches the visual weight of larger size */
+  transition: stroke 0.2s;
 }
 
 .delete-btn:hover {
-  background: #feb2b2;
+  background: #f44336;
+}
+
+.delete-btn:hover svg {
+  stroke: white;
+}
+
+.delete-btn:active {
+  transform: scale(0.9);
 }

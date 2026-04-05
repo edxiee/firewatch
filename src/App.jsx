@@ -14,6 +14,8 @@ import Message from "./pages/Message.jsx";
 // ADMIN IMPORTS
 import AdminScreen from "./admin/AdminScreen.jsx"; 
 import AdminProfile from "./admin/AdminProfile.jsx"; 
+// ADD THIS LINE BELOW
+import EditProfile from "./admin/EditProfile.jsx"; 
 import AdminMessages from "./admin/AdminMessages.jsx"; 
 import AdminNotifications from "./admin/AdminNotifications.jsx"; 
 import CreateAdmin from "./admin/CreateAdmin.jsx"; 
@@ -28,11 +30,7 @@ function AppRoutes() {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         try {
-          // Force refresh to check if user still exists in Firebase Auth
           await reload(user);
-          
-          // --- REMOVED EMAIL VERIFICATION CHECK FROM HERE ---
-          
         } catch (error) {
           if (error.code === "auth/user-not-found") {
             alert("This account has been deleted from our records.");
@@ -49,13 +47,10 @@ function AppRoutes() {
 
   if (checkingAuth) {
     return (
-      /* Changed from class to id to match your CSS #splash-screen */
       <div id="splash-screen">
         <div className="splash-content">
           <img src="/Logo.png" alt="FireWatch Logo" className="splash-logo" />
         </div>
-        
-        {/* Added the footer area for the spinner and text */}
         <div className="splash-footer">
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '15px' }}>
             <div className="spinner"></div>
@@ -71,10 +66,15 @@ function AppRoutes() {
       <Route path="/landing" element={<LandingPage />} />
       <Route path="/admin" element={<ProtectedRoute><AdminScreen /></ProtectedRoute>} />
       <Route path="/admin/profile" element={<ProtectedRoute><AdminProfile /></ProtectedRoute>} />
+      
+      {/* NEW ROUTE ADDED HERE */}
+      <Route path="/admin/edit-profile" element={<ProtectedRoute><EditProfile /></ProtectedRoute>} />
+      
       <Route path="/admin/messages" element={<ProtectedRoute><AdminMessages /></ProtectedRoute>} /> 
       <Route path="/admin/notifications" element={<ProtectedRoute><AdminNotifications /></ProtectedRoute>} />
       <Route path="/admin/create-account" element={<ProtectedRoute><CreateAdmin /></ProtectedRoute>} />
       <Route path="/admin/users" element={<ProtectedRoute><UserList /></ProtectedRoute>} />
+      
       <Route path="/home" element={<HomeScreen />}/>
       <Route path="/emergency" element={<EmergencyScreen />} />
       <Route path="/notification" element={<Notification />} />

@@ -40,8 +40,9 @@ export default function CreateAdmin() {
     }
   };
 
-  return (
-    <div className="homescreen">
+    return (
+    <div className="profile-wrapper"> {/* Use profile-wrapper for consistency */}
+      {/* TOP BAR - Title Only */}
       <div className="admin-top-bar">
         <button onClick={() => navigate(-1)} className="back-btn">
           <span className="back-icon">←</span>
@@ -49,33 +50,38 @@ export default function CreateAdmin() {
         <div className="top-title">Register Admin</div>
       </div>
 
-      <div className="content" style={{ padding: "20px" }}>
-        <form className="auth-form" onSubmit={handleCreateAdmin}>
-          <div className="input-group">
-            <label>Admin Full Name</label>
-            <input 
-              type="text" placeholder="e.g. Officer Juan" required 
-              value={name} onChange={(e) => setName(e.target.value)}
-            />
-          </div>
-          <div className="input-group">
-            <label>Admin Email</label>
-            <input 
-              type="email" placeholder="admin@firewatch.com" required 
-              value={email} onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div className="input-group">
-            <label>Temporary Password</label>
-            <input 
-              type="password" placeholder="Min 6 characters" required 
-              value={password} onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          <button type="submit" className="submit-btn" disabled={loading}>
-            {loading ? "Creating..." : "Confirm Registration"}
-          </button>
-        </form>
+      <div className="content-scrollable">
+        <div className="edit-body" style={{ marginTop: "20px" }}>
+          <form className="edit-form" onSubmit={handleCreateAdmin}>
+            <div className="input-field-group">
+              <label className="input-label">Admin Full Name</label>
+              <input 
+                className="edit-input"
+                type="text" placeholder="e.g. Officer Juan" required 
+                value={name} onChange={(e) => setName(e.target.value)}
+              />
+            </div>
+            <div className="input-field-group">
+              <label className="input-label">Admin Email</label>
+              <input 
+                className="edit-input"
+                type="email" placeholder="admin@firewatch.com" required 
+                value={email} onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <div className="input-field-group">
+              <label className="input-label">Temporary Password</label>
+              <input 
+                className="edit-input"
+                type="password" placeholder="Min 6 characters" required 
+                value={password} onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <button type="submit" className="save-changes-btn" disabled={loading}>
+              {loading ? "Creating..." : "Confirm Registration"}
+            </button>
+          </form>
+        </div>
       </div>
       <AdminNavbar />
     </div>

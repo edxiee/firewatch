@@ -1,105 +1,176 @@
-.profile-card {
-  background: white;
-  margin: 20px;
-  padding: 30px;
-  border-radius: 15px;
-  text-align: center;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+/* --- LAYOUT WRAPPER --- */
+.profile-wrapper {
+  background-color: #f8f9fa; /*cite: image_48089a.png*/
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-.avatar-circle {
-  width: 80px;
-  height: 80px;
-  background: #a31224;
-  color: white;
-  font-size: 32px;
-  font-weight: bold;
+/* --- TOP BAR (Title Only) --- */
+.admin-top-bar {
+  background-color: #a31224; /*cite: image_48089a.png*/
+  height: 65px;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
+  position: relative;
+  padding: 0 20px;
+}
+
+.top-title {
+  color: white;
+  font-size: 16px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+/* --- RED HEADER CARD --- */
+.profile-header-red {
+  background-color: #a31224; /*cite: image_48089a.png*/
+  margin: 15px; 
+  padding: 30px 20px;
+  border-radius: 25px; /*cite: image_48931f.png*/
+  text-align: center;
+  color: white;
+  box-shadow: 0 4px 15px rgba(163, 18, 36, 0.2);
+}
+
+.avatar-container {
+  position: relative;
+  width: 110px;
   margin: 0 auto 15px;
 }
 
-.role-badge {
-  background: #fff3cd;
-  color: #856404;
-  padding: 5px 15px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: bold;
-  display: inline-block;
-  margin-top: 10px;
-}
-
-.stats-row {
+.avatar-img {
+  width: 110px;
+  height: 110px;
+  background-color: white;
+  color: #a31224; 
+  border: 4px solid #ffcc00; /*cite: image_48089a.png*/
+  border-radius: 50%;
   display: flex;
-  justify-content: space-around;
-  margin: 0 20px 25px;
-}
-
-.stat-item {
-  background: white;
-  padding: 15px;
-  border-radius: 12px;
-  width: 30%;
-  text-align: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
-
-.stat-value {
-  display: block;
-  font-size: 20px;
-  font-weight: bold;
-  color: #a31224;
-}
-
-.stat-label {
-  font-size: 11px;
-  color: #888;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px; 
+  font-weight: 800;
   text-transform: uppercase;
+  overflow: hidden;
 }
 
-.settings-section {
-  margin: 0 20px;
-}
-
-.section-title {
-  font-size: 16px;
-  margin-bottom: 15px;
-  color: #444;
-}
-
-.settings-btn {
+.profile-pic-img {
   width: 100%;
-  background: white;
+  height: 100%;
+  object-fit: cover;
+}
+
+.edit-profile-btn {
+  background: #ffcc00; /*cite: image_48089a.png*/
   border: none;
-  padding: 15px;
-  border-radius: 10px;
-  margin-bottom: 10px;
-  text-align: left;
+  padding: 10px 35px;
+  border-radius: 20px;
+  font-weight: 800;
+  margin-top: 15px;
   cursor: pointer;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+  transition: transform 0.2s;
 }
 
-.btn-content span {
-  display: block;
-  font-weight: 600;
-  color: #333;
+.edit-profile-btn:active {
+  transform: scale(0.95);
 }
 
-.btn-content small {
-  color: #888;
-}
-
-.logout-btn-alt {
-  width: 100%;
-  background: #f8d7da;
-  color: #721c24;
-  border: none;
-  padding: 15px;
-  border-radius: 10px;
-  font-weight: bold;
+/* --- MENU SECTION --- */
+.menu-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   margin-top: 10px;
+}
+
+.menu-item-compact {
+  background: white;
+  margin: 0 15px;
+  padding: 12px 15px;
+  border-radius: 18px; /*cite: image_48931f.png*/
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
   cursor: pointer;
+  transition: background 0.2s;
+}
+
+.menu-item-compact:active {
+  background: #f0f0f0;
+}
+
+/* --- SVG ICON CONTAINERS --- */
+.menu-icon-small {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  margin-right: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* SVG Global Styling */
+.menu-icon-small svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+/* Individual Icon Color Themes */
+
+/* Register Admin Color */
+.yellow-bg { 
+  background: #e6fff1; /* Light mint background */
+  color: #00c853;      /* Vibrant but professional green */
+}
+
+.yellow-bg svg { 
+  stroke: #00c853; 
+  stroke-width: 3; /* Makes the plus sign pop */
+}
+
+/* User Management Color */
+.purple-bg { 
+  background: #f3e5f5; /*cite: image_48931f.png*/
+  color: #9c27b0; 
+}
+.purple-bg svg { 
+  stroke: #9c27b0; 
+}
+
+/* Logout Color */
+.red-bg { 
+  background: #ffebee; /*cite: image_48931f.png*/
+  color: #f44336; 
+}
+.red-bg svg { 
+  stroke: #f44336; 
+}
+
+/* Text & Navigation Arrows */
+.menu-text-compact {
+  flex-grow: 1;
+}
+
+.menu-title-small {
+  font-weight: 700;
+  font-size: 14px;
+  color: #333;
+  margin: 0;
+}
+
+.red-text { 
+  color: #f44336 !important; 
+}
+
+.arrow-small {
+  color: #d1d1d1;
+  font-size: 20px;
+  font-weight: 300;
 }

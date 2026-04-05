@@ -1,21 +1,20 @@
 /* Reusing your Admin Top Bar style for consistency */
 .admin-top-bar {
   background-color: #a31224;
-  height: 80px;
+  height: 70px;
   width: 100%;
   display: flex;
   align-items: center;
+  justify-content: center; /* This handles centering the title */
+  position: relative;      /* Necessary anchor for the absolute button */
   padding: 0 20px;
   color: white;
-  position: relative; /* Necessary for absolute centering of title */
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* Positioning the Back Button on the left */
 .back-btn {
-  background: rgba(255, 255, 255, 0.2); /* Subtle glass effect */
+  position: absolute;      /* Pulls the button out of the center flow */
+  left: 20px;              /* Fixes it to the left side */
+  background: rgba(255, 255, 255, 0.2);
   border: none;
   color: white;
   width: 40px;
@@ -25,8 +24,17 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  z-index: 10; /* Keeps it above the centered title */
-  transition: background 0.2s;
+  z-index: 10;             /* Ensures it sits "above" the title area for clicks */
+}
+
+.top-title {
+  font-size: 18px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0;               /* Remove any default margins */
+  text-align: center;
+  pointer-events: none;    /* Ensures title doesn't block button clicks */
 }
 
 .back-btn:active {
@@ -37,15 +45,4 @@
 .back-icon {
   font-size: 24px;
   font-weight: bold;
-}
-
-/* Centering the title regardless of the back button */
-.top-title {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 20px;
-  font-weight: 800;
-  white-space: nowrap;
-  pointer-events: none; /* Prevents title from blocking button clicks */
 }
