@@ -1,30 +1,82 @@
-import React from 'react';
-import UserNavBar from './UserNavBar'; // Import the shared bar
+import React, { useState, useEffect } from 'react';
+import { db, auth } from "../firebase";
+import { collection, query, where, onSnapshot, orderBy, limit } from "firebase/firestore";
+import UserNavBar from './UserNavBar'; 
 import './Notification.css'; 
 
 const Notification = () => {
+  const [latestEmergency, setLatestEmergency] = useState(null);
+
+  useEffect(() => {
+    if (!auth.currentUser) return;
+
+    // Listen to the most recent emergency report created by THIS user
+    const q = query(
+      collection(db, "emergencies"),
+      where("userId", "==", auth.currentUser.uid),
+      orderBy("timestamp", "desc"),
+      limit(1)
+    );
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      if (!snapshot.empty) {
+        setLatestEmergency({ id: snapshot.docs[0].id, ...snapshot.docs[0].data() });
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  // Determine the message based on the status set by the Admin
+  const getStatusContent = () => {
+    if (!latestEmergency) {
+      return (
+        <div className="notif-card">
+          <p>No active notifications at this time.</p>
+        </div>
+      );
+    }
+
+    if (latestEmergency.status === "responding") {
+      return (
+        <div className="notif-card responding">
+          <strong>🚒 Response in Progress</strong>
+          <p>The fireman responded to your help request</p>
+        </div>
+      );
+    }
+
+    if (latestEmergency.status === "resolved") {
+      return (
+        <div className="notif-card success">
+          <strong>✅ Alert Resolved</strong>
+          <p>Your help request has been resolved</p>
+        </div>
+      );
+    }
+
+    // Default "Active" state
+    return (
+      <div className="notif-card danger">
+        <strong>🔥 Emergency Reported</strong>
+        <p>Your request is active. Waiting for fireman response...</p>
+      </div>
+    );
+  };
+
   return (
     <div className="homescreen">
-      {/* HEADER SECTION */}
       <header className="top-bar">
         <img className="top-logo" src="/Logo.png" alt="FireWatch Logo" />
         <div className="top-title">Notification</div>
       </header>
 
-      {/* MAIN CONTENT */}
       <main className="content">
-        <div className="notif-card">
-          <strong>🔥 Fire Detected Nearby</strong>
-          <p>320m from Brgy. Batasan Hills.</p>
-        </div>
-        
-        <div className="notif-card success">
-          <strong>✅ Alert Cleared</strong>
-          <p>Fire contained in Payatas.</p>
+        <div className="notification-list">
+          {getStatusContent()}
         </div>
       </main>
 
-      {/* Shared Uniform Navbar */}
       <UserNavBar />
     </div>
   );

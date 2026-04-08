@@ -16,7 +16,6 @@ import "./AdminNotifications.css";
 export default function AdminNotifications() {
   const [alerts, setAlerts] = useState([]);
 
-  // Hoisted function to avoid "access before declaration" error
   const playAlarm = () => {
     const alarm = new Audio("https://assets.mixkit.co/sfx/preview/mixkit-emergency-alert-alarm-1007.mp3");
     alarm.volume = 0.5;
@@ -62,6 +61,20 @@ export default function AdminNotifications() {
     return () => unsubscribe();
   }, []);
 
+  // --- NEW: FUNCTION TO RESPOND ---
+  const respondToEmergency = async (id) => {
+    try {
+      const alertRef = doc(db, "emergencies", id);
+      await updateDoc(alertRef, { 
+        status: "responding",
+        respondedAt: serverTimestamp() 
+      });
+      // This will trigger "The fireman responded to your help request" on user side
+    } catch (error) {
+      alert("Error: " + error.message);
+    }
+  };
+
   const markAsResolved = async (id) => {
     try {
       const alertRef = doc(db, "emergencies", id);
@@ -69,6 +82,7 @@ export default function AdminNotifications() {
         status: "resolved",
         resolvedAt: serverTimestamp() 
       });
+      // This will trigger "Your help request has been resolved" on user side
       alert("Emergency marked as resolved.");
     } catch {
       alert("Permission Denied: Check your Firestore rules.");
@@ -82,7 +96,6 @@ export default function AdminNotifications() {
       </div>
 
       <div className="content">
-
         <div className="welcome-section">
           <h2 className="services-header">Active Emergencies</h2>
           <p className="services-subtitle">Real-time reports from users.</p>
@@ -117,11 +130,26 @@ export default function AdminNotifications() {
                   )}
                 </div>
 
-                {alert.status === "active" && (
-                  <button className="resolve-btn" onClick={() => markAsResolved(alert.id)}>
-                    Mark as Resolved
-                  </button>
-                )}
+                <div className="alert-actions" style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+                  {/* STEP 1: RESPOND */}
+                  {alert.status === "active" && (
+                    <button className="respond-btn" onClick={() => respondToEmergency(alert.id)}>
+                      RESPOND NOW
+                    </button>
+                  )}
+
+                  {/* STEP 2: RESOLVE (Only shows after Responding) */}
+                  {alert.status === "responding" && (
+                    <button className="resolve-btn" onClick={() => markAsResolved(alert.id)}>
+                      Mark as Resolved
+                    </button>
+                  )}
+
+                  {/* COMPLETED STATE */}
+                  {alert.status === "resolved" && (
+                    <span className="resolved-check">✅ Resolved</span>
+                  )}
+                </div>
               </div>
             ))
           )}
