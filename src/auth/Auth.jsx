@@ -4,7 +4,9 @@ import { auth, db } from "../firebase";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  sendPasswordResetEmail
+  sendPasswordResetEmail,
+  sendEmailVerification, // 1. Added this import
+  signOut                // 2. Added this to log them out pending verification
 } from "firebase/auth";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import "./Auth.css";
@@ -25,6 +27,7 @@ export default function Auth() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [verificationSent, setVerificationSent] = useState(false); // 3. New state for UI
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -57,6 +60,14 @@ export default function Auth() {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
 
+        // 4. Block login if email is not verified
+        if (!user.emailVerified) {
+          await signOut(auth); // Sign them back out
+          alert("Please verify your email before logging in. Check your inbox!");
+          setLoading(false);
+          return;
+        }
+
         const userDoc = await getDoc(doc(db, "users", user.uid));
         if (userDoc.exists() && userDoc.data().role === "admin") {
           navigate("/admin");
@@ -86,8 +97,12 @@ export default function Auth() {
           createdAt: new Date()
         });
         
-        // Redirect immediately
-        navigate("/landing");
+        // 5. Send verification email and sign out
+        await sendEmailVerification(user);
+        await signOut(auth); 
+        
+        // Change UI to show success message instead of redirecting
+        setVerificationSent(true);
       }
     } catch (error) {
       alert(error.message);
@@ -95,6 +110,30 @@ export default function Auth() {
       setLoading(false);
     }
   };
+
+  // 6. UI for when verification is sent
+  if (verificationSent) {
+    return (
+      <div className="auth-container">
+        <div className="auth-header"><img src="/Logo.png" alt="FireWatch" className="auth-logo" /></div>
+        <div className="auth-card" style={{ textAlign: "center", padding: "40px 20px" }}>
+          <h2 style={{ color: "#a31224", marginBottom: "15px" }}>Check Your Email!</h2>
+          <p style={{ color: "#555", marginBottom: "25px", lineHeight: "1.5" }}>
+            We've sent a verification link to <strong>{email}</strong>. Please click the link to verify your account before logging in.
+          </p>
+          <button 
+            className="submit-btn" 
+            onClick={() => {
+              setVerificationSent(false);
+              setIsLogin(true);
+            }}
+          >
+            Back to Login
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="auth-container">
