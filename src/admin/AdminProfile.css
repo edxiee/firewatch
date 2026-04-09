@@ -1,6 +1,6 @@
 /* --- LAYOUT WRAPPER --- */
 .profile-wrapper {
-  background-color: #f8f9fa; /*cite: image_48089a.png*/
+  background-color: #f8f9fa;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -8,7 +8,7 @@
 
 /* --- TOP BAR (Title Only) --- */
 .admin-top-bar {
-  background-color: #a31224; /*cite: image_48089a.png*/
+  background-color: #a31224;
   height: 65px;
   width: 100%;
   display: flex;
@@ -28,10 +28,10 @@
 
 /* --- RED HEADER CARD --- */
 .profile-header-red {
-  background-color: #a31224; /*cite: image_48089a.png*/
+  background-color: #a31224;
   margin: 15px; 
   padding: 30px 20px;
-  border-radius: 25px; /*cite: image_48931f.png*/
+  border-radius: 25px;
   text-align: center;
   color: white;
   box-shadow: 0 4px 15px rgba(163, 18, 36, 0.2);
@@ -43,20 +43,30 @@
   margin: 0 auto 15px;
 }
 
+/* AdminProfile.css */
+
 .avatar-img {
   width: 110px;
   height: 110px;
-  background-color: white;
-  color: #a31224; 
-  border: 4px solid #ffcc00; /*cite: image_48089a.png*/
+  background-color: #ffffff; 
+  border: 4px solid #ffcc00;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 48px; 
-  font-weight: 800;
-  text-transform: uppercase;
   overflow: hidden;
+  /* This hides any 'alt' text if the image fails */
+  text-indent: -9999px; 
+}
+
+.default-avatar-svg {
+  /* Reset text-indent for the SVG so it shows */
+  text-indent: 0;
+  width: 80px !important;
+  height: 80px !important;
+  color: #a31224 !important; /* Force Theme Red */
+  fill: #a31224 !important;  /* Force Fill */
+  display: block;
 }
 
 .profile-pic-img {
@@ -66,7 +76,7 @@
 }
 
 .edit-profile-btn {
-  background: #ffcc00; /*cite: image_48089a.png*/
+  background: #ffcc00;
   border: none;
   padding: 10px 35px;
   border-radius: 20px;
@@ -92,7 +102,7 @@
   background: white;
   margin: 0 15px;
   padding: 12px 15px;
-  border-radius: 18px; /*cite: image_48931f.png*/
+  border-radius: 18px;
   display: flex;
   align-items: center;
   box-shadow: 0 2px 8px rgba(0,0,0,0.04);
@@ -115,7 +125,6 @@
   justify-content: center;
 }
 
-/* SVG Global Styling */
 .menu-icon-small svg {
   width: 20px;
   height: 20px;
@@ -123,30 +132,26 @@
 }
 
 /* Individual Icon Color Themes */
-
-/* Register Admin Color */
 .yellow-bg { 
-  background: #e6fff1; /* Light mint background */
-  color: #00c853;      /* Vibrant but professional green */
+  background: #e6fff1; 
+  color: #00c853;      
 }
 
 .yellow-bg svg { 
   stroke: #00c853; 
-  stroke-width: 3; /* Makes the plus sign pop */
+  stroke-width: 3; 
 }
 
-/* User Management Color */
 .purple-bg { 
-  background: #f3e5f5; /*cite: image_48931f.png*/
+  background: #f3e5f5; 
   color: #9c27b0; 
 }
 .purple-bg svg { 
   stroke: #9c27b0; 
 }
 
-/* Logout Color */
 .red-bg { 
-  background: #ffebee; /*cite: image_48931f.png*/
+  background: #ffebee; 
   color: #f44336; 
 }
 .red-bg svg { 

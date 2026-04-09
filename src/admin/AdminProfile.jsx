@@ -40,11 +40,19 @@ export default function AdminProfile() {
           <div className="profile-main">
             <div className="avatar-container">
               <div className="avatar-img">
-                {adminData?.profileImage ? (
-                  <img src={adminData.profileImage} alt="Profile" className="profile-pic-img" />
+                {/* Check for valid Base64 image data */}
+                {adminData?.profileImage && adminData.profileImage.startsWith('data:image') ? (
+                  <img src={adminData.profileImage} alt="" className="profile-pic-img" />
                 ) : (
-                  /* Using .slice(0, 1) ensures ONLY the first letter appears */
-                  adminData?.firstName?.trim().slice(0, 1).toUpperCase() || "A"
+                  <svg 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    fill="currentColor" 
+                    className="bi bi-person-circle default-avatar-svg" 
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                    <path fillRule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                  </svg>
                 )}
               </div>
             </div>
@@ -60,8 +68,6 @@ export default function AdminProfile() {
 
         <div className="profile-body-light">
           <div className="menu-list">
-            {/* REGISTER ADMIN ICON (KEY) */}
-            {/* REGISTER ADMIN ICON (PLUS SIGN) */}
             <div className="menu-item-compact" onClick={() => navigate("/admin/create-account")}>
               <div className="menu-icon-small yellow-bg">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
@@ -75,7 +81,6 @@ export default function AdminProfile() {
               <div className="arrow-small">›</div>
             </div>
 
-            {/* USER MANAGEMENT ICON (USERS) */}
             <div className="menu-item-compact" onClick={() => navigate("/admin/users")}>
               <div className="menu-icon-small purple-bg">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -89,7 +94,6 @@ export default function AdminProfile() {
               <div className="arrow-small">›</div>
             </div>
 
-            {/* LOGOUT ICON (LOG OUT) */}
             <div className="menu-item-compact logout" onClick={handleLogout}>
               <div className="menu-icon-small red-bg">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
