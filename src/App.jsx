@@ -7,6 +7,7 @@ import LandingPage from "./LandingPage.jsx";
 import Auth from "./auth/Auth.jsx";
 import HomeScreen from "./pages/HomeScreen.jsx";
 import PersonalDetails from "./pages/PersonalDetails.jsx";
+import UserEditProfile from "./pages/UserEditProfile.jsx"; // IMPORT THE USER VERSION
 import EmergencyScreen from "./pages/EmergencyScreen.jsx";
 import Notification from "./pages/Notification.jsx"; 
 import Message from "./pages/Message.jsx"; 
@@ -14,8 +15,7 @@ import Message from "./pages/Message.jsx";
 // ADMIN IMPORTS
 import AdminScreen from "./admin/AdminScreen.jsx"; 
 import AdminProfile from "./admin/AdminProfile.jsx"; 
-// ADD THIS LINE BELOW
-import EditProfile from "./admin/EditProfile.jsx"; 
+import EditProfile from "./admin/EditProfile.jsx"; // THIS IS THE ADMIN VERSION
 import AdminMessages from "./admin/AdminMessages.jsx"; 
 import AdminNotifications from "./admin/AdminNotifications.jsx"; 
 import CreateAdmin from "./admin/CreateAdmin.jsx"; 
@@ -64,22 +64,23 @@ function AppRoutes() {
     <Routes>
       <Route path="/" element={<Auth />} /> 
       <Route path="/landing" element={<LandingPage />} />
+      
+      {/* --- ADMIN ROUTES --- */}
       <Route path="/admin" element={<ProtectedRoute><AdminScreen /></ProtectedRoute>} />
       <Route path="/admin/profile" element={<ProtectedRoute><AdminProfile /></ProtectedRoute>} />
-      
-      {/* NEW ROUTE ADDED HERE */}
       <Route path="/admin/edit-profile" element={<ProtectedRoute><EditProfile /></ProtectedRoute>} />
-      
       <Route path="/admin/messages" element={<ProtectedRoute><AdminMessages /></ProtectedRoute>} /> 
       <Route path="/admin/notifications" element={<ProtectedRoute><AdminNotifications /></ProtectedRoute>} />
       <Route path="/admin/create-account" element={<ProtectedRoute><CreateAdmin /></ProtectedRoute>} />
       <Route path="/admin/users" element={<ProtectedRoute><UserList /></ProtectedRoute>} />
       
+      {/* --- USER ROUTES --- */}
       <Route path="/home" element={<HomeScreen />}/>
       <Route path="/emergency" element={<EmergencyScreen />} />
       <Route path="/notification" element={<Notification />} />
       <Route path="/message" element={<Message />} />
       <Route path="/profile" element={<PersonalDetails />} />
+      <Route path="/edit-profile" element={<UserEditProfile />} />
     </Routes>
   );
 }
