@@ -20,7 +20,7 @@
 }
 
 .back-btn {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(230, 220, 220, 0.2);
   border: none;
   width: 40px;
   height: 40px;
@@ -29,6 +29,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 15px;
 }
 
 .top-title {
@@ -79,23 +80,31 @@
   position: absolute;
   bottom: 5px;
   right: 5px;
-  background-color: #ffcc00 !important;
-  border: 3px solid #1a1a1a; 
+  background-color: #ffcc00 !important; /* The yellow circle */
+  border: 3px solid #1a1a1a; /* Dark border to match header */
   border-radius: 50%;
   width: 44px;
   height: 44px;
   cursor: pointer;
+  
+  /* Centering the SVG icon inside the yellow circle */
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
+  padding: 0;
+  margin: 0;
   z-index: 10;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  transition: transform 0.2s ease;
+}
+
+.change-photo-btn:active {
+  transform: scale(0.9);
 }
 
 .change-photo-btn svg {
-  display: block !important;
-  width: 24px;
-  height: 24px;
-  overflow: visible;
+  display: block;
+  flex-shrink: 0;
 }
 
 /* --- FORM STYLES --- */
@@ -124,9 +133,12 @@
   background: white;
   font-size: 15px;
   box-sizing: border-box;
+  transition: all 0.3s ease;
 }
 
-/* HASHED / PROTECTED STYLE */
+/* --- SECURITY STYLING --- */
+
+/* Masked/Disabled state */
 .edit-input.disabled {
   background-color: #f1f1f1;
   background-image: radial-gradient(#d1d1d1 0.5px, transparent 0.5px);
@@ -136,8 +148,15 @@
   cursor: not-allowed;
   font-family: 'Courier New', Courier, monospace; 
   font-weight: 900;
-  letter-spacing: 3px; 
+  letter-spacing: 2px; 
+}
+
+/* Address Blur Effect */
+.blurred-field {
+  filter: blur(6px);
+  opacity: 0.6;
   user-select: none;
+  pointer-events: auto; /* Allow clicking to focus and unblur */
 }
 
 .text-area {

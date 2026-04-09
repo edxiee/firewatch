@@ -26,6 +26,10 @@ html, body {
   z-index: 10;
 }
 
+.back-btn{
+  margin-bottom: 10px;
+}
+
 .top-title { color: white; font-weight: bold; font-size: 1.2rem; }
 
 .chat-content-area {
@@ -89,6 +93,50 @@ html, body {
 .message-status-text {
   font-weight: bold;
   text-transform: capitalize;
+}
+
+/* --- DATE DIVIDER --- */
+.date-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0;
+  position: relative;
+}
+
+.date-divider::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  background: #eee;
+  z-index: 1;
+}
+
+.date-divider span {
+  background: #ffffff;
+  padding: 4px 15px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-radius: 20px;
+  border: 1px solid #eee;
+  z-index: 2;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+}
+
+/* Fix for messages container spacing */
+.messages-container {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 20px;
+}
+
+/* Adjustments to existing bubbles to separate them from dividers */
+.chat-wrapper {
+  margin-top: 4px;
 }
 
 /* --- FOOTER --- */

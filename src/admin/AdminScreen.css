@@ -51,6 +51,15 @@
   letter-spacing: 1px;
 }
 
+.top-logo {
+  position: absolute;
+  left: 12px;
+  width: 90px;
+  height: 79px;
+  margin-top: 20px;
+}
+
+
 /* --- STATS GRID (UNIFIED STYLE) --- */
 .stats-grid {
   display: grid;

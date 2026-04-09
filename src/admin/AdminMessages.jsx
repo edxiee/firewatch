@@ -93,9 +93,56 @@ export default function AdminMessages() {
     setReply("");
   };
 
+  // --- DATE & TIME HELPERS ---
   const formatTime = (ts) => {
     if (!ts) return "";
     return ts.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  };
+
+  const formatDateDivider = (ts) => {
+    if (!ts) return "";
+    const date = ts.toDate();
+    const today = new Date();
+    const yesterday = new Date();
+    yesterday.setDate(today.getDate() - 1);
+
+    if (date.toDateString() === today.toDateString()) return "Today";
+    if (date.toDateString() === yesterday.toDateString()) return "Yesterday";
+    
+    return date.toLocaleDateString([], { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' });
+  };
+
+  const renderMessages = () => {
+    let lastDate = null;
+
+    return messages.map((m, i) => {
+      const messageDate = m.timestamp?.toDate().toDateString();
+      const showDivider = messageDate !== lastDate;
+      lastDate = messageDate;
+
+      return (
+        <React.Fragment key={m.id || i}>
+          {showDivider && m.timestamp && (
+            <div className="date-divider">
+              <span>{formatDateDivider(m.timestamp)}</span>
+            </div>
+          )}
+          <div className={`chat-wrapper ${m.senderId === 'admin' ? 'sent' : 'received'}`}>
+            <div className="chat-bubble">
+              <span className="bubble-text">{m.text}</span>
+              <div className="message-info">
+                <span className="message-time">{formatTime(m.timestamp)}</span>
+                {m.senderId === 'admin' && (
+                  <span className={`message-status-text ${m.status}`}>
+                    {m.status === "read" ? "Read" : "Sent"}
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
+        </React.Fragment>
+      );
+    });
   };
 
   return (
@@ -138,23 +185,8 @@ export default function AdminMessages() {
           </div>
         ) : (
           <div className="messages-container">
-            <button className="back-btn" onClick={() => setActiveChatUser(null)}>← Back</button>
-            {messages.map((m, i) => (
-              <div key={m.id || i} className={`chat-wrapper ${m.senderId === 'admin' ? 'sent' : 'received'}`}>
-                <div className="chat-bubble">
-                  {/* Wrap text in a span to keep it separate from metadata */}
-                  <span className="bubble-text">{m.text}</span>
-                  <div className="message-info">
-                    <span className="message-time">{formatTime(m.timestamp)}</span>
-                    {m.senderId === 'admin' && (
-                      <span className={`message-status-text ${m.status}`}>
-                        {m.status === "read" ? "Read" : "Sent"}
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ))}
+            <button className="back-btn" onClick={() => setActiveChatUser(null)}>←</button>
+            {renderMessages()}
             <div ref={messagesEndRef} />
           </div>
         )}

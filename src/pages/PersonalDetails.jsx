@@ -12,6 +12,31 @@ export default function PersonalDetails() {
   const [userData, setUserData] = useState(null);
   const user = auth.currentUser;
 
+  // --- MASKING HELPERS ---
+  const maskEmail = (email) => {
+    if (!email) return "No Email";
+    const [userPart, domain] = email.split("@");
+    if (userPart.length <= 2) return `*@${domain}`;
+    return `${userPart[0]}${"*".repeat(userPart.length - 2)}${userPart.slice(-1)}@${domain}`;
+  };
+
+  const maskPhone = (phone) => {
+    if (!phone) return "Not set";
+    const strPhone = String(phone);
+    // Shows only the last 4 digits: *******6789
+    return strPhone.length > 4 
+      ? "*".repeat(strPhone.length - 4) + strPhone.slice(-4) 
+      : "****";
+  };
+
+  const maskAddress = (address) => {
+    if (!address) return "No address provided";
+    // Shows the first 5 characters then masks the rest
+    return address.length > 5 
+      ? address.slice(0, 5) + "*".repeat(address.length - 5) 
+      : "*****";
+  };
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
@@ -55,13 +80,11 @@ export default function PersonalDetails() {
 
   return (
     <div className="profile-wrapper">
-      {/* TOP BAR */}
       <div className="admin-top-bar">
         <div className="top-title">PROFILE</div>
       </div>
 
       <div className="content-scrollable">
-        {/* HEADER SECTION (Red Card) */}
         <div className="profile-header-red">
           <div className="profile-main">
             <div className="avatar-container">
@@ -83,7 +106,7 @@ export default function PersonalDetails() {
             </div>
             
             <h2 className="profile-name">{userData?.fullName || userData?.firstName || "User"}</h2>
-            <p className="profile-email">{user?.email}</p>
+            <p className="profile-email">{maskEmail(user?.email)}</p>
             
             <button className="edit-profile-btn" onClick={() => navigate("/edit-profile")}>
               Edit Profile
@@ -91,11 +114,9 @@ export default function PersonalDetails() {
           </div>
         </div>
 
-        {/* BODY SECTION (Menu Items) */}
         <div className="profile-body-light">
           <div className="menu-list">
             
-            {/* Phone Info */}
             <div className="menu-item-compact">
               <div className="menu-icon-small yellow-bg">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
@@ -104,11 +125,10 @@ export default function PersonalDetails() {
               </div>
               <div className="menu-text-compact">
                 <p className="menu-title-small">Phone</p>
-                <p className="menu-subtext">{userData?.contact || userData?.phone || "Not set"}</p>
+                <p className="menu-subtext">{maskPhone(userData?.contact || userData?.phone)}</p>
               </div>
             </div>
 
-            {/* Address Info */}
             <div className="menu-item-compact">
               <div className="menu-icon-small purple-bg">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -118,11 +138,10 @@ export default function PersonalDetails() {
               </div>
               <div className="menu-text-compact">
                 <p className="menu-title-small">Address</p>
-                <p className="menu-subtext">{userData?.address || "No address provided"}</p>
+                <p className="menu-subtext">{maskAddress(userData?.address)}</p>
               </div>
             </div>
 
-            {/* Logout */}
             <div className="menu-item-compact logout" onClick={handleLogout}>
               <div className="menu-icon-small red-bg">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">

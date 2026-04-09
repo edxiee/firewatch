@@ -37,6 +37,7 @@ html, body, #root, .homescreen {
   left: 15px;
   width: 70px;
   height: 70px;
+  margin-bottom: 30px;
 }
 
 .top-title {

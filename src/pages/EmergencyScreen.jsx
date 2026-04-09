@@ -10,10 +10,10 @@ export default function EmergencyScreen() {
   const [isSending, setIsSending] = useState(false);
   
   // LIVE LOCATION STATES
-  const [userCoords, setUserCoords] = useState({ lat: 14.628, lng: 121.051 }); // Default fallback (e.g., Manila)
+  const [userCoords, setUserCoords] = useState({ lat: 14.628, lng: 121.051 }); 
   const [locationReady, setLocationReady] = useState(false);
 
-  // 1. Live Tracking: Watch the user's position as they move
+  // 1. Live Tracking
   useEffect(() => {
     if (!navigator.geolocation) {
       alert("Geolocation is not supported by your browser.");
@@ -35,11 +35,9 @@ export default function EmergencyScreen() {
       { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
     );
 
-    // Cleanup: Stop tracking when the user leaves the screen
     return () => navigator.geolocation.clearWatch(watchId);
   }, []);
 
-  // 2. Construct dynamic OpenStreetMap URL
   const mapUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${userCoords.lng - 0.005}%2C${userCoords.lat - 0.005}%2C${userCoords.lng + 0.005}%2C${userCoords.lat + 0.005}&layer=mapnik&marker=${userCoords.lat}%2C${userCoords.lng}`;
 
   const handleEmergency = async () => {
@@ -50,13 +48,8 @@ export default function EmergencyScreen() {
 
       try {
         const user = auth.currentUser;
-        
-        // Prevent sending if GPS isn't locked yet
-        if (!locationReady) {
-          throw new Error("LOCATION_NOT_READY");
-        }
+        if (!locationReady) throw new Error("LOCATION_NOT_READY");
 
-        // 3. Add document using the live coordinates from state
         await addDoc(collection(db, "emergencies"), {
           userId: user ? user.uid : "Anonymous",
           userEmail: user ? user.email : "No Email",
@@ -70,17 +63,12 @@ export default function EmergencyScreen() {
         alert("EMERGENCY ALERT SENT! Help is being notified. Please stay safe.");
         
       } catch (error) {
-        console.error("Emergency Error:", error);
-        
         if (error.message === "LOCATION_NOT_READY") {
-          alert("Wait! We are still getting your GPS signal. Please try again in a few seconds.");
-        } else if (error.code === 1) { 
-          alert("CRITICAL: Location access denied. Please enable GPS in your browser settings so help can find you.");
+          alert("Wait! We are still getting your GPS signal.");
         } else {
           alert("Failed to send alert. Please call emergency services directly.");
         }
       } finally {
-        // Re-enable button after 10-second cooldown to prevent spam
         setTimeout(() => setIsSending(false), 10000);
       }
     }
@@ -94,7 +82,7 @@ export default function EmergencyScreen() {
       </div>
 
       <div className="content">
-        {/* Pulsing Status Text */}
+        {/* Pulsing Status Text - Centered via CSS */}
         <div className="location-title">
           {locationReady ? (
             <span className="gps-active">📍 GPS Signal Active</span>
@@ -103,7 +91,7 @@ export default function EmergencyScreen() {
           )}
         </div>
 
-        {/* Live Dynamic Map */}
+        {/* Map Container */}
         <div className="map-frame">
           <iframe
             className="map-iframe"
@@ -115,16 +103,15 @@ export default function EmergencyScreen() {
 
         <div className="emergency-title">Tap For Fire Emergency</div>
 
-        {/* HELP! Button with status check */}
+        {/* SOS Button */}
         <button 
           className={`emergency-circle ${isSending ? "disabled-btn" : ""}`} 
           onClick={handleEmergency} 
-          type="button"
           disabled={isSending}
         >
           <div className="inner-glow">
             <span className="signal-waves">(((</span>
-            <span className="help-text">{isSending ? "SENDING..." : "HELP!"}</span>
+            <span className="help-text">{isSending ? "..." : "HELP!"}</span>
             <span className="signal-waves">)))</span>
           </div>
         </button>

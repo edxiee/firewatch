@@ -16,6 +16,11 @@ export default function UserEditProfile() {
   const [previewUrl, setPreviewUrl] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // Focus states to handle visibility safety
+  const [isPhoneFocused, setIsPhoneFocused] = useState(false);
+  const [isAddressFocused, setIsAddressFocused] = useState(false);
+
+  // Masking for non-editable fields (Name/Email)
   const maskData = (str, type) => {
     if (!str) return "********";
     if (type === "email") {
@@ -106,9 +111,19 @@ export default function UserEditProfile() {
             <input type="file" accept="image/*" ref={fileInputRef} style={{ display: "none" }} onChange={handleImageChange} />
             
             <button type="button" className="change-photo-btn" onClick={() => fileInputRef.current.click()}>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                <circle cx="12" cy="13" r="4" stroke="#000000" strokeWidth="2" />
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                width="22" 
+                height="22" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="#1a1a1a" 
+                strokeWidth="2.5" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+              >
+                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                <circle cx="12" cy="13" r="4"></circle>
               </svg>
             </button>
           </div>
@@ -120,18 +135,38 @@ export default function UserEditProfile() {
               <label className="input-label">Full Name (Protected)</label>
               <input type="text" className="edit-input disabled" value={maskData(name, "name")} disabled />
             </div>
+            
             <div className="input-field-group">
               <label className="input-label">Email (Protected)</label>
               <input type="text" className="edit-input disabled" value={maskData(user?.email, "email")} disabled />
             </div>
+
             <div className="input-field-group">
               <label className="input-label">Contact Number</label>
-              <input type="tel" className="edit-input" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="09xx xxx xxxx" />
+              <input 
+                type={isPhoneFocused ? "tel" : "password"} 
+                className="edit-input" 
+                value={phone} 
+                onChange={(e) => setPhone(e.target.value)} 
+                onFocus={() => setIsPhoneFocused(true)}
+                onBlur={() => setIsPhoneFocused(false)}
+                placeholder="09xx xxx xxxx" 
+              />
             </div>
+
             <div className="input-field-group">
               <label className="input-label">Home Address</label>
-              <textarea className="edit-input text-area" value={address} onChange={(e) => setAddress(e.target.value)} rows="3" placeholder="Enter address..." />
+              <textarea 
+                className={`edit-input text-area ${!isAddressFocused ? "blurred-field" : ""}`} 
+                value={address} 
+                onChange={(e) => setAddress(e.target.value)} 
+                onFocus={() => setIsAddressFocused(true)}
+                onBlur={() => setIsAddressFocused(false)}
+                rows="3" 
+                placeholder="Enter address..." 
+              />
             </div>
+
             <button type="submit" className="save-changes-btn" disabled={loading}>
               {loading ? "Updating..." : "Save Changes"}
             </button>

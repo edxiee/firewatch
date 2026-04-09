@@ -1,16 +1,10 @@
-/* --- GLOBAL RESET & DARK MODE PROTECTION --- */
-:root {
-  color-scheme: light !important;
-}
+/* --- GLOBAL RESET --- */
+:root { color-scheme: light !important; }
 
-html, body, #root {
+html, body {
   margin: 0;
   padding: 0;
-  height: 100%;
-  width: 100%;
-  overflow-x: hidden;
-  background-color: #ffffff !important; /* Force white background */
-  color: #000000 !important; /* Force black text */
+  background-color: #ffffff !important;
 }
 
 .homescreen {
@@ -19,10 +13,9 @@ html, body, #root {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 }
 
-/* --- TOP BAR (Fixed) --- */
+/* --- TOP BAR --- */
 .top-bar {
   padding-top: 28px;
   height: 88px;
@@ -37,7 +30,6 @@ html, body, #root {
   left: 0;
   right: 0;
   z-index: 1000;
-  box-sizing: border-box; 
 }
 
 .top-logo {
@@ -45,152 +37,133 @@ html, body, #root {
   left: 12px;
   width: 70px;
   height: 70px;
-  object-fit: contain;
 }
 
 .top-title {
   font-size: 20px;
   font-weight: 700;
-  letter-spacing: 1px;
   color: #ffffff !important; 
 }
 
-/* --- CONTENT AREA --- */
+/* --- CONTENT & CENTERING FIX --- */
 .content {
   flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: center;      /* Centers children horizontally */
+  justify-content: flex-start; 
   margin-top: 88px; 
   padding: 18px;
-  padding-bottom: 100px; /* Space for the bottom bar */
-  background-color: #ffffff !important;
+  padding-bottom: 100px;
+  width: 100%;              /* Ensure container takes full width */
+  box-sizing: border-box;
 }
 
-.location-title, .emergency-title {
-  margin-top: 16px;
-  font-size: 20px;
-  color: #000000 !important; /* Force black text */
-  font-weight: 600;
-}
-
-.map-frame {
-  margin-top: 14px;
-  width: 92%;
-  max-width: 360px;
-  height: 230px;
-  border: 2px solid #333;
-  border-radius: 12px;
-  overflow: hidden;
-  background: #d9d9d9;
-}
-
-.map-iframe {
+/* --- NOTIFICATION SPECIFIC BOX (Fix for image_ab4ce2.png) --- */
+.notification-container {
   width: 100%;
-  height: 100%;
-  border: 0;
-}
-
-/* Status text container */
-.location-title {
-  font-weight: 600;
-  font-size: 14px;
-  margin-bottom: 10px;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
+  justify-content: center;  /* Centers the box horizontally */
+  padding: 10px 0;
 }
 
-/* The "Searching" state specifically */
+.notification-empty-card {
+  width: 90%;
+  max-width: 400px;
+  background-color: #d1e9ff; /* Light blue from your screenshot */
+  padding: 20px;
+  border-radius: 15px;
+  border-left: 8px solid #a31224; /* That distinct red bar on the left */
+  display: flex;
+  align-items: center;      /* Centers text vertically */
+  justify-content: center;   /* Centers text horizontally */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.no-notifications-text {
+  font-size: 16px;
+  color: #557a95;           /* Muted blue-grey text */
+  font-weight: 500;
+  text-align: center;
+  margin: 0;
+}
+
+/* --- EMERGENCY SCREEN ELEMENTS --- */
+.location-title, .emergency-title {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 16px;
+  font-size: 18px;
+  color: #000000 !important;
+  font-weight: 600;
+  min-height: 28px;
+}
+
 .searching-gps {
-  color: #721c24; /* A deep red/orange */
+  color: #a31224;
   animation: pulse-text 1.5s infinite ease-in-out;
 }
 
-/* The "Active" state */
-.gps-active {
-  color: #155724; /* A healthy green */
-  font-weight: bold;
-}
+.gps-active { color: #155724; font-weight: bold; }
 
-/* Animation Keyframes */
 @keyframes pulse-text {
-  0% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(0.98); }
-  100% { opacity: 1; transform: scale(1); }
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
 }
 
-/* --- THE REALISTIC METALLIC BUTTON --- */
+/* --- MAP --- */
+.map-frame {
+  margin-top: 14px;
+  width: 95%;
+  max-width: 360px;
+  height: 230px;
+  border: 2px solid #333;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.map-iframe { width: 100%; height: 100%; border: 0; }
+
+/* --- SOS BUTTON --- */
 .emergency-circle {
-  margin-top: 45px;
-  width: 200px;
-  height: 200px;
+  margin-top: 40px;
+  width: 210px;
+  height: 210px;
   border-radius: 50%;
-  cursor: pointer;
   border: none;
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   background: radial-gradient(circle at 35% 35%, #ff4d4d 0%, #a31224 75%) !important; 
-  
   box-shadow: 
-    0 0 0 12px #e0e0e0, 
-    0 0 0 16px #8e8e8e, 
-    0 15px 35px rgba(0,0,0,0.4),
-    inset 0 0 20px rgba(0,0,0,0.5);
-  
-  transition: transform 0.1s active;
+    0 0 0 10px #f0f0f0, 
+    0 0 0 14px #999, 
+    0 15px 30px rgba(0,0,0,0.3);
+  cursor: pointer;
+  flex-shrink: 0;
 }
 
-.emergency-circle:active {
-  transform: scale(0.95); /* Simple press effect */
-}
+.emergency-circle:active { transform: scale(0.96); }
 
 .help-text {
-  font-size: 42px;
+  font-size: 44px;
   font-weight: 900;
   color: #ffffff !important;
-  text-shadow: 2px 3px 6px rgba(0,0,0,0.7);
+  text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+  margin: 0 8px;
 }
 
-/* --- BOTTOM BAR (Consistent with UserNavBar) --- */
-.bottom-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 75px;
-  background: #a31224 !important; /* Force the red background */
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  border-top: none;
-}
-
-.nav-btn {
-  background: transparent;
-  border: none;
-  padding: 10px;
-}
-
-.nav-icon {
-  width: 30px;
-  height: 30px;
-  fill: #000000 !important; /* Icons start as black */
-  transition: fill 0.3s ease;
-}
-
-/* Active Highlight - Matches your image exactly */
-.nav-btn.active .nav-icon {
-  fill: #f2b400 !important; 
+.signal-waves {
+  color: rgba(255,255,255,0.4);
+  font-weight: bold;
+  font-size: 20px;
 }
 
 .disabled-btn {
-  opacity: 0.6;
+  filter: grayscale(0.8);
+  opacity: 0.7;
   cursor: not-allowed;
-  filter: grayscale(1);
-  transform: scale(0.95);
 }
