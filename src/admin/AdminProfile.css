@@ -6,7 +6,7 @@
   flex-direction: column;
 }
 
-/* --- TOP BAR (Title Only) --- */
+/* --- TOP BAR (Red Header) --- */
 .admin-top-bar {
   background-color: #a31224;
   height: 65px;
@@ -43,8 +43,6 @@
   margin: 0 auto 15px;
 }
 
-/* AdminProfile.css */
-
 .avatar-img {
   width: 110px;
   height: 110px;
@@ -55,18 +53,6 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  /* This hides any 'alt' text if the image fails */
-  text-indent: -9999px; 
-}
-
-.default-avatar-svg {
-  /* Reset text-indent for the SVG so it shows */
-  text-indent: 0;
-  width: 80px !important;
-  height: 80px !important;
-  color: #a31224 !important; /* Force Theme Red */
-  fill: #a31224 !important;  /* Force Fill */
-  display: block;
 }
 
 .profile-pic-img {
@@ -75,107 +61,134 @@
   object-fit: cover;
 }
 
+.profile-name {
+  margin: 10px 0 5px;
+  font-size: 22px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+/* Hashed Email in Header */
+.profile-email-header {
+  font-size: 13px;
+  opacity: 0.85;
+  font-family: 'Courier New', Courier, monospace;
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+}
+
 .edit-profile-btn {
   background: #ffcc00;
   border: none;
   padding: 10px 35px;
   border-radius: 20px;
   font-weight: 800;
-  margin-top: 15px;
   cursor: pointer;
   transition: transform 0.2s;
+  color: #000;
 }
 
-.edit-profile-btn:active {
-  transform: scale(0.95);
+/* --- SECURE INFO CARD SECTION --- */
+.section-label {
+  margin: 20px 20px 8px;
+  font-size: 11px;
+  font-weight: 800;
+  color: #a31224;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
-/* --- MENU SECTION --- */
-.menu-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.menu-item-compact {
+.secure-info-card {
   background: white;
-  margin: 0 15px;
-  padding: 12px 15px;
-  border-radius: 18px;
+  margin: 0 15px 20px;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  overflow: hidden; /* Clips the bottom border-radius */
+  border: 1px solid #eee;
+}
+
+.info-row {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-  cursor: pointer;
+  padding: 15px;
+  border-bottom: 1px solid #f5f5f5;
   transition: background 0.2s;
 }
 
-.menu-item-compact:active {
-  background: #f0f0f0;
+.info-row:last-child {
+  border-bottom: none;
 }
 
-/* --- SVG ICON CONTAINERS --- */
-.menu-icon-small {
-  width: 38px;
-  height: 38px;
+.info-left {
+  display: flex;
+  align-items: center;
+}
+
+/* Icon Container */
+.icon-box {
+  width: 42px;
+  height: 42px;
   border-radius: 12px;
-  margin-right: 15px;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-right: 15px;
+  font-size: 18px;
 }
 
-.menu-icon-small svg {
-  width: 20px;
-  height: 20px;
-  display: block;
+/* Icon Background Themes */
+.green-bg { background: #e8f5e9; color: #2e7d32; }
+.purple-bg { background: #f3e5f5; color: #9c27b0; }
+.red-bg { background: #ffebee; color: #f44336; }
+
+/* Text Content */
+.info-text {
+  display: flex;
+  flex-direction: column;
 }
 
-/* Individual Icon Color Themes */
-.yellow-bg { 
-  background: #e6fff1; 
-  color: #00c853;      
-}
-
-.yellow-bg svg { 
-  stroke: #00c853; 
-  stroke-width: 3; 
-}
-
-.purple-bg { 
-  background: #f3e5f5; 
-  color: #9c27b0; 
-}
-.purple-bg svg { 
-  stroke: #9c27b0; 
-}
-
-.red-bg { 
-  background: #ffebee; 
-  color: #f44336; 
-}
-.red-bg svg { 
-  stroke: #f44336; 
-}
-
-/* Text & Navigation Arrows */
-.menu-text-compact {
-  flex-grow: 1;
-}
-
-.menu-title-small {
-  font-weight: 700;
-  font-size: 14px;
+.info-title {
+  font-size: 12px;
+  font-weight: 800;
   color: #333;
   margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-.red-text { 
-  color: #f44336 !important; 
+/* HASHED VALUE STYLE */
+.info-value.hashed {
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 700;
+  color: #a31224;
+  margin: 2px 0 0 0;
+  font-size: 14px;
+  letter-spacing: 0.5px;
 }
 
-.arrow-small {
+/* Navigation Arrow & Interaction */
+.arrow {
   color: #d1d1d1;
   font-size: 20px;
   font-weight: 300;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.clickable:active {
+  background-color: #f9f9f9;
+}
+
+.red-text {
+  color: #f44336 !important;
+}
+
+/* --- SCROLLING HELP --- */
+.content-scrollable {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 110px; /* Space for Navbar */
 }

@@ -40,10 +40,10 @@ export default function AdminProfile() {
           <div className="profile-main">
             <div className="avatar-container">
               <div className="avatar-img">
-                {/* Check for valid Base64 image data */}
-                {adminData?.profileImage && adminData.profileImage.startsWith('data:image') ? (
+                {adminData?.profileImage && !adminData.profileImage.includes('blob:') && adminData.profileImage !== "Profile" ? (
                   <img src={adminData.profileImage} alt="" className="profile-pic-img" />
                 ) : (
+                  /* The SVG will now show because the img tag above is skipped */
                   <svg 
                     xmlns="http://www.w3.org/2000/svg" 
                     fill="currentColor" 
