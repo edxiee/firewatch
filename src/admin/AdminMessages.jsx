@@ -104,7 +104,7 @@ export default function AdminMessages() {
         <div className="top-title">
           {activeChatUser 
             ? `${activeChatUser.firstName} ${activeChatUser.lastName}`.trim() || activeChatUser.userEmail
-            : "Admin Messages"}
+            : "Messages"}
         </div>
       </header>
 

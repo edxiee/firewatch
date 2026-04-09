@@ -1,4 +1,4 @@
-/* Emergency Overlay Styles */
+/* --- EMERGENCY OVERLAY --- */
 .emergency-overlay {
   position: fixed;
   top: 0;
@@ -10,7 +10,6 @@
   justify-content: center;
   align-items: center;
   z-index: 10000;
-  /* Red flashing background to demand immediate attention */
   animation: bg-flash 1.5s infinite;
   padding: 20px;
   box-sizing: border-box;
@@ -21,7 +20,7 @@
   padding: 30px 20px;
   border-radius: 25px;
   text-align: center;
-  border: 4px solid #a31224; /* Slightly thinner for a cleaner look */
+  border: 4px solid #a31224;
   box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
   width: 100%;
   max-width: 350px;
@@ -29,10 +28,18 @@
 }
 
 .flashing-icon {
-  font-size: 70px;
-  display: block;
-  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+  color: #a31224;
   animation: scale-up 0.5s infinite alternate;
+}
+
+.flashing-icon svg {
+  width: 70px;
+  height: 70px;
+  filter: drop-shadow(0 0-10px rgba(163, 18, 36, 0.5));
 }
 
 .emergency-modal h1 {
@@ -44,85 +51,105 @@
   letter-spacing: 1px;
 }
 
-.emergency-details {
-  background: #fff5f5; /* Light red tint */
-  padding: 15px;
-  border-radius: 15px;
-  margin: 20px 0;
-  text-align: left;
-  border-left: 5px solid #a31224;
-}
-
-.emergency-details p {
-  margin: 5px 0;
-  font-size: 14px;
-  color: #333;
-}
-
-/* Updated Button to match your Dashboard style */
-.view-details-btn {
-  background-color: #a31224;
-  color: white;
-  border: none;
-  padding: 18px;
-  border-radius: 15px;
-  font-weight: 800;
-  font-size: 16px;
-  cursor: pointer;
-  width: 100%;
-  box-shadow: 0 4px 15px rgba(163, 18, 36, 0.3);
-  transition: transform 0.2s;
-}
-
-.view-details-btn:active {
-  transform: scale(0.95);
-}
-
-/* Animations */
-@keyframes bg-flash {
-  0% { background-color: rgba(0, 0, 0, 0.9); }
-  50% { background-color: rgba(163, 18, 36, 0.4); } /* Subtle flash */
-  100% { background-color: rgba(0, 0, 0, 0.9); }
-}
-
-@keyframes scale-up {
-  from { transform: scale(1); }
-  to { transform: scale(1.2); }
-}
-
-@keyframes modal-pop {
-  from { opacity: 0; transform: scale(0.8); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-/* Ensure the top bar stays at the very top */
-.top-bar {
-  background-color: #a31224; /* FireWatch Red */
-  height: 70px;
-  display: flex;
-  align-items: center;
-  padding: 0 20px;
+/* --- STATS GRID (UNIFIED STYLE) --- */
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 15px;
-  color: white;
-  position: sticky; /* Keeps it at the top while scrolling */
-  top: 0;
-  z-index: 1000;
-  border-bottom-left-radius: 15px;
-  border-bottom-right-radius: 15px;
+  margin-top: 20px;
 }
 
-.top-logo {
-  height: 40px;
-  width: auto;
+.stat-card {
+  background: #ffffff; /* Unified white background */
+  padding: 20px 10px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f0f0f0;
+  transition: all 0.2s ease;
+  cursor: pointer;
 }
 
-.top-title {
-  font-size: 20px;
-  font-weight: bold;
+.stat-card:active {
+  transform: scale(0.96);
+}
+
+/* Keep the urgent card slightly tinted to highlight active fires */
+.stat-card.urgent {
+  background: #fff5f5;
+  border-color: #ffcccc;
+}
+
+/* Unified Icon Styling for Stats */
+.stat-card svg {
+  margin-bottom: 8px;
+  stroke: #a31224; /* Theme red icons */
+  width: 24px;
+  height: 24px;
+}
+
+.stat-value {
+  font-size: 22px;
+  font-weight: 800;
+  color: #a31224; /* Theme red numbers */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-label {
+  font-size: 11px;
+  color: #888;
+  text-transform: uppercase;
+  margin-top: 5px;
   letter-spacing: 0.5px;
+  font-weight: 600;
 }
-/* FIXED TOP BAR - Restoring full width and red background */
-/* FIXED TOP BAR - Centering the title & Fixing White Logo */
+
+/* --- QUICK ACTIONS --- */
+.action-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.action-tile {
+  flex: 1;
+  background: #ffffff;
+  border: 1px solid #eee;
+  padding: 15px 5px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+  transition: all 0.2s ease;
+}
+
+.action-tile svg {
+  width: 24px;
+  height: 24px;
+  stroke: #a31224;
+  stroke-width: 2;
+}
+
+.action-tile:active {
+  transform: scale(0.95);
+  background-color: #fffafa;
+}
+
+.action-tile span {
+  font-size: 11px;
+  font-weight: 700;
+  color: #444;
+}
+
+/* --- LAYOUT & TOP BAR --- */
 .admin-top-bar {
   background-color: #a31224;
   height: 80px;
@@ -138,117 +165,21 @@
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  position: relative; 
 }
 
-.top-logo {
-  height: 45px; /* Increased size slightly for visibility */
-  width: auto;
-  object-fit: contain;
-  z-index: 2;
-  /* Removed filter: brightness(0) invert(1) because your logo is already white */
+/* --- ANIMATIONS --- */
+@keyframes bg-flash {
+  0% { background-color: rgba(0, 0, 0, 0.9); }
+  50% { background-color: rgba(163, 18, 36, 0.4); }
+  100% { background-color: rgba(0, 0, 0, 0.9); }
 }
 
-.top-title {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 20px; /* Matched to your header style */
-  font-weight: 800;
-  letter-spacing: 0.5px;
-  white-space: nowrap;
-  text-align: center;
-  width: auto;
-  pointer-events: none;
+@keyframes scale-up {
+  from { transform: scale(1); }
+  to { transform: scale(1.15); }
 }
 
-/* Ensure the layout doesn't have accidental gaps */
-.admin-layout {
-  background-color: #ffffff;
-  min-height: 100vh;
-  margin: 0;
-  padding: 0;
-}
-/* Container padding and background */
-.admin-content {
-  padding: 10px 20px;
-  background-color: #ffffff;
-}
-
-/* THE STATS GRID - This forces 2 columns */
-.stats-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr; /* Two equal columns */
-  gap: 15px;
-  margin-top: 20px;
-}
-
-.stat-card {
-  background: #fdfdfd;
-  padding: 20px 10px;
-  border-radius: 15px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  border: 1px solid #f0f0f0;
-}
-
-.stat-card.urgent {
-  background: #fff5f5;
-  border-color: #ffcccc;
-}
-
-.stat-value {
-  font-size: 22px;
-  font-weight: 800;
-  color: #a31224; /* FireWatch Red */
-}
-
-.stat-label {
-  font-size: 11px;
-  color: #888;
-  text-transform: uppercase;
-  margin-top: 5px;
-  letter-spacing: 0.5px;
-}
-
-/* QUICK ACTIONS - Horizontal layout */
-.quick-actions {
-  margin-top: 30px;
-}
-
-.section-title {
-  font-size: 16px;
-  font-weight: 700;
-  color: #333;
-  margin-bottom: 15px;
-  text-align: left;
-}
-
-.action-row {
-  display: flex;
-  justify-content: space-between; /* Spreads them across the width */
-  gap: 10px;
-}
-
-.action-tile {
-  flex: 1; /* Makes all buttons the same width */
-  background: #ffffff;
-  border: 1px solid #eee;
-  padding: 15px 5px;
-  border-radius: 12px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.03);
-}
-
-.action-tile span {
-  font-size: 11px;
-  font-weight: 600;
-  color: #444;
+@keyframes modal-pop {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
 }

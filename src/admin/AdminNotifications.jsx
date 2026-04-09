@@ -92,7 +92,7 @@ export default function AdminNotifications() {
   return (
     <div className="homescreen">
       <div className="top-bar">
-        <div className="top-title">Broadcast & Alerts</div>
+        <div className="top-title">Notifications</div>
       </div>
 
       <div className="content">

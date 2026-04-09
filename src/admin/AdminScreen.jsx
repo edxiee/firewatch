@@ -11,7 +11,6 @@ export default function AdminScreen() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // 1. Real-time Emergency Listener
     const q = query(collection(db, "emergencies"), where("status", "==", "active"));
     const unsubscribeEmergencies = onSnapshot(q, (snapshot) => {
       if (!snapshot.empty) {
@@ -26,7 +25,6 @@ export default function AdminScreen() {
       }
     });
 
-    // 2. Fetch Stats (Total Reports & Users)
     const fetchStats = async () => {
       const reportsColl = collection(db, "emergencies");
       const usersColl = collection(db, "users");
@@ -50,7 +48,14 @@ export default function AdminScreen() {
       {activeEmergency && (
         <div className="emergency-overlay">
           <div className="emergency-modal">
-            <div className="flashing-icon">🚨</div>
+            {/* SVG Siren Icon */}
+            <div className="flashing-icon">
+              <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                <line x1="12" y1="9" x2="12" y2="13"/>
+                <line x1="12" y1="17" x2="12.01" y2="17"/>
+              </svg>
+            </div>
             <h1>FIRE EMERGENCY!</h1>
             <div className="emergency-details">
               <p><strong>User:</strong> {activeEmergency.userEmail}</p>
@@ -66,7 +71,7 @@ export default function AdminScreen() {
       {/* TOP BAR */}
       <div className="admin-top-bar">
         <img className="top-logo" src="/Logo.png" alt="Logo" />
-        <div className="top-title">Command Center</div>
+        <div className="top-title">Dashboard</div>
       </div>
 
       <div className="admin-content">
@@ -76,7 +81,7 @@ export default function AdminScreen() {
           <p className="services-subtitle">Real-time community monitoring</p>
         </div>
 
-        {/* STATS GRID - Ensure these are wrapped in 'stats-grid' */}
+        {/* STATS GRID */}
         <div className="stats-grid">
           <div className="stat-card urgent">
             <span className="stat-value">{activeEmergency ? "1" : "0"}</span>
@@ -90,24 +95,48 @@ export default function AdminScreen() {
             <span className="stat-value">{stats.reports}</span>
             <span className="stat-label">Total Logs</span>
           </div>
-          <div className="stat-card chat-card" onClick={() => navigate("/admin/messages")}>
-            <span className="stat-value">Chat</span>
-            <span className="stat-label">Support</span>
+          
+          {/* Changed: Removed 'chat-card' class so it uses default white styling */}
+          <div className="stat-card" onClick={() => navigate("/admin/messages")}>
+            <span className="stat-value">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              </svg>
+            </span>
+            <span className="stat-label">Support Chat</span>
           </div>
         </div>
 
-        {/* QUICK ACTIONS - Ensure these are wrapped in 'action-row' */}
+        {/* QUICK ACTIONS */}
         <div className="quick-actions">
           <h3 className="section-title">Quick Actions</h3>
           <div className="action-row">
             <button className="action-tile" onClick={() => navigate("/admin/notifications")}>
-              📢 <span>Send Alert</span>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+              </svg>
+              <span>Notifications</span>
             </button>
+            
             <button className="action-tile" onClick={() => navigate("/admin/users")}>
-              👥 <span>Users</span>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+              <span>Users</span>
             </button>
+            
             <button className="action-tile" onClick={() => navigate("/admin/create-account")}>
-              🔑 <span>Add Admin</span>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="8.5" cy="7" r="4"/>
+                <line x1="20" y1="8" x2="20" y2="14"/>
+                <line x1="17" y1="11" x2="23" y2="11"/>
+              </svg>
+              <span>Add Admin</span>
             </button>
           </div>
         </div>
