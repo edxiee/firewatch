@@ -60,7 +60,17 @@ export default function Auth() {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
 
-        // 4. Block login if email is not verified
+        // 1. Fetch user data FIRST to check the role
+        const userDoc = await getDoc(doc(db, "users", user.uid));
+        const userData = userDoc.exists() ? userDoc.data() : null;
+
+        // 2. Check Role: Admins skip verification
+        if (userData && userData.role === "admin") {
+          navigate("/admin");
+          return; // Exit early, they are good to go!
+        }
+
+        // 3. For regular users, enforce email verification
         if (!user.emailVerified) {
           await signOut(auth); // Sign them back out
           alert("Please verify your email before logging in. Check your inbox!");
@@ -68,13 +78,10 @@ export default function Auth() {
           return;
         }
 
-        const userDoc = await getDoc(doc(db, "users", user.uid));
-        if (userDoc.exists() && userDoc.data().role === "admin") {
-          navigate("/admin");
-        } else {
-          const hasSeenLanding = localStorage.getItem("hasSeenFireWatchIntro");
-          navigate(!hasSeenLanding ? "/landing" : "/home");
-        }
+        // 4. If verified regular user, check landing status
+        const hasSeenLanding = localStorage.getItem("hasSeenFireWatchIntro");
+        navigate(!hasSeenLanding ? "/landing" : "/home");
+
       } else {
         // --- SIGN UP ---
         if (password !== confirmPassword) {
@@ -97,11 +104,10 @@ export default function Auth() {
           createdAt: new Date()
         });
         
-        // 5. Send verification email and sign out
+        // Send verification email and sign out
         await sendEmailVerification(user);
         await signOut(auth); 
         
-        // Change UI to show success message instead of redirecting
         setVerificationSent(true);
       }
     } catch (error) {
