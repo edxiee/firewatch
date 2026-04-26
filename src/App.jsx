@@ -65,22 +65,22 @@ function AppRoutes() {
       <Route path="/" element={<Auth />} /> 
       <Route path="/landing" element={<LandingPage />} />
       
-      {/* --- ADMIN ROUTES --- */}
-      <Route path="/admin" element={<ProtectedRoute><AdminScreen /></ProtectedRoute>} />
-      <Route path="/admin/profile" element={<ProtectedRoute><AdminProfile /></ProtectedRoute>} />
-      <Route path="/admin/edit-profile" element={<ProtectedRoute><EditProfile /></ProtectedRoute>} />
-      <Route path="/admin/messages" element={<ProtectedRoute><AdminMessages /></ProtectedRoute>} /> 
-      <Route path="/admin/notifications" element={<ProtectedRoute><AdminNotifications /></ProtectedRoute>} />
-      <Route path="/admin/create-account" element={<ProtectedRoute><CreateAdmin /></ProtectedRoute>} />
-      <Route path="/admin/users" element={<ProtectedRoute><UserList /></ProtectedRoute>} />
+      {/* --- ADMIN ROUTES (Requires Login + Admin Role) --- */}
+      <Route path="/admin" element={<ProtectedRoute adminOnly><AdminScreen /></ProtectedRoute>} />
+      <Route path="/admin/profile" element={<ProtectedRoute adminOnly><AdminProfile /></ProtectedRoute>} />
+      <Route path="/admin/edit-profile" element={<ProtectedRoute adminOnly><EditProfile /></ProtectedRoute>} />
+      <Route path="/admin/messages" element={<ProtectedRoute adminOnly><AdminMessages /></ProtectedRoute>} /> 
+      <Route path="/admin/notifications" element={<ProtectedRoute adminOnly><AdminNotifications /></ProtectedRoute>} />
+      <Route path="/admin/create-account" element={<ProtectedRoute adminOnly><CreateAdmin /></ProtectedRoute>} />
+      <Route path="/admin/users" element={<ProtectedRoute adminOnly><UserList /></ProtectedRoute>} />
       
-      {/* --- USER ROUTES --- */}
-      <Route path="/home" element={<HomeScreen />}/>
-      <Route path="/emergency" element={<EmergencyScreen />} />
-      <Route path="/notification" element={<Notification />} />
-      <Route path="/message" element={<Message />} />
-      <Route path="/profile" element={<PersonalDetails />} />
-      <Route path="/edit-profile" element={<UserEditProfile />} />
+      {/* --- USER ROUTES (Requires Login) --- */}
+      <Route path="/home" element={<ProtectedRoute><HomeScreen /></ProtectedRoute>}/>
+      <Route path="/emergency" element={<ProtectedRoute><EmergencyScreen /></ProtectedRoute>} />
+      <Route path="/notification" element={<ProtectedRoute><Notification /></ProtectedRoute>} />
+      <Route path="/message" element={<ProtectedRoute><Message /></ProtectedRoute>} />
+      <Route path="/profile" element={<ProtectedRoute><PersonalDetails /></ProtectedRoute>} />
+      <Route path="/edit-profile" element={<ProtectedRoute><UserEditProfile /></ProtectedRoute>} />
     </Routes>
   );
 }

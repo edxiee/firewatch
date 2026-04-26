@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { auth, db } from "../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import AdminNavbar from "./AdminNavbar";
 import "./CreateAdmin.css";
@@ -18,11 +18,17 @@ export default function CreateAdmin() {
     setLoading(true);
 
     try {
-      // 1. Create the user in Firebase Auth
+      const currentUser = auth.currentUser;
+      const adminDoc = await getDoc(doc(db, "users", currentUser.uid));
+
+      if (!adminDoc.exists() || adminDoc.data().role !== "admin") {
+        alert("Unauthorized: You do not have permission to create admin.");
+        return;
+      }
+
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const newUser = userCredential.user;
 
-      // 2. Save to Firestore with 'admin' role
       await setDoc(doc(db, "users", newUser.uid), {
         firstName: name,
         lastName: "(Admin)",
