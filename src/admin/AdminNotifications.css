@@ -1,4 +1,3 @@
-/* Container for the scrollable list of alerts */
 .alerts-container {
   display: flex;
   flex-direction: column;
@@ -6,22 +5,30 @@
   padding: 15px;
   max-width: 600px;
   margin: 0 auto;
+  padding-bottom: 100px; /* Space for Navbar */
 }
 
-/* Base style for the alert card */
 .alert-card {
   background: #ffffff;
   border-radius: 12px;
   padding: 18px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border-left: 8px solid #adb5bd; /* Default gray for resolved */
-  transition: transform 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-left: 8px solid #adb5bd;
+  transition: all 0.3s ease;
 }
 
-/* Active emergency styling - Red and Pulsing */
 .alert-card.active {
   border-left: 8px solid #a31224;
   animation: pulse-border 2s infinite;
+}
+
+.alert-card.responding {
+  border-left: 8px solid #f39c12; /* Orange for in-progress */
+}
+
+.alert-card.resolved {
+  border-left: 8px solid #28a745;
+  background-color: #fafafa;
 }
 
 @keyframes pulse-border {
@@ -30,7 +37,6 @@
   100% { box-shadow: 0 0 0 0 rgba(163, 18, 36, 0); }
 }
 
-/* Text styles inside the cards */
 .alert-header {
   display: flex;
   justify-content: space-between;
@@ -48,7 +54,7 @@
 
 .alert-time {
   font-size: 0.85rem;
-  color: #666;
+  color: #888;
 }
 
 .alert-body p {
@@ -57,48 +63,55 @@
   color: #333;
 }
 
-/* Google Maps Link */
-.map-link {
-  display: inline-block;
-  margin-top: 10px;
-  color: #007bff;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.9rem;
-}
-
-.map-link:hover {
-  text-decoration: underline;
-}
-
-/* Resolve Button */
-.resolve-btn {
-  margin-top: 15px;
-  width: 100%;
-  background-color: #28a745;
-  color: white;
-  border: none;
-  padding: 10px;
-  border-radius: 6px;
+.status-tag {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
   font-weight: bold;
+}
+
+.status-tag.active { background: #ffebee; color: #c62828; }
+.status-tag.responding { background: #fff3e0; color: #ef6c00; }
+.status-tag.resolved { background: #e8f5e9; color: #2e7d32; }
+
+.alert-actions {
+  display: flex; 
+  gap: 10px; 
+  margin-top: 15px;
+}
+
+.respond-btn, .resolve-btn {
+  width: 100%;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 800;
   cursor: pointer;
-  transition: background 0.3s;
+  text-transform: uppercase;
+  transition: opacity 0.2s;
 }
 
-.resolve-btn:hover {
-  background-color: #218838;
+.respond-btn { background-color: #a31224; color: white; }
+.resolve-btn { background-color: #28a745; color: white; }
+
+.respond-btn:hover, .resolve-btn:hover { opacity: 0.9; }
+
+/* The SVG Resolved Badge */
+.resolved-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #28a745;
+  background: #e8f5e9;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-transform: uppercase;
 }
 
-/* Placeholder for empty state */
 .no-alerts {
   text-align: center;
   color: #888;
   margin-top: 30px;
-  font-style: italic;
-}
-
-/* Resolved state styling */
-.alert-card.resolved {
-  opacity: 0.7;
-  filter: grayscale(0.5);
 }

@@ -13,6 +13,23 @@ import {
 import AdminNavbar from "./AdminNavbar.jsx";
 import "./AdminNotifications.css";
 
+// Custom SVG Icon for Resolved State
+const CheckIcon = () => (
+  <svg 
+    xmlns="http://www.w3.org/2000/svg" 
+    width="18" 
+    height="18" 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke="currentColor" 
+    strokeWidth="3" 
+    strokeLinecap="round" 
+    strokeLinejoin="round"
+  >
+    <polyline points="20 6 9 17 4 12"></polyline>
+  </svg>
+);
+
 export default function AdminNotifications() {
   const [alerts, setAlerts] = useState([]);
 
@@ -61,7 +78,6 @@ export default function AdminNotifications() {
     return () => unsubscribe();
   }, []);
 
-  // --- NEW: FUNCTION TO RESPOND ---
   const respondToEmergency = async (id) => {
     try {
       const alertRef = doc(db, "emergencies", id);
@@ -69,7 +85,6 @@ export default function AdminNotifications() {
         status: "responding",
         respondedAt: serverTimestamp() 
       });
-      // This will trigger "The fireman responded to your help request" on user side
     } catch (error) {
       alert("Error: " + error.message);
     }
@@ -82,7 +97,6 @@ export default function AdminNotifications() {
         status: "resolved",
         resolvedAt: serverTimestamp() 
       });
-      // This will trigger "Your help request has been resolved" on user side
       alert("Emergency marked as resolved.");
     } catch {
       alert("Permission Denied: Check your Firestore rules.");
@@ -130,7 +144,7 @@ export default function AdminNotifications() {
                   )}
                 </div>
 
-                <div className="alert-actions" style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+                <div className="alert-actions">
                   {/* STEP 1: RESPOND */}
                   {alert.status === "active" && (
                     <button className="respond-btn" onClick={() => respondToEmergency(alert.id)}>
@@ -138,7 +152,7 @@ export default function AdminNotifications() {
                     </button>
                   )}
 
-                  {/* STEP 2: RESOLVE (Only shows after Responding) */}
+                  {/* STEP 2: RESOLVE */}
                   {alert.status === "responding" && (
                     <button className="resolve-btn" onClick={() => markAsResolved(alert.id)}>
                       Mark as Resolved
@@ -147,7 +161,10 @@ export default function AdminNotifications() {
 
                   {/* COMPLETED STATE */}
                   {alert.status === "resolved" && (
-                    <span className="resolved-check">✅ Resolved</span>
+                    <div className="resolved-badge">
+                      <CheckIcon />
+                      <span>Resolved</span>
+                    </div>
                   )}
                 </div>
               </div>

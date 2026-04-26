@@ -141,7 +141,6 @@ export default function AdminScreen() {
           </div>
         </div>
       </div>
-
       <AdminNavbar />
     </div>
   );
