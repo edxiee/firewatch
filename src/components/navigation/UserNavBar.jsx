@@ -1,49 +1,141 @@
-import React from 'react';
-import { useNavigate, useLocation } from "react-router-dom";
-import './UserNavBar.css'; // Import the CSS file for styling
+import React from "react";
+import {
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 
-const UserNavBar = () => {
+import "./UserNavBar.css";
+
+
+/* =========================================
+   USER BOTTOM NAVIGATION
+   ========================================= */
+
+export default function UserNavBar() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // This checks the current URL to apply the 'active' class (yellow highlight)
-  const isActive = (path) => location.pathname === path ? "active" : "";
 
-  return (
-    <div className="bottom-bar">
-      {/* Home */}
-      <button className={`nav-btn ${isActive("/home")}`} onClick={() => navigate("/home")}>
-        <svg viewBox="0 0 24 24" className="nav-icon"><path d="M3 10.5L12 3l9 7.5V21h-6v-6H9v6H3z" /></svg>
-      </button>
+  const isActive = (path) =>
+    location.pathname === path;
 
-      {/* Emergency */}
-      <button className={`nav-btn ${isActive("/emergency")}`} onClick={() => navigate("/emergency")}>
-        <svg viewBox="0 0 24 24" className="nav-icon"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z" /></svg>
-      </button>
 
-      {/* Message (Updated SVG Path) */}
-      <button className={`nav-btn ${isActive("/message")}`} onClick={() => navigate("/message")}>
-        <svg viewBox="0 0 24 24" className="nav-icon">
+  const navItems = [
+    {
+      path: "/home",
+      label: "Home",
+      icon: (
+        <svg
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path d="M3 10.5L12 3l9 7.5V21h-6v-6H9v6H3z" />
+        </svg>
+      ),
+    },
+
+    {
+      path: "/emergency",
+      label: "Emergency",
+      icon: (
+        <svg
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z" />
+        </svg>
+      ),
+    },
+
+    {
+      path: "/message",
+      label: "Messages",
+      icon: (
+        <svg
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
           <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z" />
         </svg>
-      </button>
+      ),
+    },
 
-      {/* Notification */}
-      <button className={`nav-btn ${isActive("/notification")}`} onClick={() => navigate("/notification")}>
-        <svg viewBox="0 0 24 24" className="nav-icon">
-          <path d="M12 22a2 2 0 002-2H10a2 2 0 002 2zm6-6V11a6 6 0 10-12 0v5L4 18v1h16v-1l-2-2z" />
+    {
+      path: "/notification",
+      label: "Notifications",
+      icon: (
+        <svg
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path d="M12 22a2 2 0 0 0 2-2h-4a2 2 0 0 0 2 2zm6-6v-5a6 6 0 1 0-12 0v5l-2 2v1h16v-1l-2-2z" />
         </svg>
-      </button>
+      ),
+    },
 
-      {/* Profile */}
-      <button className={`nav-btn ${isActive("/profile")}`} onClick={() => navigate("/profile")}>
-        <svg viewBox="0 0 24 24" className="nav-icon">
-          <circle cx="12" cy="8" r="4" />
+    {
+      path: "/profile",
+      label: "Profile",
+      icon: (
+        <svg
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <circle
+            cx="12"
+            cy="8"
+            r="4"
+          />
+
           <path d="M4 20c0-4 4-6 8-6s8 2 8 6" />
         </svg>
-      </button>
-    </div>
-  );
-};
+      ),
+    },
+  ];
 
-export default UserNavBar;
+
+  return (
+    <nav
+      className="user-bottom-nav"
+      aria-label="User navigation"
+    >
+      <div className="user-bottom-nav-inner">
+
+        {navItems.map((item) => {
+
+          const active =
+            isActive(item.path);
+
+          return (
+            <button
+              key={item.path}
+              type="button"
+              className={`user-bottom-nav-button ${
+                active ? "is-active" : ""
+              }`}
+              onClick={() =>
+                navigate(item.path)
+              }
+              aria-label={item.label}
+              aria-current={
+                active ? "page" : undefined
+              }
+              title={item.label}
+            >
+
+              <span className="user-bottom-nav-icon">
+                {item.icon}
+              </span>
+
+              <span className="user-bottom-nav-label">
+                {item.label}
+              </span>
+
+            </button>
+          );
+        })}
+
+      </div>
+    </nav>
+  );
+}

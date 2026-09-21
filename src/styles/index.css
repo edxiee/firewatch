@@ -1,90 +1,139 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+/* =========================================
+   FIREWATCH GLOBAL STYLES
+   ========================================= */
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* =========================================
+   RESET
+   ========================================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+
+/* =========================================
+   DOCUMENT
+   ========================================= */
+
+html {
+  width: 100%;
+  min-height: 100%;
+
+  margin: 0;
+  padding: 0;
+
+  background-color: #f8f9fa;
+
+  overflow-x: hidden;
 }
-a:hover {
-  color: #535bf2;
-}
+
 
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
+  width: 100%;
   min-width: 320px;
   min-height: 100vh;
+  min-height: 100dvh;
+
+  margin: 0;
+  padding: 0;
+
+  background-color: #f8f9fa;
+
+  color: #1a1a1a;
+
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+
+  /*
+    IMPORTANT:
+    Do NOT use display:flex here.
+    Do NOT use overflow:hidden here.
+
+    Let the browser handle normal
+    vertical page scrolling.
+  */
+  overflow-x: hidden;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+
+/* =========================================
+   REACT ROOT
+   ========================================= */
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+
+  margin: 0;
+  padding: 0;
+
+  /*
+    Do not restrict root height.
+    The application needs to grow
+    beyond the viewport so pages can scroll.
+  */
 }
+
+
+/* =========================================
+   FORM CONTROLS
+   ========================================= */
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+
+/* =========================================
+   BUTTON RESET
+   ========================================= */
 
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  margin: 0;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+
+/* =========================================
+   MEDIA
+   ========================================= */
+
+img,
+svg {
+  max-width: 100%;
 }
 
-.bottom-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 70px;
-  background: #a31224;
-  
-  /* CRITICAL FIXES */
-  z-index: 9999;        /* Moves the bar to the absolute front */
-  pointer-events: auto; /* Ensures buttons can receive clicks */
-  
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
+
+/* =========================================
+   LINKS
+   ========================================= */
+
+a {
+  color: inherit;
+
+  text-decoration: none;
 }
 
-/* Ensure content doesn't get stuck behind the fixed bar */
-.content {
-  padding-bottom: 80px; /* Space so buttons don't overlap text */
+
+/* =========================================
+   ACCESSIBILITY
+   ========================================= */
+
+:focus-visible {
+  outline: 3px solid rgba(163, 18, 36, 0.25);
+
+  outline-offset: 2px;
 }

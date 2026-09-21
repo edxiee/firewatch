@@ -1,93 +1,542 @@
-/* --- GLOBAL THEME LOCK (Anti-Dark Mode) --- */
-:root {
-  color-scheme: light !important;
-}
+/* =========================================
+   USER NOTIFICATION SCREEN
+   ========================================= */
 
-html, body, .homescreen {
-  background-color: #ffffff !important;
-  color: #000000 !important;
-}
+.user-notification-screen {
+  width: 100%;
+  min-width: 0;
 
-/* --- TOP BAR --- */
-.top-bar {
-  padding-top: 28px;
-  height: 88px;
-  background: #a31224;
-  border-bottom-left-radius: 25px;
-  border-bottom-right-radius: 25px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-}
+  min-height: 100vh;
+  min-height: 100dvh;
 
-.top-logo {
-  position: absolute;
-  left: 15px;
-  width: 70px;
-  height: 70px;
-}
+  padding-bottom: 96px;
 
-.top-title {
-  font-size: 20px;
-  font-weight: 700;
-  color: #ffffff !important; /* White on Red background */
-}
+  position: relative;
 
-/* --- CONTENT --- */
-.content {
-  flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin-top: 100px; /* Offset for fixed header */
-  padding: 18px;
-  padding-bottom: 90px; /* Space for navbar */
-  background-color: #ffffff !important;
+
+  background-color: #f8f9fa;
+  color: #1a1a1a;
 }
 
-/* --- NOTIFICATION CARDS --- */
-.notif-card {
-  width: 95%;
-  background: #fff !important;
-  border-left: 5px solid #a31224; /* Fire Red accent */
-  padding: 15px;
-  margin-bottom: 15px;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  color: #000 !important;
-}
 
-.notif-card.success {
-  border-left: 5px solid #28a745; /* Success Green accent */
-}
+/* =========================================
+   TOP BAR
+   ========================================= */
 
-.notif-card strong {
-  display: block;
-  font-size: 16px;
-  margin-bottom: 5px;
-}
+.user-notification-screen
+.user-notification-top-bar {
+  width: 100%;
+  height: 64px;
 
-.notif-card p {
-  margin: 0;
-  font-size: 14px;
-  color: #555 !important;
-}
+  padding: 0 24px;
 
-/* --- BOTTOM BAR STYLES (For consistency) --- */
-.bottom-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 75px;
-  background: #a31224 !important;
   display: flex;
-  justify-content: space-around;
   align-items: center;
-  z-index: 2000;
+
+  gap: 12px;
+
+  position: sticky;
+  top: 0;
+
+  z-index: 100;
+
+  flex-shrink: 0;
+
+  background-color: #a31224;
+
+  box-shadow:
+    0 2px 8px
+    rgba(0, 0, 0, 0.1);
+}
+
+
+.user-notification-screen
+.user-notification-logo {
+  width: auto;
+  height: 36px;
+
+  flex-shrink: 0;
+}
+
+
+.user-notification-screen
+.user-notification-title {
+  color: #ffffff;
+
+  font-size: 1.25rem;
+  font-weight: 600;
+
+  letter-spacing: 0.3px;
+}
+
+
+/* =========================================
+   MAIN CONTENT
+   ========================================= */
+
+.user-notification-screen
+.user-notification-content {
+  width: 100%;
+  max-width: 900px;
+
+  margin: 0 auto;
+
+  padding: 28px 24px 44px;
+
+  flex: 1;
+}
+
+
+.user-notification-screen
+.user-notification-heading {
+  margin-bottom: 22px;
+}
+
+
+.user-notification-screen
+.user-notification-heading h1 {
+  margin: 0 0 6px;
+
+  color: #a31224;
+
+  font-size: 1.65rem;
+  font-weight: 750;
+}
+
+
+.user-notification-screen
+.user-notification-heading p {
+  margin: 0;
+
+  color: #667085;
+
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+
+/* =========================================
+   NOTIFICATION LIST
+   ========================================= */
+
+.user-notification-screen
+.user-notification-list {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 14px;
+}
+
+
+/* =========================================
+   STATUS CARD
+   ========================================= */
+
+.user-notification-screen
+.user-notification-card {
+  width: 100%;
+
+  padding: 20px;
+
+  display: flex;
+  align-items: flex-start;
+
+  gap: 16px;
+
+  background-color: #ffffff;
+
+  border:
+    1px solid
+    #e7e7e7;
+
+  border-left-width: 5px;
+
+  border-radius: 14px;
+
+  box-shadow:
+    0 4px 14px
+    rgba(0, 0, 0, 0.05);
+}
+
+
+.user-notification-screen
+.user-notification-card.is-active {
+  border-left-color: #a31224;
+}
+
+
+.user-notification-screen
+.user-notification-card.is-responding {
+  border-left-color: #f39c12;
+}
+
+
+.user-notification-screen
+.user-notification-card.is-resolved {
+  border-left-color: #28a745;
+
+  background-color: #fbfffc;
+}
+
+
+/* =========================================
+   CARD ICON
+   ========================================= */
+
+.user-notification-screen
+.user-notification-card-icon {
+  width: 46px;
+  height: 46px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 12px;
+
+  background-color: #f7f7f7;
+
+  color: #a31224;
+}
+
+
+.user-notification-screen
+.user-notification-card.is-responding
+.user-notification-card-icon {
+  color: #b86f00;
+
+  background-color: #fff7e8;
+}
+
+
+.user-notification-screen
+.user-notification-card.is-resolved
+.user-notification-card-icon {
+  color: #1f7a34;
+
+  background-color: #eaf7ed;
+}
+
+
+.user-notification-screen
+.user-notification-card-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+
+/* =========================================
+   CARD CONTENT
+   ========================================= */
+
+.user-notification-screen
+.user-notification-card-content {
+  min-width: 0;
+
+  flex: 1;
+}
+
+
+.user-notification-screen
+.user-notification-card-heading {
+  width: 100%;
+
+  display: flex;
+
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 16px;
+}
+
+
+.user-notification-screen
+.user-notification-status-label {
+  display: inline-flex;
+
+  margin-bottom: 5px;
+
+  color: #a31224;
+
+  font-size: 0.72rem;
+  font-weight: 800;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.7px;
+}
+
+
+.user-notification-screen
+.is-responding
+.user-notification-status-label {
+  color: #a15f00;
+}
+
+
+.user-notification-screen
+.is-resolved
+.user-notification-status-label {
+  color: #1f7a34;
+}
+
+
+.user-notification-screen
+.user-notification-card h2 {
+  margin: 0;
+
+  color: #222222;
+
+  font-size: 1rem;
+  font-weight: 700;
+
+  line-height: 1.35;
+}
+
+
+.user-notification-screen
+.user-notification-card p {
+  margin: 8px 0 0;
+
+  color: #667085;
+
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+
+.user-notification-screen
+.user-notification-time {
+  flex-shrink: 0;
+
+  color: #8a8a8a;
+
+  font-size: 0.76rem;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================
+   EMPTY / LOADING / ERROR STATE
+   ========================================= */
+
+.user-notification-screen
+.user-notification-state-card {
+  width: 100%;
+  min-height: 260px;
+
+  padding: 36px 24px;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  background-color: #ffffff;
+
+  border:
+    1px solid
+    #e7e7e7;
+
+  border-radius: 16px;
+
+  box-shadow:
+    0 4px 14px
+    rgba(0, 0, 0, 0.04);
+}
+
+
+.user-notification-screen
+.user-notification-state-icon {
+  width: 58px;
+  height: 58px;
+
+  margin-bottom: 14px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  color: #a31224;
+
+  background-color: #fdf1f2;
+
+  border-radius: 50%;
+}
+
+
+.user-notification-screen
+.user-notification-state-icon svg {
+  width: 28px;
+  height: 28px;
+}
+
+
+.user-notification-screen
+.user-notification-state-card h2 {
+  margin: 0 0 7px;
+
+  color: #262626;
+
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+
+.user-notification-screen
+.user-notification-state-card p {
+  max-width: 430px;
+
+  margin: 0;
+
+  color: #667085;
+
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+
+.user-notification-screen
+.user-notification-state-error
+.user-notification-state-icon {
+  color: #991b1b;
+
+  background-color: #fef2f2;
+}
+
+
+/* =========================================
+   TABLET
+   ========================================= */
+
+@media (max-width: 768px) {
+
+  .user-notification-screen
+  .user-notification-content {
+    padding:
+      24px 18px
+      38px;
+  }
+
+}
+
+
+/* =========================================
+   MOBILE
+   ========================================= */
+
+@media (max-width: 480px) {
+
+  .user-notification-screen {
+    padding-bottom:
+      calc(
+        88px +
+        env(safe-area-inset-bottom)
+      );
+  }
+
+
+  .user-notification-screen
+  .user-notification-top-bar {
+    height: 60px;
+
+    padding: 0 12px;
+
+    gap: 10px;
+  }
+
+
+  .user-notification-screen
+  .user-notification-logo {
+    height: 32px;
+  }
+
+
+  .user-notification-screen
+  .user-notification-title {
+    font-size: 1.05rem;
+  }
+
+
+  .user-notification-screen
+  .user-notification-content {
+    padding:
+      20px 14px
+      32px;
+  }
+
+
+  .user-notification-screen
+  .user-notification-heading {
+    margin-bottom: 16px;
+  }
+
+
+  .user-notification-screen
+  .user-notification-heading h1 {
+    font-size: 1.4rem;
+  }
+
+
+  .user-notification-screen
+  .user-notification-card {
+    padding: 16px;
+
+    gap: 12px;
+
+    border-radius: 12px;
+  }
+
+
+  .user-notification-screen
+  .user-notification-card-icon {
+    width: 40px;
+    height: 40px;
+
+    border-radius: 10px;
+  }
+
+
+  .user-notification-screen
+  .user-notification-card-icon svg {
+    width: 21px;
+    height: 21px;
+  }
+
+
+  .user-notification-screen
+  .user-notification-card-heading {
+    flex-direction: column;
+
+    gap: 4px;
+  }
+
+
+  .user-notification-screen
+  .user-notification-time {
+    white-space: normal;
+  }
+
+
+  .user-notification-screen
+  .user-notification-state-card {
+    min-height: 220px;
+
+    padding: 30px 18px;
+
+    border-radius: 14px;
+  }
+
 }

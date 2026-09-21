@@ -1,155 +1,524 @@
-﻿import React, { useState, useEffect, useRef } from 'react';
-import { db, auth } from "../../services/firebase.js"; 
-import { 
-  collection, 
-  addDoc, 
-  query, 
-  orderBy, 
-  onSnapshot, 
-  serverTimestamp, 
-  doc, 
-  setDoc, 
-  getDoc 
+﻿import React, { useEffect, useRef, useState } from "react";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  onSnapshot,
+  orderBy,
+  query,
+  serverTimestamp,
+  setDoc,
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
-import UserNavBar from "../../components/navigation/UserNavBar.jsx"; 
-import './Message.css';
 
-const Message = () => {
+import { auth, db } from "../../services/firebase.js";
+import UserNavBar from "../../components/navigation/UserNavBar.jsx";
+import "./Message.css";
+
+
+/* =========================================
+   SVG ICONS
+   ========================================= */
+
+const MessageIcon = () => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+  </svg>
+);
+
+
+const SendIcon = () => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    <line x1="22" y1="2" x2="11" y2="13" />
+    <polygon points="22 2 15 22 11 13 2 9 22 2" />
+  </svg>
+);
+
+
+const CheckDoubleIcon = () => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="3"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    <polyline points="20 6 9 17 4 12" />
+    <polyline points="22 8 11 19" opacity="0.6" />
+  </svg>
+);
+
+
+/* =========================================
+   DATE / TIME HELPERS
+   ========================================= */
+
+const formatTime = (timestamp) => {
+  if (!timestamp || typeof timestamp.toDate !== "function") {
+    return "";
+  }
+
+  try {
+    return timestamp.toDate().toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  } catch {
+    return "";
+  }
+};
+
+
+const formatDateDivider = (timestamp) => {
+  if (!timestamp || typeof timestamp.toDate !== "function") {
+    return "";
+  }
+
+  try {
+    const date = timestamp.toDate();
+
+    const today = new Date();
+    const yesterday = new Date();
+
+    yesterday.setDate(today.getDate() - 1);
+
+    if (date.toDateString() === today.toDateString()) {
+      return "Today";
+    }
+
+    if (date.toDateString() === yesterday.toDateString()) {
+      return "Yesterday";
+    }
+
+    return date.toLocaleDateString([], {
+      weekday: "long",
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
+  } catch {
+    return "";
+  }
+};
+
+
+/* =========================================
+   MESSAGE SCREEN
+   ========================================= */
+
+export default function Message() {
   const [messages, setMessages] = useState([]);
   const [inputText, setInputText] = useState("");
   const [currentUser, setCurrentUser] = useState(null);
+  const [isLoadingMessages, setIsLoadingMessages] = useState(true);
+  const [isSending, setIsSending] = useState(false);
+  const [messageError, setMessageError] = useState("");
+
   const messagesEndRef = useRef(null);
+
+
+  /* =========================================
+     AUTH STATE
+     ========================================= */
 
   useEffect(() => {
     const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        console.log("Logged in as:", user.uid);
-        setCurrentUser(user);
-      } else {
-        console.log("No user logged in.");
-        setCurrentUser(null);
+      setCurrentUser(user || null);
+
+      if (!user) {
+        setMessages([]);
+        setIsLoadingMessages(false);
       }
     });
-    return () => unsubscribeAuth();
+
+    return () => {
+      unsubscribeAuth();
+    };
   }, []);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
+
+  /* =========================================
+     AUTO SCROLL
+     ========================================= */
 
   useEffect(() => {
-    scrollToBottom();
+    messagesEndRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+    });
   }, [messages]);
 
+
+  /* =========================================
+     REAL-TIME MESSAGES
+     ========================================= */
+
   useEffect(() => {
-    if (!currentUser) return;
+    if (!currentUser) {
+      return undefined;
+    }
 
-    console.log("Listening to path: chats/" + currentUser.uid + "/messages");
+    setIsLoadingMessages(true);
+    setMessageError("");
 
-    const q = query(
-      collection(db, "chats", currentUser.uid, "messages"), 
+    const messagesQuery = query(
+      collection(db, "chats", currentUser.uid, "messages"),
       orderBy("timestamp", "asc")
     );
 
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      console.log("Messages found in DB for user:", snapshot.size);
-      const msgs = snapshot.docs.map(doc => ({ 
-        id: doc.id, 
-        ...doc.data() 
-      }));
-      setMessages(msgs);
-    }, (error) => {
-      console.error("Firestore Error:", error.message);
-      if (error.message.includes("permissions")) {
-        alert("Permission Denied: Make sure your Firestore Rules are updated!");
-      }
-    });
+    const unsubscribeMessages = onSnapshot(
+      messagesQuery,
 
-    return () => unsubscribe();
+      (snapshot) => {
+        const nextMessages = snapshot.docs.map((messageDoc) => ({
+          id: messageDoc.id,
+          ...messageDoc.data(),
+        }));
+
+        setMessages(nextMessages);
+        setMessageError("");
+        setIsLoadingMessages(false);
+      },
+
+      (error) => {
+        console.error("[FireWatch] Message listener error:", error);
+
+        setMessageError(
+          "We could not load the conversation. Please check your connection and try again."
+        );
+
+        setIsLoadingMessages(false);
+      }
+    );
+
+    return () => {
+      unsubscribeMessages();
+    };
   }, [currentUser]);
 
+
+  /* =========================================
+     SEND MESSAGE
+     ========================================= */
+
   const handleSendMessage = async () => {
-    if (!inputText.trim() || !currentUser) return;
-    
-    const textToSend = inputText;
-    setInputText(""); 
+    const trimmedMessage = inputText.trim();
+
+    if (!trimmedMessage || !currentUser || isSending) {
+      return;
+    }
+
+    const textToSend = trimmedMessage;
+
+    setInputText("");
+    setIsSending(true);
+    setMessageError("");
 
     try {
-      const userDoc = await getDoc(doc(db, "users", currentUser.uid));
-      const userData = userDoc.exists() ? userDoc.data() : {};
+      const userDoc = await getDoc(
+        doc(db, "users", currentUser.uid)
+      );
 
-      await setDoc(doc(db, "chats", currentUser.uid), {
-        userEmail: currentUser.email,
-        firstName: userData.firstName || "User",
-        lastName: userData.lastName || "",
-        lastMessage: textToSend,
-        updatedAt: serverTimestamp(),
-        unread: true 
-      }, { merge: true });
+      const userData = userDoc.exists()
+        ? userDoc.data()
+        : {};
 
-      await addDoc(collection(db, "chats", currentUser.uid, "messages"), {
-        text: textToSend,
-        senderId: currentUser.uid,
-        timestamp: serverTimestamp(),
-        status: "sent" 
-      });
+      await setDoc(
+        doc(db, "chats", currentUser.uid),
+        {
+          userEmail: currentUser.email,
+          firstName: userData.firstName || "User",
+          lastName: userData.lastName || "",
+          lastMessage: textToSend,
+          updatedAt: serverTimestamp(),
+          unread: true,
+        },
+        {
+          merge: true,
+        }
+      );
 
-    } catch (error) { 
-      console.error("Error sending message:", error); 
+      await addDoc(
+        collection(
+          db,
+          "chats",
+          currentUser.uid,
+          "messages"
+        ),
+        {
+          text: textToSend,
+          senderId: currentUser.uid,
+          timestamp: serverTimestamp(),
+          status: "sent",
+        }
+      );
+    } catch (error) {
+      console.error("[FireWatch] Error sending message:", error);
+
+      setInputText(textToSend);
+
+      setMessageError(
+        "Your message could not be sent. Please try again."
+      );
+    } finally {
+      setIsSending(false);
     }
   };
 
+
+  const handleInputKeyDown = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      handleSendMessage();
+    }
+  };
+
+
+  /* =========================================
+     MESSAGE LIST
+     ========================================= */
+
+  const renderMessages = () => {
+    let lastDate = null;
+
+    return messages.map((message, index) => {
+      const messageDate =
+        message.timestamp &&
+        typeof message.timestamp.toDate === "function"
+          ? message.timestamp.toDate().toDateString()
+          : null;
+
+      const showDateDivider =
+        messageDate &&
+        messageDate !== lastDate;
+
+      if (messageDate) {
+        lastDate = messageDate;
+      }
+
+      const isSentByUser =
+        message.senderId === currentUser?.uid;
+
+      return (
+        <React.Fragment key={message.id || index}>
+
+          {showDateDivider && (
+            <div className="user-message-date-divider">
+              <span>
+                {formatDateDivider(message.timestamp)}
+              </span>
+            </div>
+          )}
+
+
+          <div
+            className={`user-message-chat-wrapper ${
+              isSentByUser
+                ? "sent"
+                : "received"
+            }`}
+          >
+            <div className="user-message-chat-bubble">
+
+              <span className="user-message-bubble-text">
+                {message.text}
+              </span>
+
+
+              <div className="user-message-message-info">
+
+                <span className="user-message-message-time">
+                  {formatTime(message.timestamp)}
+                </span>
+
+
+                {isSentByUser && (
+                  <span
+                    className={`user-message-message-status ${
+                      message.status === "read"
+                        ? "read"
+                        : ""
+                    }`}
+                    title={
+                      message.status === "read"
+                        ? "Read"
+                        : "Sent"
+                    }
+                  >
+                    <CheckDoubleIcon />
+                  </span>
+                )}
+
+              </div>
+
+            </div>
+          </div>
+
+        </React.Fragment>
+      );
+    });
+  };
+
+
+  /* =========================================
+     RENDER
+     ========================================= */
+
   return (
-    <div className="chat-layout-wrapper">
-      <header className="top-bar">
-        <img className="top-logo" src="/Logo.png" alt="Logo" />
-        <span className="top-title">Chat Support</span>
+    <div className="user-message-screen">
+
+      <header className="user-message-top-bar">
+        <img
+          className="user-message-logo"
+          src="/Logo.png"
+          alt="FireWatch Logo"
+        />
+
+        <div className="user-message-title">
+          Chat Support
+        </div>
       </header>
 
-      <main className="chat-content-area">
-        <div className="messages-container">
-          {messages.length === 0 && <p style={{textAlign: 'center', marginTop: '20px', color: '#888'}}>No messages yet. Say hello!</p>}
-          
-          {messages.map((msg) => (
-            <div 
-              key={msg.id} 
-              className={`chat-wrapper ${msg.senderId === currentUser?.uid ? "sent" : "received"}`}
-            >
-              <div className="chat-bubble">
-                <span className="bubble-text">{msg.text}</span>
-                <div className="message-info">
-                  <span className="message-time">
-                    {/* SAFE TIMESTAMP CHECK: Prevents crash if timestamp is null */}
-                    {msg.timestamp && typeof msg.timestamp.toDate === 'function' 
-                      ? msg.timestamp.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) 
-                      : "..."}
-                  </span>
-                </div>
-              </div>
-            </div>
-          ))}
-          <div ref={messagesEndRef} />
+
+      <main className="user-message-content">
+
+        <div className="user-message-conversation-header">
+          <MessageIcon />
+
+          <div>
+            <h1>FireWatch Support</h1>
+
+            <p>
+              Send a message to the FireWatch response team.
+            </p>
+          </div>
         </div>
+
+
+        <section
+          className="user-message-list"
+          aria-label="FireWatch support conversation"
+          aria-live="polite"
+        >
+
+          {isLoadingMessages && (
+            <div className="user-message-empty-state">
+              <MessageIcon />
+
+              <p>Loading conversation</p>
+
+              <span>
+                Please wait while we retrieve your messages.
+              </span>
+            </div>
+          )}
+
+
+          {!isLoadingMessages &&
+            !messageError &&
+            messages.length === 0 && (
+              <div className="user-message-empty-state">
+                <MessageIcon />
+
+                <p>No messages yet</p>
+
+                <span>
+                  Send a message below to start a conversation.
+                </span>
+              </div>
+            )}
+
+
+          {!isLoadingMessages && renderMessages()}
+
+
+          <div ref={messagesEndRef} />
+
+        </section>
+
       </main>
 
-      <footer className="chat-footer-group">
-        <div className="chat-input-row">
-          <input 
-            type="text" 
-            placeholder="Type Message..." 
-            value={inputText}
-            onChange={(e) => setInputText(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
-          />
-          <button onClick={handleSendMessage} type="button">âž¤</button>
+
+      <div className="user-message-footer">
+
+        <div className="user-message-footer-inner">
+
+          {messageError && (
+            <div
+              className="user-message-error"
+              role="status"
+            >
+              {messageError}
+            </div>
+          )}
+
+
+          <div className="user-message-input-row">
+
+            <input
+              type="text"
+              placeholder="Type your message..."
+              value={inputText}
+              onChange={(event) =>
+                setInputText(event.target.value)
+              }
+              onKeyDown={handleInputKeyDown}
+              disabled={!currentUser || isSending}
+              aria-label="Message"
+            />
+
+
+            <button
+              type="button"
+              onClick={handleSendMessage}
+              className="user-message-send-btn"
+              disabled={
+                !currentUser ||
+                isSending ||
+                !inputText.trim()
+              }
+              aria-label={
+                isSending
+                  ? "Sending message"
+                  : "Send message"
+              }
+            >
+              {isSending ? (
+                <span className="user-message-sending">
+                  ...
+                </span>
+              ) : (
+                <SendIcon />
+              )}
+            </button>
+
+          </div>
+
         </div>
-        <div className="navbar-fixed-container">
-          <UserNavBar />
-        </div>
-      </footer>
+
+      </div>
+
+
+      <UserNavBar />
     </div>
   );
-};
-
-export default Message;
+}
