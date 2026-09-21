@@ -1,194 +1,174 @@
-/* --- LAYOUT WRAPPER --- */
-.profile-wrapper {
-  background-color: #f8f9fa;
+/* =========================================
+   ADMIN PROFILE - SCOPED STYLES
+   ========================================= */
+
+.admin-profile {
   min-height: 100vh;
+  background-color: #f8f9fa;
+  padding-bottom: 80px;
+  position: relative;
   display: flex;
   flex-direction: column;
 }
 
-/* --- TOP BAR (Red Header) --- */
-.admin-top-bar {
+/* Top Bar - Matches Dashboard & Notifications (64px height) */
+.admin-profile .admin-profile-top-bar {
   background-color: #a31224;
-  height: 65px;
-  width: 100%;
+  color: white;
+  height: 64px;
+  padding: 0 24px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  position: relative;
-  padding: 0 20px;
+  gap: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  flex-shrink: 0;
 }
 
-.top-title {
-  color: white;
-  font-size: 16px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
+.admin-profile .admin-profile-logo {
+  height: 32px;
+  width: auto;
 }
 
-/* --- RED HEADER CARD --- */
-.profile-header-red {
+.admin-profile .admin-profile-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* Main Content Area */
+.admin-profile .admin-profile-content {
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* Profile Header Card */
+.admin-profile .admin-profile-header-card {
   background-color: #a31224;
-  margin: 15px; 
-  padding: 30px 20px;
-  border-radius: 25px;
+  margin: 24px;
+  padding: 32px 20px;
+  border-radius: 16px;
   text-align: center;
   color: white;
   box-shadow: 0 4px 15px rgba(163, 18, 36, 0.2);
 }
 
-.avatar-container {
-  position: relative;
-  width: 110px;
-  margin: 0 auto 15px;
-}
-
-.avatar-img {
-  width: 110px;
-  height: 110px;
-  background-color: #ffffff; 
+.admin-profile .admin-profile-avatar {
+  width: 100px;
+  height: 100px;
+  background-color: #ffffff;
   border: 4px solid #ffcc00;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 0 auto 16px;
   overflow: hidden;
+  color: #ccc;
 }
 
-.profile-pic-img {
+.admin-profile .admin-profile-pic-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.profile-name {
-  margin: 10px 0 5px;
-  font-size: 22px;
-  font-weight: 800;
+.admin-profile .admin-profile-name {
+  margin: 0 0 8px 0;
+  font-size: 1.5rem;
+  font-weight: 700;
   text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-/* Hashed Email in Header */
-.profile-email-header {
-  font-size: 13px;
-  opacity: 0.85;
-  font-family: 'Courier New', Courier, monospace;
-  letter-spacing: 1px;
-  margin-bottom: 15px;
+.admin-profile .admin-profile-email {
+  margin: 0 0 20px 0;
+  font-size: 0.9rem;
+  opacity: 0.9;
 }
 
-.edit-profile-btn {
-  background: #ffcc00;
-  border: none;
-  padding: 10px 35px;
-  border-radius: 20px;
-  font-weight: 800;
-  cursor: pointer;
-  transition: transform 0.2s;
-  color: #000;
-}
-
-/* --- SECURE INFO CARD SECTION --- */
-.section-label {
-  margin: 20px 20px 8px;
-  font-size: 11px;
-  font-weight: 800;
+.admin-profile .admin-profile-edit-btn {
+  background: #ffffff;
   color: #a31224;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.secure-info-card {
-  background: white;
-  margin: 0 15px 20px;
+  border: none;
+  padding: 10px 32px;
   border-radius: 20px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-  overflow: hidden; /* Clips the bottom border-radius */
-  border: 1px solid #eee;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
 }
 
-.info-row {
+.admin-profile .admin-profile-edit-btn:hover {
+  background: #f0f0f0;
+  transform: scale(1.02);
+}
+
+/* Menu List */
+.admin-profile .admin-profile-menu-list {
+  background: white;
+  margin: 0 24px 24px;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  border: 1px solid #f0f0f0;
+}
+
+.admin-profile .admin-profile-menu-item {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 15px;
+  padding: 16px 20px;
   border-bottom: 1px solid #f5f5f5;
-  transition: background 0.2s;
+  cursor: pointer;
+  transition: background 0.2s ease;
 }
 
-.info-row:last-child {
+.admin-profile .admin-profile-menu-item:last-child {
   border-bottom: none;
 }
 
-.info-left {
-  display: flex;
-  align-items: center;
+.admin-profile .admin-profile-menu-item:hover {
+  background-color: #fafafa;
 }
 
-/* Icon Container */
-.icon-box {
-  width: 42px;
-  height: 42px;
-  border-radius: 12px;
+.admin-profile .admin-profile-icon-box {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 15px;
-  font-size: 18px;
+  margin-right: 16px;
+  flex-shrink: 0;
 }
 
-/* Icon Background Themes */
-.green-bg { background: #e8f5e9; color: #2e7d32; }
-.purple-bg { background: #f3e5f5; color: #9c27b0; }
-.red-bg { background: #ffebee; color: #f44336; }
+.admin-profile .yellow-bg { background: #fff9e6; color: #d4a017; }
+.admin-profile .purple-bg { background: #f3e5f5; color: #9c27b0; }
+.admin-profile .red-bg { background: #ffebee; color: #f44336; }
 
-/* Text Content */
-.info-text {
-  display: flex;
-  flex-direction: column;
+.admin-profile .admin-profile-menu-text {
+  flex: 1;
 }
 
-.info-title {
-  font-size: 12px;
-  font-weight: 800;
-  color: #333;
+.admin-profile .admin-profile-menu-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1a1a1a;
   margin: 0;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
 
-/* HASHED VALUE STYLE */
-.info-value.hashed {
-  font-family: 'Courier New', Courier, monospace;
-  font-weight: 700;
-  color: #a31224;
-  margin: 2px 0 0 0;
-  font-size: 14px;
-  letter-spacing: 0.5px;
-}
-
-/* Navigation Arrow & Interaction */
-.arrow {
+.admin-profile .admin-profile-arrow {
   color: #d1d1d1;
-  font-size: 20px;
-  font-weight: 300;
+  display: flex;
+  align-items: center;
 }
 
-.clickable {
-  cursor: pointer;
-}
-
-.clickable:active {
-  background-color: #f9f9f9;
-}
-
-.red-text {
+.admin-profile .red-text {
   color: #f44336 !important;
 }
 
-/* --- SCROLLING HELP --- */
-.content-scrollable {
-  flex: 1;
-  overflow-y: auto;
-  padding-bottom: 110px; /* Space for Navbar */
+.admin-profile .logout-item:active {
+  background-color: #fff0f0;
 }

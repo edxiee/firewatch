@@ -1,117 +1,261 @@
-.alerts-container {
+/* =========================================
+   ADMIN NOTIFICATIONS LAYOUT
+   ========================================= */
+.admin-notifications {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  padding-bottom: 80px;
+  position: relative;
+}
+
+/* Top Bar - Matches Dashboard exactly */
+.admin-notifications .admin-notifications-top-bar {
+  background-color: #a31224;
+  color: white;
+  height: 64px; /* Fixed height ensures it matches the Dashboard exactly */
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.admin-notifications .admin-notifications-logo {
+  height: 36px; /* Match Dashboard logo size */
+  width: auto;
+}
+
+.admin-notifications .admin-notifications-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* Content Area */
+.admin-notifications .admin-notifications-content {
+  padding: 24px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.admin-notifications .admin-notifications-header {
+  margin-bottom: 24px;
+}
+
+.admin-notifications .admin-notifications-heading {
+  font-size: 1.5rem;
+  color: #1a1a1a;
+  margin: 0 0 8px 0;
+  font-weight: 700;
+}
+
+.admin-notifications .admin-notifications-header-line {
+  height: 4px;
+  width: 48px;
+  background-color: #a31224;
+  border-radius: 2px;
+  margin-bottom: 8px;
+}
+
+.admin-notifications .admin-notifications-subheading {
+  color: #666;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* =========================================
+   ALERTS LIST & CARDS
+   ========================================= */
+.admin-notifications .admin-notifications-list {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  padding: 15px;
-  max-width: 600px;
-  margin: 0 auto;
-  padding-bottom: 100px; /* Space for Navbar */
 }
 
-.alert-card {
+.admin-notifications .admin-notifications-card {
   background: #ffffff;
   border-radius: 12px;
-  padding: 18px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  border: 1px solid #f0f0f0;
+  border-left: 6px solid #adb5bd;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-notifications .admin-notifications-card:hover {
+  transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  border-left: 8px solid #adb5bd;
-  transition: all 0.3s ease;
 }
 
-.alert-card.active {
-  border-left: 8px solid #a31224;
-  animation: pulse-border 2s infinite;
+.admin-notifications .admin-notifications-card.status-active {
+  border-left-color: #a31224;
 }
 
-.alert-card.responding {
-  border-left: 8px solid #f39c12; /* Orange for in-progress */
+.admin-notifications .admin-notifications-card.status-responding {
+  border-left-color: #f39c12;
 }
 
-.alert-card.resolved {
-  border-left: 8px solid #28a745;
+.admin-notifications .admin-notifications-card.status-resolved {
+  border-left-color: #28a745;
   background-color: #fafafa;
 }
 
-@keyframes pulse-border {
-  0% { box-shadow: 0 0 0 0 rgba(163, 18, 36, 0.4); }
-  70% { box-shadow: 0 0 0 12px rgba(163, 18, 36, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(163, 18, 36, 0); }
-}
-
-.alert-header {
+.admin-notifications .admin-notifications-card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
   border-bottom: 1px solid #f0f0f0;
-  padding-bottom: 8px;
 }
 
-.alert-type {
+.admin-notifications .admin-notifications-card-type {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   color: #a31224;
-  font-weight: 800;
-  font-size: 1.1rem;
+  font-weight: 700;
+  font-size: 1.05rem;
 }
 
-.alert-time {
-  font-size: 0.85rem;
-  color: #888;
-}
-
-.alert-body p {
-  margin: 6px 0;
-  font-size: 0.95rem;
-  color: #333;
-}
-
-.status-tag {
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 0.75rem;
-  font-weight: bold;
-}
-
-.status-tag.active { background: #ffebee; color: #c62828; }
-.status-tag.responding { background: #fff3e0; color: #ef6c00; }
-.status-tag.resolved { background: #e8f5e9; color: #2e7d32; }
-
-.alert-actions {
-  display: flex; 
-  gap: 10px; 
-  margin-top: 15px;
-}
-
-.respond-btn, .resolve-btn {
-  width: 100%;
-  border: none;
-  padding: 12px;
-  border-radius: 8px;
-  font-weight: 800;
-  cursor: pointer;
-  text-transform: uppercase;
-  transition: opacity 0.2s;
-}
-
-.respond-btn { background-color: #a31224; color: white; }
-.resolve-btn { background-color: #28a745; color: white; }
-
-.respond-btn:hover, .resolve-btn:hover { opacity: 0.9; }
-
-/* The SVG Resolved Badge */
-.resolved-badge {
+.admin-notifications .admin-notifications-card-time {
   display: flex;
   align-items: center;
   gap: 6px;
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.admin-notifications .admin-notifications-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.admin-notifications .admin-notifications-info-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.admin-notifications .admin-notifications-info-label {
+  color: #666;
+  font-weight: 500;
+}
+
+.admin-notifications .admin-notifications-info-value {
+  font-weight: 600;
+}
+
+.admin-notifications .admin-notifications-status-badge {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.admin-notifications .admin-notifications-status-badge.status-active {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+.admin-notifications .admin-notifications-status-badge.status-responding {
+  background-color: #fff3e0;
+  color: #ef6c00;
+}
+
+.admin-notifications .admin-notifications-status-badge.status-resolved {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.admin-notifications .admin-notifications-map-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #0066cc;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: color 0.2s ease;
+}
+
+.admin-notifications .admin-notifications-map-link:hover {
+  color: #004499;
+  text-decoration: underline;
+}
+
+.admin-notifications .admin-notifications-card-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.admin-notifications .admin-notifications-btn {
+  flex: 1;
+  border: none;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.2s ease;
+}
+
+.admin-notifications .btn-respond {
+  background-color: #a31224;
+  color: white;
+}
+
+.admin-notifications .btn-respond:hover {
+  background-color: #8a0f1e;
+}
+
+.admin-notifications .btn-resolve {
+  background-color: #28a745;
+  color: white;
+}
+
+.admin-notifications .btn-resolve:hover {
+  background-color: #218838;
+}
+
+.admin-notifications .admin-notifications-resolved-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex: 1;
   color: #28a745;
   background: #e8f5e9;
-  padding: 8px 16px;
-  border-radius: 20px;
+  padding: 12px;
+  border-radius: 8px;
   font-weight: 700;
   font-size: 0.9rem;
   text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-.no-alerts {
-  text-align: center;
+.admin-notifications .admin-notifications-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 40px 20px;
   color: #888;
-  margin-top: 30px;
+  text-align: center;
+}
+
+.admin-notifications .admin-notifications-empty svg {
+  color: #28a745;
+  opacity: 0.5;
 }

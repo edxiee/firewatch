@@ -108,10 +108,17 @@ export default function AdminScreen() {
       )}
 
       {/* TOP BAR */}
-      <div className="admin-top-bar">
-        <img className="top-logo" src="/Logo.png" alt="Logo" />
-        <div className="top-title">Dashboard</div>
-      </div>
+      <header className="admin-dashboard-top-bar">
+        <img
+          className="admin-dashboard-logo"
+          src="/Logo.png"
+          alt="FireWatch Logo"
+        />
+
+        <div className="admin-dashboard-title">
+          Dashboard
+        </div>
+      </header>
 
       <div className="admin-content">
         <div className="welcome-section">

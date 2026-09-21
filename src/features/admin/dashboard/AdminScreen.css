@@ -1,62 +1,60 @@
 /* =========================================
-   FIREWATCH ADMIN DASHBOARD
+   DASHBOARD TOP BAR
+   Matches all other Admin modules
    ========================================= */
 
-.admin-layout {
-  min-height: 100vh;
+.admin-layout .admin-dashboard-top-bar {
   width: 100%;
-  background: #f7f7f8;
-  position: relative;
-  box-sizing: border-box;
-  padding-bottom: 90px;
-}
+  height: 64px;
 
-
-/* =========================================
-   TOP BAR
-   ========================================= */
-
-.admin-layout .admin-top-bar {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-
-  width: 100%;
-  height: 80px;
+  padding: 0 16px;
 
   display: flex;
   align-items: center;
-  justify-content: center;
 
-  padding: 0 20px;
-  box-sizing: border-box;
+  gap: 12px;
 
   background-color: #a31224;
   color: #ffffff;
 
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  flex-shrink: 0;
+
+  box-sizing: border-box;
 }
 
-.admin-layout .admin-top-bar .top-logo {
-  position: absolute;
-  left: 16px;
 
-  width: 58px;
-  height: 58px;
+/* Logo */
 
-  margin: 0;
+.admin-layout .admin-dashboard-logo {
+  width: 36px;
+  height: 36px;
 
   object-fit: contain;
+
+  flex-shrink: 0;
 }
 
-.admin-layout .admin-top-bar .top-title {
+
+/* Title */
+
+.admin-layout .admin-dashboard-title {
   color: #ffffff;
-  font-size: 21px;
-  font-weight: 700;
-  text-align: center;
+
+  font-size: 1.25rem;
+  font-weight: 600;
+
+  letter-spacing: 0.3px;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 
